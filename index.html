@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NCEA Level 2 Physics - DC Electricity Interactive Learning Lab</title>
+  <meta name="description" content="NCEA Level 2 Physics AS 91173 (DC Electricity) interactive learning platform with particle animations, live circuit simulation, and bilingual SciPad workbook solutions.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Top Lab Navigation Header -->
+  <header class="lab-header">
+    <div class="logo-group">
+      <span class="logo-badge">NCEA L2</span>
+      <h1 class="lab-title">Physics 2.6 <span>DC Electricity Lab</span></h1>
+    </div>
+    <div class="header-meta">
+      <span class="badge-tag">AS 91173 • SciPad p.266-269</span>
+      <span class="badge-tag" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); color: #34d399;">日英バイリンガル解説</span>
+    </div>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <nav class="nav-tabs-wrapper">
+    <button class="nav-tab-btn active" data-tab="tab-simulator">
+      <span>⚡</span> Circuit Simulator (電子・エネルギー可視化実験室)
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-scipad">
+      <span>📖</span> SciPad Workbook (教科書・問題演習)
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-formulas">
+      <span>📐</span> Magic Triangle (公式ピラミッド＆計算機)
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-guide">
+      <span>🎯</span> Excellence Key Phrases (英語論述ガイド)
+    </button>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="main-container">
+
+    <!-- ============================================================
+         TAB 1: CIRCUIT SIMULATOR & PARTICLE ANIMATION
+    ============================================================ -->
+    <section id="tab-simulator" class="tab-panel active">
+      <div class="sim-layout">
+        
+        <!-- Left: Interactive Canvas & Toolbar -->
+        <div class="sim-canvas-card">
+          <div class="sim-toolbar">
+            <div class="mode-selector">
+              <button class="mode-btn active" id="modeSeriesBtn">Series Circuit (直列回路)</button>
+              <button class="mode-btn" id="modeParallelBtn">Parallel Circuit (並列回路)</button>
+            </div>
+            
+            <div>
+              <button class="btn-action" id="blowLampBtn">
+                💥 Blow Lamp (電球を切る/断線)
+              </button>
+            </div>
+          </div>
+
+          <div class="canvas-wrapper">
+            <canvas id="circuitCanvas"></canvas>
+          </div>
+
+          <div class="sim-legend">
+            <div class="legend-item">
+              <span class="legend-dot electron"></span>
+              <span><strong>Electron (e⁻ / Charge q)</strong>: 電荷の流れ (電流 I = q/t)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot energy"></span>
+              <span><strong>Energy Packet (ΔE in Joules)</strong>: 1クーロンが運ぶエネルギー (V = ΔE/q)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot spent"></span>
+              <span><strong>Spent Electron</strong>: 負荷でエネルギーを消費した後の電子</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Parameters & Realtime Physics Stats -->
+        <div class="sim-controls-card">
+          <div class="card-title">
+            <span>⚙️ Parameter Controls</span>
+          </div>
+
+          <!-- Series Controls -->
+          <div id="seriesControls" style="display: flex; flex-direction: column; gap: 1rem;">
+            <div class="control-group">
+              <div class="control-label-row">
+                <span>Power Supply Voltage (V):</span>
+                <span class="control-val" id="vSupplySeriesVal">20 V</span>
+              </div>
+              <input type="range" class="slider-input" id="vSupplySeriesSlider" min="2" max="40" step="1" value="20">
+            </div>
+
+            <div class="control-group">
+              <div class="control-label-row">
+                <span>Resistor 1 (R₁):</span>
+                <span class="control-val" id="r1SeriesVal">1.25 Ω</span>
+              </div>
+              <input type="range" class="slider-input" id="r1SeriesSlider" min="0.25" max="10" step="0.25" value="1.25">
+            </div>
+
+            <div class="control-group">
+              <div class="control-label-row">
+                <span>Lamp Resistance (R_lamp):</span>
+                <span class="control-val" id="rLampSeriesVal">2.00 Ω</span>
+              </div>
+              <input type="range" class="slider-input" id="rLampSeriesSlider" min="0.25" max="10" step="0.25" value="2.0">
+            </div>
+
+            <div class="control-group">
+              <div class="control-label-row">
+                <span>Resistor 2 (R₂):</span>
+                <span class="control-val" id="r2SeriesVal">1.75 Ω</span>
+              </div>
+              <input type="range" class="slider-input" id="r2SeriesSlider" min="0.25" max="10" step="0.25" value="1.75">
+            </div>
+          </div>
+
+          <!-- Parallel Controls -->
+          <div id="parallelControls" style="display: none; flex-direction: column; gap: 1rem;">
+            <div class="control-group">
+              <div class="control-label-row">
+                <span>Power Supply Voltage (V₃):</span>
+                <span class="control-val" id="vSupplyParallelVal">24 V</span>
+              </div>
+              <input type="range" class="slider-input" id="vSupplyParallelSlider" min="4" max="48" step="2" value="24">
+            </div>
+
+            <div class="control-group">
+              <div class="control-label-row">
+                <span>Branch 1 Resistor (R₁):</span>
+                <span class="control-val" id="r1ParallelVal">12.0 Ω</span>
+              </div>
+              <input type="range" class="slider-input" id="r1ParallelSlider" min="2" max="30" step="1" value="12">
+            </div>
+
+            <div class="control-group">
+              <div class="control-label-row">
+                <span>Branch 2 Resistor (R₂):</span>
+                <span class="control-val" id="r2ParallelVal">24.0 Ω</span>
+              </div>
+              <input type="range" class="slider-input" id="r2ParallelSlider" min="2" max="48" step="2" value="24">
+            </div>
+
+            <div class="control-group">
+              <div class="control-label-row">
+                <span>Branch 3 Lamp (R_lamp):</span>
+                <span class="control-val" id="rLampParallelVal">4.8 Ω</span>
+              </div>
+              <input type="range" class="slider-input" id="rLampParallelSlider" min="1" max="20" step="0.2" value="4.8">
+            </div>
+          </div>
+
+          <!-- Live Physics Stats -->
+          <div class="physics-stats-box" id="physicsStatsBox">
+            <!-- Dynamically populated by app.js -->
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB 2: SCIPAD WORKBOOK PROBLEMS
+    ============================================================ -->
+    <section id="tab-scipad" class="tab-panel">
+      <!-- SciPad Page Selectors -->
+      <div class="scipad-nav-pills" id="scipadPills">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- SciPad Page Content -->
+      <div id="scipadPageContent">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB 3: FORMULA MAGIC TRIANGLE & CALCULATOR
+    ============================================================ -->
+    <section id="tab-formulas" class="tab-panel">
+      <div class="formula-selector-bar">
+        <button class="formula-choice-btn active" data-formula="v_eq_de_q">V = ΔE / q (Voltage & Energy)</button>
+        <button class="formula-choice-btn" data-formula="i_eq_q_t">I = q / t (Current & Charge)</button>
+        <button class="formula-choice-btn" data-formula="v_eq_ir">V = I × R (Ohm's Law)</button>
+      </div>
+
+      <div class="formula-layout">
+        <!-- Left: Interactive Triangle Card -->
+        <div class="formula-card">
+          <h2 class="card-title" style="margin-bottom: 0.5rem;">🔺 Interactive Magic Triangle</h2>
+          <p style="font-size: 0.88rem; color: var(--text-secondary);">
+            求めたい変数（記号）をクリックすると、公式が自動変形します。
+          </p>
+
+          <div class="triangle-visual-container">
+            <div class="triangle-svg-wrapper">
+              <svg id="triangleSvg" width="280" height="240" viewBox="0 0 280 240"></svg>
+            </div>
+            <p class="triangle-tip">💡 上を隠せば「掛け算」、下を隠せば「割り算」の形になります！</p>
+          </div>
+
+          <!-- Variable Sliders -->
+          <div id="formulaSliders" style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem;">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- Right: Calculation Steps & Bilingual Output -->
+        <div class="formula-card">
+          <h2 class="card-title" style="margin-bottom: 0.5rem;">📝 Step-by-Step Calculation</h2>
+          <p style="font-size: 0.88rem; color: var(--text-secondary);">
+            スライダーの数値に応じて途中式と単位がリアルタイムに更新されます。
+          </p>
+
+          <div class="calc-result-box">
+            <div class="target-eq-display" id="targetEqDisplay">
+              ΔE = V × q
+            </div>
+
+            <div class="ans-block">
+              <span class="ans-tag ja">日本語の途中式・解説</span>
+              <div class="working-step" id="formulaStepsJa"></div>
+            </div>
+
+            <div class="ans-block" style="margin-top: 1.25rem;">
+              <span class="ans-tag en">English Working & Exam Steps</span>
+              <div class="working-step" id="formulaStepsEn"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB 4: NCEA EXCELLENCE KEY PHRASES GUIDE
+    ============================================================ -->
+    <section id="tab-guide" class="tab-panel">
+      <div style="margin-bottom: 1.5rem;">
+        <h2 style="font-size: 1.5rem; font-weight: 700;">🎯 NCEA Level 2 Physics: Excellence 記述攻略ガイド</h2>
+        <p style="color: var(--text-secondary); font-size: 0.95rem;">
+          NCEAの物理では、単に数値を計算するだけでなく「理由・物理原理を用いた英語論述」が最重要です。高得点（Merit / Excellence）を取るための鉄板フレーズをマスターしましょう。
+        </p>
+      </div>
+
+      <div class="guide-grid">
+        <!-- Card 1 -->
+        <div class="guide-card">
+          <div class="guide-card-header">
+            <span class="guide-icon">⚡</span>
+            <h3 style="font-size: 1.15rem; font-weight: 700;">電圧の定義とエネルギー (V = ΔE/q)</h3>
+          </div>
+          <div class="guide-phrase-item">
+            <div class="phrase-en">"Voltage is the amount of electrical potential energy transformed per coulomb of charge (1 V = 1 J/C)."</div>
+            <div class="phrase-ja">電圧とは、電荷1クーロンあたりに変換される（または供給される）電気エネルギーの量である。</div>
+            <div class="phrase-why">💡 <strong>Excellence Tip:</strong> 「What does 20V mean?」と聞かれたら、「The power supply gives 20 Joules of energy to every 1 Coulomb of charge.」と答えると満点です。</div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="guide-card">
+          <div class="guide-card-header">
+            <span class="guide-icon">🔄</span>
+            <h3 style="font-size: 1.15rem; font-weight: 700;">直列回路の電流と電荷保存 (Series Circuit)</h3>
+          </div>
+          <div class="guide-phrase-item">
+            <div class="phrase-en">"In a series circuit, there is only one single continuous pathway for charge to flow. By conservation of charge, current is identical at all points."</div>
+            <div class="phrase-ja">直列回路には電荷が流れる道が1本しかなく、電荷保存の法則により、電流は回路のどの場所でも同一である。</div>
+            <div class="phrase-why">💡 <strong>Excellence Tip:</strong> 「Why are ammeters A1 and A2 the same?」に対する完璧な回答構文です。</div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="guide-card">
+          <div class="guide-card-header">
+            <span class="guide-icon">🌿</span>
+            <h3 style="font-size: 1.15rem; font-weight: 700;">並列回路の電圧と独立性 (Parallel Circuit)</h3>
+          </div>
+          <div class="guide-phrase-item">
+            <div class="phrase-en">"Parallel branches are connected independently across the full supply voltage. Therefore, if one branch is disconnected/blown, the voltage and current in the other branches remain unchanged."</div>
+            <div class="phrase-ja">並列の各枝は電源電圧に対して独立して接続されているため、1本の枝が断線しても、他の枝の電圧や電流は変化しない。</div>
+            <div class="phrase-why">💡 <strong>Excellence Tip:</strong> 電球が切れた時の挙動（p.269 Q7(d)(g)）で最も頻出の論述です。</div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="guide-card">
+          <div class="guide-card-header">
+            <span class="guide-icon">🔌</span>
+            <h3 style="font-size: 1.15rem; font-weight: 700;">開回路と断線 (Broken / Open Circuit)</h3>
+          </div>
+          <div class="guide-phrase-item">
+            <div class="phrase-en">"If the filament blows, it breaks the circuit creating an open circuit. Without a complete conducting path, the current drops to zero (0 A)."</div>
+            <div class="phrase-ja">フィラメントが切れると回路が途切れて開回路となり、導電経路がなくなるため電流はゼロ（0 A）になる。</div>
+            <div class="phrase-why">💡 <strong>Excellence Tip:</strong> 「Open circuit」と「Complete conducting path」の2単語を必ずセットで使いましょう。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="lab-footer">
+    NCEA Level 2 Physics (AS 91173 / 2.6) Interactive Learning Lab • DC Electricity
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/scipadData.js"></script>
+  <script src="js/circuitEngine.js"></script>
+  <script src="js/formulaEngine.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
