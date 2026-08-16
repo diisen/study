@@ -251,7 +251,259 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
     }
+
+    // Render Live Mathematical Working Cards
+    renderLiveWorking(state, mode);
   });
+
+  // Render Live Calculations Section
+  function renderLiveWorking(state, mode) {
+    const container = document.getElementById('liveWorkingGrid');
+    if (!container) return;
+
+    if (mode === 'series') {
+      const s = circuitEngine.params.series;
+      const isBlown = state.lampBlown;
+      const rTotal = isBlown ? '∞' : (s.r1 + s.rLamp + s.r2).toFixed(2);
+      const I = state.current;
+      const V_sup = state.vSupply;
+      const V1 = state.v1;
+      const V2 = state.v2;
+      const V3 = state.v3;
+      const q1min = (I * 60).toFixed(1);
+      const energyPerC = V_sup.toFixed(1);
+
+      container.innerHTML = `
+        <!-- Step 1: Total Resistance -->
+        <div class="calc-step-card">
+          <div class="step-card-header">
+            <span class="step-number">STEP 1</span>
+            <span class="step-concept">Series Resistance (合成抵抗)</span>
+          </div>
+          <div class="step-formula-name">直列回路の合成抵抗 (直列は足し算)</div>
+          <div class="step-formula-box">
+            <div class="formula-raw">R_total = R₁ + R_lamp + R₂</div>
+            <div class="formula-substituted">
+              ${isBlown 
+                ? `<span class="highlight-val">${s.r1.toFixed(2)} Ω</span> + <span style="color:#ef4444; font-weight:800;">[BLOWN: ∞]</span> + <span class="highlight-val">${s.r2.toFixed(2)} Ω</span> = <span style="color:#ef4444; font-weight:800;">∞ Ω (Open Circuit)</span>`
+                : `<span class="highlight-val">${s.r1.toFixed(2)} Ω</span> + <span class="highlight-val">${s.rLamp.toFixed(2)} Ω</span> + <span class="highlight-val">${s.r2.toFixed(2)} Ω</span> = <span class="highlight-res">${rTotal} Ω</span>`
+              }
+            </div>
+          </div>
+          <div class="step-explanation-ja">
+            直列回路では電流の通り道が1本のループであるため、すべての抵抗値の単純な和が合成抵抗になります。
+          </div>
+        </div>
+
+        <!-- Step 2: Circuit Current -->
+        <div class="calc-step-card">
+          <div class="step-card-header">
+            <span class="step-number">STEP 2</span>
+            <span class="step-concept">Ohm's Law: I = V / R (回路全体の電流)</span>
+          </div>
+          <div class="step-formula-name">オームの法則で回路全体の電流を計算</div>
+          <div class="step-formula-box">
+            <div class="formula-raw">I = V_supply / R_total</div>
+            <div class="formula-substituted">
+              ${isBlown 
+                ? `I = <span class="highlight-val">${V_sup.toFixed(1)} V</span> ÷ <span style="color:#ef4444;">∞ Ω</span> = <span style="color:#ef4444; font-weight:800; font-size:1.1em;">0.00 A</span>`
+                : `I = <span class="highlight-val">${V_sup.toFixed(1)} V</span> ÷ <span class="highlight-val">${rTotal} Ω</span> = <span class="highlight-res">${I.toFixed(2)} A</span>`
+              }
+            </div>
+          </div>
+          <div class="step-explanation-ja">
+            【電荷保存則】直列回路では途中で枝分かれがないため、回路のどの地点でも同じ電流（${I.toFixed(2)} A）が流れます。
+          </div>
+        </div>
+
+        <!-- Step 3: Voltage Drops -->
+        <div class="calc-step-card">
+          <div class="step-card-header">
+            <span class="step-number">STEP 3</span>
+            <span class="step-concept">Voltage Drops: V = I × R (各部品の電圧)</span>
+          </div>
+          <div class="step-formula-name">各部品で消費される電圧降下の個別計算</div>
+          <div class="step-formula-box">
+            <div class="formula-raw">V_n = I × R_n</div>
+            <div class="formula-substituted" style="font-size: 0.92rem; line-height: 1.6;">
+              • V₁ (R₁) = <span class="highlight-val">${I.toFixed(2)} A</span> × <span class="highlight-val">${s.r1.toFixed(2)} Ω</span> = <span class="highlight-res">${V1.toFixed(2)} V</span><br>
+              • V₂ (Lamp) = <span class="highlight-val">${I.toFixed(2)} A</span> × <span class="highlight-val">${s.rLamp.toFixed(2)} Ω</span> = <span class="highlight-res">${V2.toFixed(2)} V</span><br>
+              • V₃ (R₂) = <span class="highlight-val">${I.toFixed(2)} A</span> × <span class="highlight-val">${s.r2.toFixed(2)} Ω</span> = <span class="highlight-res">${V3.toFixed(2)} V</span>
+            </div>
+          </div>
+          <div class="step-explanation-ja">
+            電流が共通であるため、各部品の電圧はその抵抗値の大きさに比例して分担されます。
+          </div>
+        </div>
+
+        <!-- Step 4: Kirchhoff's Voltage Law Verification -->
+        <div class="calc-step-card">
+          <div class="step-card-header">
+            <span class="step-number">STEP 4</span>
+            <span class="step-concept">Conservation of Energy (エネルギー保存の検算)</span>
+          </div>
+          <div class="step-formula-name">供給電圧と消費電圧の合計が一致することを検証</div>
+          <div class="step-formula-box">
+            <div class="formula-raw">V_supply = V₁ + V₂ + V₃</div>
+            <div class="formula-substituted">
+              ${isBlown 
+                ? `<span style="color:#ef4444;">0 V + 0 V + 0 V = 0 V (No current flowing)</span>`
+                : `<span class="highlight-val">${V1.toFixed(2)} V</span> + <span class="highlight-val">${V2.toFixed(2)} V</span> + <span class="highlight-val">${V3.toFixed(2)} V</span> = <span class="highlight-res">${(V1 + V2 + V3).toFixed(2)} V</span> <span style="color:#10b981;">(＝ V_supply ✓)</span>`
+              }
+            </div>
+          </div>
+          <div class="step-explanation-ja">
+            【SciPad p.267のルール】直列回路では、各部品の電圧の総和が必ず電源電圧と等しくなります。
+          </div>
+        </div>
+
+        <!-- Step 5: Charge per minute -->
+        <div class="calc-step-card">
+          <div class="step-card-header">
+            <span class="step-number">STEP 5</span>
+            <span class="step-concept">Charge Flow Rate: q = I × t (電荷移動量)</span>
+          </div>
+          <div class="step-formula-name">1分間（60秒）に回路を通過する電荷量</div>
+          <div class="step-formula-box">
+            <div class="formula-raw">q = I × t  [where t = 1 min = 60 s]</div>
+            <div class="formula-substituted">
+              q = <span class="highlight-val">${I.toFixed(2)} A</span> × <span class="highlight-val">60 s</span> = <span class="highlight-res">${q1min} C (Coulombs)</span>
+            </div>
+          </div>
+          <div class="step-explanation-ja">
+            【SciPad p.268 Q3】電流 I = ${I.toFixed(2)} A のとき、1分間（60秒）で ${I.toFixed(2)} × 60 = ${q1min} C の電荷が通過します。
+          </div>
+        </div>
+
+        <!-- Step 6: Energy per Coulomb Definition -->
+        <div class="calc-step-card">
+          <div class="step-card-header">
+            <span class="step-number">STEP 6</span>
+            <span class="step-concept">Voltage Definition: V = ΔE / q (エネルギー)</span>
+          </div>
+          <div class="step-formula-name">1クーロンの電荷が受け取る・消費するエネルギー</div>
+          <div class="step-formula-box">
+            <div class="formula-raw">ΔE = V_supply × q  [for 1 Coulomb (q = 1 C)]</div>
+            <div class="formula-substituted">
+              ΔE = <span class="highlight-val">${V_sup.toFixed(1)} V</span> × <span class="highlight-val">1 C</span> = <span class="highlight-res">${energyPerC} Joules (J)</span>
+            </div>
+          </div>
+          <div class="step-explanation-ja">
+            【SciPad p.268 Q6】電圧 ${V_sup.toFixed(1)} V は、電池が電荷1クーロンごとに ${energyPerC} J のエネルギーを供給していることを意味します。
+          </div>
+        </div>
+      `;
+    } else {
+      // Parallel Circuit
+      const p = circuitEngine.params.parallel;
+      const isBlown = p.lampBlown;
+      const V_sup = state.vSupply;
+      const I1 = state.i1;
+      const I2 = state.i2;
+      const I3 = state.i3;
+      const Itotal = state.iTotal;
+      const q1hour = Math.round(Itotal * 3600).toLocaleString();
+
+      container.innerHTML = `
+        <!-- Step 1: Branch Voltages -->
+        <div class="calc-step-card">
+          <div class="step-card-header">
+            <span class="step-number">STEP 1</span>
+            <span class="step-concept">Branch Voltages (各並列枝の電圧)</span>
+          </div>
+          <div class="step-formula-name">並列の各枝にかかる電圧はすべて電源電圧と同一</div>
+          <div class="step-formula-box">
+            <div class="formula-raw">V_branch = V_supply</div>
+            <div class="formula-substituted">
+              V₁ = V₂ = V₃ = <span class="highlight-res">${V_sup.toFixed(1)} V</span>
+            </div>
+          </div>
+          <div class="step-explanation-ja">
+            【SciPad p.267 & p.269 Qa】各並列ブランチは電源の両端（＋極・−極）に直接接続されているため、どの枝にも満額の ${V_sup.toFixed(1)} V がかかります。
+          </div>
+        </div>
+
+        <!-- Step 2: Branch Currents -->
+        <div class="calc-step-card">
+          <div class="step-card-header">
+            <span class="step-number">STEP 2</span>
+            <span class="step-concept">Branch Currents: I_n = V / R_n (各枝の電流)</span>
+          </div>
+          <div class="step-formula-name">オームの法則で各ブランチの電流を個別計算</div>
+          <div class="step-formula-box">
+            <div class="formula-raw">I_n = V_supply / R_n</div>
+            <div class="formula-substituted" style="font-size: 0.92rem; line-height: 1.6;">
+              • Branch 1 (R₁): I₁ = <span class="highlight-val">${V_sup.toFixed(1)} V</span> ÷ <span class="highlight-val">${p.r1.toFixed(1)} Ω</span> = <span class="highlight-res">${I1.toFixed(2)} A</span><br>
+              • Branch 2 (R₂): I₂ = <span class="highlight-val">${V_sup.toFixed(1)} V</span> ÷ <span class="highlight-val">${p.r2.toFixed(1)} Ω</span> = <span class="highlight-res">${I2.toFixed(2)} A</span><br>
+              • Branch 3 (Lamp): I₃ = ${isBlown 
+                ? `<span style="color:#ef4444; font-weight:bold;">[BLOWN: 0.00 A]</span>` 
+                : `<span class="highlight-val">${V_sup.toFixed(1)} V</span> ÷ <span class="highlight-val">${p.rLamp.toFixed(1)} Ω</span> = <span class="highlight-res">${I3.toFixed(2)} A</span>`}
+            </div>
+          </div>
+          <div class="step-explanation-ja">
+            並列枝はそれぞれ独立しています。ある枝の抵抗値が変わったり断線しても、他の枝の電流には影響しません。
+          </div>
+        </div>
+
+        <!-- Step 3: Total Current (Kirchhoff's Current Law) -->
+        <div class="calc-step-card">
+          <div class="step-card-header">
+            <span class="step-number">STEP 3</span>
+            <span class="step-concept">Kirchhoff's Current Law (合流する全電流 A₄)</span>
+          </div>
+          <div class="step-formula-name">分岐した電流が合流してメインラインの電流になる</div>
+          <div class="step-formula-box">
+            <div class="formula-raw">I_total (A₄) = I₁ + I₂ + I_lamp</div>
+            <div class="formula-substituted">
+              ${isBlown 
+                ? `I_total = <span class="highlight-val">${I1.toFixed(2)} A</span> + <span class="highlight-val">${I2.toFixed(2)} A</span> + <span style="color:#ef4444;">0 A</span> = <span class="highlight-res" style="color:#38bdf8;">${Itotal.toFixed(2)} A</span>`
+                : `I_total = <span class="highlight-val">${I1.toFixed(2)} A</span> + <span class="highlight-val">${I2.toFixed(2)} A</span> + <span class="highlight-val">${I3.toFixed(2)} A</span> = <span class="highlight-res">${Itotal.toFixed(2)} A</span>`
+              }
+            </div>
+          </div>
+          <div class="step-explanation-ja">
+            【SciPad p.269 Qe & Qg】接点（Junction）において電荷保存則が働くため、電源に戻る全電流 A₄ は各枝の電流の合計になります。
+          </div>
+        </div>
+
+        <!-- Step 4: Total Charge in 1 hour -->
+        <div class="calc-step-card">
+          <div class="step-card-header">
+            <span class="step-number">STEP 4</span>
+            <span class="step-concept">Charge Calculation in 1 Hour (1時間の総電荷量)</span>
+          </div>
+          <div class="step-formula-name">1時間（3600秒）に流れる電荷量 q = I × t</div>
+          <div class="step-formula-box">
+            <div class="formula-raw">q = I_total × t  [t = 1 hour = 60 × 60 = 3600 s]</div>
+            <div class="formula-substituted">
+              q = <span class="highlight-val">${Itotal.toFixed(2)} A</span> × <span class="highlight-val">3600 s</span> = <span class="highlight-res">${q1hour} C</span>
+            </div>
+          </div>
+          <div class="step-explanation-ja">
+            【SciPad p.269 Qh】ランプが切れた状態（I = 3 A）では、$3\\text{ A} \\times 3600\\text{ s} = 10,800\\text{ C}$ となります。
+          </div>
+        </div>
+
+        <!-- Step 5: Energy per Coulomb in Branch -->
+        <div class="calc-step-card">
+          <div class="step-card-header">
+            <span class="step-number">STEP 5</span>
+            <span class="step-concept">Energy Used per Branch (1クーロンのエネルギー消費)</span>
+          </div>
+          <div class="step-formula-name">枝を通過する電荷は電源エネルギーを100%消費する</div>
+          <div class="step-formula-box">
+            <div class="formula-raw">ΔE_branch = V_supply × 1 C = V_used</div>
+            <div class="formula-substituted">
+              ΔE = <span class="highlight-val">${V_sup.toFixed(1)} V</span> × <span class="highlight-val">1 C</span> = <span class="highlight-res">${V_sup.toFixed(1)} Joules (J)</span>
+            </div>
+          </div>
+          <div class="step-explanation-ja">
+            【SciPad p.269 Qc】1個の電荷は並列枝のうち1本しか通過しないため、その部品で電源供給エネルギー（${V_sup.toFixed(1)} J）を全額消費して戻ります。
+          </div>
+        </div>
+      `;
+    }
+  }
 
   // Initial trigger
   circuitEngine.notifyStateChange();

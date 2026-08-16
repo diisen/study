@@ -48,17 +48,36 @@ class CircuitEngine {
     this.showEnergyPacks = true;
     this.showElectronLabels = true;
 
-    // Probe state
+    // Probe & Hover state
     this.activeProbe = null; // null | { x, y, value, label }
+    this.mousePos = { x: -1, y: -1 };
+    this.hoveredComponent = null;
 
     // Init
     this.resizeCanvas();
     this.initParticles();
     window.addEventListener('resize', () => this.resizeCanvas());
 
+    // Mouse Listeners for Live Tooltips
+    this.canvas.addEventListener('mousemove', (e) => this.handleMouseMove(e));
+    this.canvas.addEventListener('mouseleave', () => this.handleMouseLeave());
+
     // Start loop
     this.animate = this.animate.bind(this);
     requestAnimationFrame(this.animate);
+  }
+
+  handleMouseMove(e) {
+    const rect = this.canvas.getBoundingClientRect();
+    this.mousePos = {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    };
+  }
+
+  handleMouseLeave() {
+    this.mousePos = { x: -1, y: -1 };
+    this.hoveredComponent = null;
   }
 
   resizeCanvas() {
@@ -228,8 +247,202 @@ class CircuitEngine {
     }
 
     this.drawEnergySparks(dt);
+    this.drawHoverTooltip(state);
 
     requestAnimationFrame(this.animate);
+  }
+
+  // Draw Interactive Realtime Tooltip when hovering over components
+  drawHoverTooltip(state) {
+    const mx = this.mousePos.x;
+    const my = this.mousePos.y;
+    if (mx < 0 || my < 0) return;
+
+    const w = this.width;
+    const h = this.height;
+    let tooltip = null;
+
+    if (this.mode === 'series') {
+      const s = this.params.series;
+      const padX = Math.max(60, w * 0.1);
+      const padY = Math.max(50, h * 0.14);
+      const xLeft = padX;
+      const xRight = w - padX;
+      const yTop = padY;
+      const yBottom = h - padY;
+      const xMid = (xLeft + xRight) / 2;
+      const xComp1 = xLeft + (xRight - xLeft) * 0.25;
+      const xLamp = xMid;
+      const xComp2 = xLeft + (xRight - xLeft) * 0.75;
+
+      // Battery hover
+      if (Math.abs(mx - xMid) < 60 && Math.abs(my - yTop) < 25) {
+        tooltip = {
+          x: xMid, y: yTop - 40,
+          title: `⚡ Power Supply (${state.vSupply.toFixed(1)} V)`,
+          formula: `V = ΔE / q → Supplies ${state.vSupply.toFixed(1)} J energy per 1 Coulomb`,
+          sub: `全供給エネルギー = 1C あたり ${state.vSupply.toFixed(1)} J`
+        };
+      }
+      // Resistor 1 hover
+      else if (Math.abs(mx - xComp1) < 45 && Math.abs(my - yBottom) < 25) {
+        tooltip = {
+          x: xComp1, y: yBottom - 50,
+          title: `Resistor 1 (R₁ = ${s.r1.toFixed(2)} Ω)`,
+          formula: `V₁ = I × R₁ = ${state.current.toFixed(2)} A × ${s.r1.toFixed(2)} Ω = ${state.v1.toFixed(2)} V`,
+          sub: `消費電力 P₁ = V₁ × I = ${(state.v1 * state.current).toFixed(2)} W`
+        };
+      }
+      // Lamp hover
+      else if (Math.abs(mx - xLamp) < 35 && Math.abs(my - yBottom) < 35) {
+        tooltip = {
+          x: xLamp, y: yBottom - 65,
+          title: `Lamp (R_lamp = ${s.rLamp.toFixed(2)} Ω)`,
+          formula: state.lampBlown 
+            ? `[BLOWN / 断線] Open Circuit → Current I = 0.00 A` 
+            : `V₂ = I × R_lamp = ${state.current.toFixed(2)} A × ${s.rLamp.toFixed(2)} Ω = ${state.v2.toFixed(2)} V`,
+          sub: state.lampBlown ? `フィラメントが切れて回路が停止中` : `発光出力 P₂ = ${(state.v2 * state.current).toFixed(2)} W`
+        };
+      }
+      // Resistor 2 hover
+      else if (Math.abs(mx - xComp2) < 45 && Math.abs(my - yBottom) < 25) {
+        tooltip = {
+          x: xComp2, y: yBottom - 50,
+          title: `Resistor 2 (R₂ = ${s.r2.toFixed(2)} Ω)`,
+          formula: `V₃ = I × R₂ = ${state.current.toFixed(2)} A × ${s.r2.toFixed(2)} Ω = ${state.v3.toFixed(2)} V`,
+          sub: `消費電力 P₃ = V₃ × I = ${(state.v3 * state.current).toFixed(2)} W`
+        };
+      }
+      // Ammeter top / A1 / A2
+      else if ((Math.abs(mx - (xLeft + (xRight - xLeft) * 0.82)) < 25 && Math.abs(my - yTop) < 25) ||
+               (Math.abs(mx - xLeft) < 25 && Math.abs(my - (yTop + yBottom) / 2) < 25)) {
+        tooltip = {
+          x: mx, y: my - 45,
+          title: `Ammeter (Current I = ${state.current.toFixed(2)} A)`,
+          formula: `I = V_supply / R_total = ${state.vSupply.toFixed(1)} V / ${(s.r1 + s.rLamp + s.r2).toFixed(2)} Ω = ${state.current.toFixed(2)} A`,
+          sub: `直列回路ではどこでも電流が同一 (Conservation of charge)`
+        };
+      }
+    } else {
+      // Parallel Mode
+      const p = this.params.parallel;
+      const padX = Math.max(60, w * 0.1);
+      const padY = Math.max(40, h * 0.1);
+      const xLeft = padX;
+      const xRight = w - padX;
+      const yTop = padY + 20;
+      const yBranch1 = yTop + (h - padY * 2) * 0.32;
+      const yBranch2 = yTop + (h - padY * 2) * 0.60;
+      const yBranch3 = yTop + (h - padY * 2) * 0.88;
+      const xMid = (xLeft + xRight) / 2;
+
+      // Battery hover
+      if (Math.abs(mx - xMid) < 60 && Math.abs(my - yTop) < 25) {
+        tooltip = {
+          x: xMid, y: yTop - 45,
+          title: `⚡ Power Supply (V₃ = ${state.vSupply.toFixed(1)} V)`,
+          formula: `全供給電圧 = ${state.vSupply.toFixed(1)} V (Each branch receives full 24V)`,
+          sub: `1クーロンあたり ${state.vSupply.toFixed(1)} J のエネルギーを供給`
+        };
+      }
+      // Branch 1 Resistor
+      else if (Math.abs(mx - xMid) < 45 && Math.abs(my - yBranch1) < 25) {
+        tooltip = {
+          x: xMid, y: yBranch1 - 45,
+          title: `Branch 1 Resistor (R₁ = ${p.r1.toFixed(1)} Ω)`,
+          formula: `I₁ = V / R₁ = ${state.vSupply.toFixed(1)} V / ${p.r1.toFixed(1)} Ω = ${state.i1.toFixed(2)} A`,
+          sub: `電位差 V₁ = ${state.vSupply.toFixed(0)} V`
+        };
+      }
+      // Branch 2 Resistor
+      else if (Math.abs(mx - xMid) < 45 && Math.abs(my - yBranch2) < 25) {
+        tooltip = {
+          x: xMid, y: yBranch2 - 45,
+          title: `Branch 2 Resistor (R₂ = ${p.r2.toFixed(1)} Ω)`,
+          formula: `I₂ = V / R₂ = ${state.vSupply.toFixed(1)} V / ${p.r2.toFixed(1)} Ω = ${state.i2.toFixed(2)} A`,
+          sub: `電位差 V₂ = ${state.vSupply.toFixed(0)} V`
+        };
+      }
+      // Branch 3 Lamp
+      else if (Math.abs(mx - xMid) < 35 && Math.abs(my - yBranch3) < 35) {
+        tooltip = {
+          x: xMid, y: yBranch3 - 55,
+          title: `Branch 3 Lamp (R_lamp = ${p.rLamp.toFixed(1)} Ω)`,
+          formula: p.lampBlown 
+            ? `[BLOWN / 断線] Branch Broken → I₃ = 0.00 A` 
+            : `I₃ = V / R_lamp = ${state.vSupply.toFixed(1)} V / ${p.rLamp.toFixed(1)} Ω = ${state.i3.toFixed(2)} A`,
+          sub: p.lampBlown ? `ランプ断線中（他ブランチは影響なし）` : `電位差 V₃ = ${state.vSupply.toFixed(0)} V`
+        };
+      }
+      // Main Ammeter A4 hover
+      else if (Math.abs(mx - xLeft) < 25 && Math.abs(my - (yBranch2 + yBranch3) / 2) < 25) {
+        tooltip = {
+          x: xLeft + 70, y: (yBranch2 + yBranch3) / 2,
+          title: `Main Return Current A₄ = ${state.iTotal.toFixed(2)} A`,
+          formula: `A₄ = I₁ + I₂ + I₃ = ${state.i1.toFixed(2)} A + ${state.i2.toFixed(2)} A + ${(p.lampBlown ? 0 : state.i3).toFixed(2)} A = ${state.iTotal.toFixed(2)} A`,
+          sub: `分岐した電流が合流してメインに戻る`
+        };
+      }
+    }
+
+    if (tooltip) {
+      this.drawTooltipBox(tooltip.x, tooltip.y, tooltip.title, tooltip.formula, tooltip.sub);
+    }
+  }
+
+  drawTooltipBox(x, y, title, formula, sub) {
+    const ctx = this.ctx;
+    ctx.save();
+
+    ctx.font = 'bold 12px Outfit, sans-serif';
+    const titleWidth = ctx.measureText(title).width;
+    ctx.font = 'bold 11px "JetBrains Mono", monospace';
+    const formulaWidth = ctx.measureText(formula).width;
+    ctx.font = '10px "Noto Sans JP", sans-serif';
+    const subWidth = ctx.measureText(sub).width;
+
+    const boxWidth = Math.max(titleWidth, formulaWidth, subWidth) + 24;
+    const boxHeight = 58;
+
+    // Clamp coordinates inside canvas
+    let bx = x - boxWidth / 2;
+    let by = y - boxHeight;
+    if (bx < 10) bx = 10;
+    if (bx + boxWidth > this.width - 10) bx = this.width - boxWidth - 10;
+    if (by < 10) by = y + 35;
+
+    // Shadow & Box Background
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.95)';
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 1.5;
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
+    ctx.shadowBlur = 12;
+
+    ctx.beginPath();
+    ctx.roundRect(bx, by, boxWidth, boxHeight, 8);
+    ctx.fill();
+    ctx.stroke();
+
+    // Content text
+    ctx.shadowBlur = 0;
+    ctx.textAlign = 'left';
+
+    // Title
+    ctx.fillStyle = '#f8fafc';
+    ctx.font = 'bold 12px Outfit, sans-serif';
+    ctx.fillText(title, bx + 12, by + 16);
+
+    // Formula
+    ctx.fillStyle = '#fbbf24';
+    ctx.font = 'bold 11px "JetBrains Mono", monospace';
+    ctx.fillText(formula, bx + 12, by + 34);
+
+    // Subtitle / Concept
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '10px "Noto Sans JP", sans-serif';
+    ctx.fillText(sub, bx + 12, by + 49);
+
+    ctx.restore();
   }
 
   // ----------------------------------------------------
