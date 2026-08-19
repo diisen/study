@@ -10,6 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const lorentzEngine = new LorentzEngine('lorentzCanvas');
   const lorentzQuiz = new LorentzQuizManager();
 
+  // Expose to window for inline onclick handlers & debugging
+  window.circuitEngine = circuitEngine;
+  window.formulaEngine = formulaEngine;
+  window.lorentzEngine = lorentzEngine;
+  window.lorentzQuiz = lorentzQuiz;
+
   // 2. Navigation Tab Control
   const tabBtns = document.querySelectorAll('.nav-tab-btn');
   const tabPanels = document.querySelectorAll('.tab-panel');
@@ -27,11 +33,14 @@ document.addEventListener('DOMContentLoaded', () => {
         activePanel.classList.add('active');
       }
 
-      if (targetTab === 'tab-simulator') {
-        circuitEngine.resizeCanvas();
-      } else if (targetTab === 'tab-lorentz') {
-        lorentzEngine.resizeCanvas();
-      }
+      // Safe delayed resize after display: block takes effect
+      setTimeout(() => {
+        if (targetTab === 'tab-simulator' && circuitEngine) {
+          circuitEngine.resizeCanvas();
+        } else if (targetTab === 'tab-lorentz' && lorentzEngine) {
+          lorentzEngine.resizeCanvas();
+        }
+      }, 50);
     });
   });
 

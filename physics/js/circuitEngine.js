@@ -3,6 +3,26 @@
  * Visualizes Electron Flow & Energy Packets (V = ΔE/q) in Series & Parallel Circuits
  */
 
+// Canvas roundRect Polyfill for cross-browser safety
+if (typeof CanvasRenderingContext2D !== 'undefined' && !CanvasRenderingContext2D.prototype.roundRect) {
+  CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+    if (typeof r === 'undefined') r = 0;
+    if (typeof r === 'number') r = { tl: r, tr: r, br: r, bl: r };
+    this.beginPath();
+    this.moveTo(x + r.tl, y);
+    this.lineTo(x + w - r.tr, y);
+    this.quadraticCurveTo(x + w, y, x + w, y + r.tr);
+    this.lineTo(x + w, y + h - r.br);
+    this.quadraticCurveTo(x + w, y + h, x + w - r.br, y + h);
+    this.lineTo(x + r.bl, y + h);
+    this.quadraticCurveTo(x, y + h, x, y + h - r.bl);
+    this.lineTo(x, y + r.tl);
+    this.quadraticCurveTo(x, y, x + r.tl, y);
+    this.closePath();
+    return this;
+  };
+}
+
 class CircuitEngine {
   constructor(canvasId) {
     this.canvas = document.getElementById(canvasId);
@@ -82,15 +102,20 @@ class CircuitEngine {
 
   resizeCanvas() {
     if (!this.canvas) return;
-    const rect = this.canvas.parentElement.getBoundingClientRect();
+    const parent = this.canvas.parentElement;
+    const rect = parent ? parent.getBoundingClientRect() : null;
     const dpr = window.devicePixelRatio || 1;
-    this.canvas.width = rect.width * dpr;
-    this.canvas.height = (rect.height || 480) * dpr;
-    this.canvas.style.width = `${rect.width}px`;
-    this.canvas.style.height = `${rect.height || 480}px`;
+
+    const computedW = (rect && rect.width > 50) ? rect.width : (parent ? parent.clientWidth : 700);
+    this.width = computedW > 50 ? computedW : 700;
+    this.height = (rect && rect.height > 100) ? rect.height : 480;
+
+    this.canvas.width = this.width * dpr;
+    this.canvas.height = this.height * dpr;
+    this.canvas.style.width = `${this.width}px`;
+    this.canvas.style.height = `${this.height}px`;
+    this.ctx.resetTransform ? this.ctx.resetTransform() : this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.ctx.scale(dpr, dpr);
-    this.width = rect.width;
-    this.height = rect.height || 480;
     this.initParticles();
   }
 

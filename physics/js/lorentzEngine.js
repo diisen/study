@@ -3,11 +3,35 @@
  * Visualizes F = Bqv, Charged Particle Circular Motion, and Right-Hand Rule
  */
 
+// Canvas roundRect Polyfill for cross-browser safety
+if (typeof CanvasRenderingContext2D !== 'undefined' && !CanvasRenderingContext2D.prototype.roundRect) {
+  CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+    if (typeof r === 'undefined') r = 0;
+    if (typeof r === 'number') r = { tl: r, tr: r, br: r, bl: r };
+    this.beginPath();
+    this.moveTo(x + r.tl, y);
+    this.lineTo(x + w - r.tr, y);
+    this.quadraticCurveTo(x + w, y, x + w, y + r.tr);
+    this.lineTo(x + w, y + h - r.br);
+    this.quadraticCurveTo(x + w, y + h, x + w - r.br, y + h);
+    this.lineTo(x + r.bl, y + h);
+    this.quadraticCurveTo(x, y + h, x, y + h - r.bl);
+    this.lineTo(x, y + r.tl);
+    this.quadraticCurveTo(x, y, x + r.tl, y);
+    this.closePath();
+    return this;
+  };
+}
+
 class LorentzEngine {
   constructor(canvasId) {
     this.canvas = document.getElementById(canvasId);
-    if (!canvasId || !this.canvas) return;
+    if (!this.canvas) return;
     this.ctx = this.canvas.getContext('2d');
+
+    // Default Fallback Dimensions
+    this.width = 700;
+    this.height = 480;
 
     // Simulation Parameters
     this.params = {
@@ -33,7 +57,7 @@ class LorentzEngine {
 
     // Target Game Mode State
     this.gameMode = false;
-    this.target = { x: 380, y: 120, radius: 24, hit: false };
+    this.target = { x: 450, y: 120, radius: 26, hit: false };
     this.gameScore = 0;
     this.gameLevel = 1;
 
@@ -54,14 +78,19 @@ class LorentzEngine {
 
   resizeCanvas() {
     if (!this.canvas) return;
-    const rect = this.canvas.parentElement.getBoundingClientRect();
+    const parent = this.canvas.parentElement;
+    const rect = parent ? parent.getBoundingClientRect() : null;
     const dpr = window.devicePixelRatio || 1;
-    this.width = rect.width;
-    this.height = rect.height || 480;
+    
+    const computedW = (rect && rect.width > 50) ? rect.width : (parent ? parent.clientWidth : 700);
+    this.width = computedW > 50 ? computedW : 700;
+    this.height = (rect && rect.height > 100) ? rect.height : 480;
+
     this.canvas.width = this.width * dpr;
     this.canvas.height = this.height * dpr;
     this.canvas.style.width = `${this.width}px`;
     this.canvas.style.height = `${this.height}px`;
+    this.ctx.resetTransform ? this.ctx.resetTransform() : this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.ctx.scale(dpr, dpr);
   }
 
