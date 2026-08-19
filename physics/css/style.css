@@ -74,6 +74,28 @@ body {
   gap: 0.875rem;
 }
 
+.back-hub-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0.35rem 0.65rem;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: all 0.2s ease;
+}
+
+.back-hub-btn:hover {
+  background: var(--accent-indigo);
+  color: white;
+  border-color: var(--accent-indigo);
+  transform: translateX(-2px);
+}
+
 .logo-badge {
   background: linear-gradient(135deg, #0284c7, #6366f1);
   color: white;

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mathematics Hub - NCEA Level 2 Learning Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Sans+JP:wght@400;600;700;900&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../physics/css/style.css">
+  <style>
+    .subject-hero {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 182, 212, 0.1));
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .subject-icon-large {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+    .coming-soon-badge {
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid #10b981;
+      color: #34d399;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-full);
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .topic-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="lab-header">
+    <div class="logo-group">
+      <a href="../index.html" class="back-hub-btn" title="Back to Learning Hub">
+        <span>←</span> Hub
+      </a>
+      <span class="logo-badge" style="background: linear-gradient(135deg, #10b981, #06b6d4);">NCEA L2</span>
+      <h1 class="lab-title">Mathematics <span>Learning Lab</span></h1>
+    </div>
+    <div class="header-meta">
+      <span class="badge-tag" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); color: #34d399;">数学・微積分・統計ラボ</span>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <div class="subject-hero">
+      <div class="subject-icon-large">📐</div>
+      <span class="coming-soon-badge">READY FOR CONTENT</span>
+      <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Mathematics & Calculus (数学) 学習アプリ</h2>
+      <p style="color: var(--text-secondary); max-width: 650px; margin: 0 auto 1.5rem; line-height: 1.7;">
+        微積分（Calculus: 2.6 Differentiation / 2.7 Integration）、代数（2.1 Algebra）、確率・統計（2.12 Probability）のインタラクティブグラフシミュレータ＆過去問解説モジュールを準備中です！
+      </p>
+      <a href="../index.html" class="reveal-btn" style="background: var(--accent-indigo); color: white; border: none; text-decoration: none; padding: 0.6rem 1.25rem;">
+        ← 総合学習ハブに戻る
+      </a>
+    </div>
+
+    <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary);">📚 予定されている学習トピック</h3>
+    <div class="topic-card-grid">
+      <div class="question-card">
+        <h4 style="color: #34d399; font-size: 1.1rem; margin-bottom: 0.5rem;">1. Calculus: Differentiation (微分 AS 91262)</h4>
+        <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;">
+          導関数、接線の傾き、極大・極小値（Turning points）、最適化問題、運動方程式（変位・速度・加速度）のグラフ可視化。
+        </p>
+      </div>
+      <div class="question-card">
+        <h4 style="color: #34d399; font-size: 1.1rem; margin-bottom: 0.5rem;">2. Algebra (代数 AS 91261)</h4>
+        <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;">
+          二次方程式、判別式（Discriminant）、対数・指数法則（Logs & Exponents）、連立方程式。
+        </p>
+      </div>
+      <div class="question-card">
+        <h4 style="color: #34d399; font-size: 1.1rem; margin-bottom: 0.5rem;">3. Probability & Statistics (確率・統計 AS 91267)</h4>
+        <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;">
+          正規分布（Normal distribution）、リスク・相対リスク計算、樹形図（Tree diagrams）、二項確率。
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="lab-footer">
+    NCEA Level 2 Multi-Subject Learning Lab • Mathematics
+  </footer>
+
+</body>
+</html>

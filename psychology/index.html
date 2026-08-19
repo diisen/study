@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Psychology Hub - NCEA Level 2 Learning Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Sans+JP:wght@400;600;700;900&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../physics/css/style.css">
+  <style>
+    .subject-hero {
+      background: linear-gradient(135deg, rgba(236, 72, 153, 0.15), rgba(168, 85, 247, 0.1));
+      border: 1px solid rgba(236, 72, 153, 0.3);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .subject-icon-large {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+    .coming-soon-badge {
+      background: rgba(236, 72, 153, 0.2);
+      border: 1px solid #ec4899;
+      color: #f472b6;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-full);
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .topic-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="lab-header">
+    <div class="logo-group">
+      <a href="../index.html" class="back-hub-btn" title="Back to Learning Hub">
+        <span>←</span> Hub
+      </a>
+      <span class="logo-badge" style="background: linear-gradient(135deg, #ec4899, #a855f7);">NCEA L2</span>
+      <h1 class="lab-title">Psychology <span>Learning Lab</span></h1>
+    </div>
+    <div class="header-meta">
+      <span class="badge-tag" style="background: rgba(236, 72, 153, 0.1); border-color: rgba(236, 72, 153, 0.3); color: #f472b6;">心理学ラボ</span>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <div class="subject-hero">
+      <div class="subject-icon-large">🧠</div>
+      <span class="coming-soon-badge">READY FOR CONTENT</span>
+      <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Psychology (心理学) 学習アプリ</h2>
+      <p style="color: var(--text-secondary); max-width: 650px; margin: 0 auto 1.5rem; line-height: 1.7;">
+        人間の行動、認知プロセス、社会心理学、神経科学の基礎をインタラクティブに学ぶ専用モジュールを準備中です。教科書やワークブックの写真をアップロードいただければ、すぐに専用のシミュレータや日英解説アプリを構築します！
+      </p>
+      <a href="../index.html" class="reveal-btn" style="background: var(--accent-indigo); color: white; border: none; text-decoration: none; padding: 0.6rem 1.25rem;">
+        ← 総合学習ハブに戻る
+      </a>
+    </div>
+
+    <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary);">📚 予定されている学習トピック</h3>
+    <div class="topic-card-grid">
+      <div class="question-card">
+        <h4 style="color: #f472b6; font-size: 1.1rem; margin-bottom: 0.5rem;">1. Cognitive Psychology (認知心理学)</h4>
+        <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;">
+          記憶モデル（ワーキングメモリ、短期・長期記憶）、注意のメカニズム、バイアスと意思決定プロセス。
+        </p>
+      </div>
+      <div class="question-card">
+        <h4 style="color: #f472b6; font-size: 1.1rem; margin-bottom: 0.5rem;">2. Biological Psychology (生物心理学・脳科学)</h4>
+        <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;">
+          脳の構造と各部位の機能（前頭葉、海馬、扁桃体など）、神経伝達物質（ドーパミン、セロトニン）と行動。
+        </p>
+      </div>
+      <div class="question-card">
+        <h4 style="color: #f472b6; font-size: 1.1rem; margin-bottom: 0.5rem;">3. Social Psychology (社会心理学)</h4>
+        <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;">
+          同調（Conformity）、服従実験（Milgram）、集団心理、態度の形成と変容。
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="lab-footer">
+    NCEA Level 2 Multi-Subject Learning Lab • Psychology
+  </footer>
+
+</body>
+</html>
