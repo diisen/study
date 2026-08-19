@@ -311,5 +311,67 @@ window.SCIPAD_DATA = [
         excellenceTipJa: "1時間 = 3600秒への変換をミスしないこと。有効数字（Significant figures）や指数表記（1.08 × 10⁴ C）にも慣れておくと完璧です。"
       }
     ]
+  },
+  {
+    id: "page_318",
+    pageNumber: 318,
+    title: "Calculating the Lorentz Force On Charged Particles (磁場中の荷電粒子に働くローレンツ力)",
+    subtitle: "Lorentz Force F = Bqv, Right-Hand Slap Rule, 2-Step Acceleration (F = ma), and Charge Determination",
+    category: "electromagnetism",
+    theory: {
+      en: "The size of the Lorentz force acting on a charged particle moving through a magnetic field can be calculated using the equation:\n\nF = Bqv\n• F = Lorentz force on the particle (Newtons, N)\n• B = Magnetic field strength (Tesla, T)\n• v = Velocity of the particle (m s⁻¹)\n• q = Charge of the particle (Coulombs, C)\n\nDirection Rules:\n• Positive Charge (+ve): Right-Hand Slap Rule (Thumb = Velocity v, Fingers = Magnetic Field B, Palm = Force F)\n• Negative Charge (-ve, e.g. Electron): Force acts in the OPPOSITE direction to the palm (out the back of the hand).",
+      ja: "磁場の中を運動する荷電粒子（電子や陽子など）は、磁場から「ローレンツ力（Lorentz Force）」と呼ばれる力を受けます。\n\n【重要公式】 F = Bqv\n• F : 粒子に働くローレンツ力（単位: ニュートン, N）\n• B : 磁場の強さ・磁束密度（単位: テスラ, T）\n• q : 電荷の大きさ（単位: クーロン, C）\n• v : 粒子の速度（単位: m/s または m s⁻¹）\n\n【力の向きの決定ルール】\n• 正電荷（+ve / 陽子など）: 右手の法則（親指＝速度 v、4本指＝磁場 B、手のひら＝力 F の向き）\n• 負電荷（-ve / 電子など）: 正電荷と「真逆の向き」（手の甲側）に力が働きます！"
+    },
+    exercises: [
+      {
+        id: "p318_q1a",
+        number: "1. (a)",
+        titleEn: "Calculate Lorentz Force on an Electron",
+        titleJa: "電子に働くローレンツ力の大きさを計算しよう",
+        questionEn: "An electron enters a 0.60 T magnetic field travelling at 250 m s⁻¹. Given that the charge on an electron is 1.6 × 10⁻¹⁹ C, calculate the force on the electron.",
+        questionJa: "電子が 0.60 T の磁場に 250 m s⁻¹ の速度で進入した。電子の電荷を 1.6 × 10⁻¹⁹ C とするとき、電子に働くローレンツ力の大きさを計算しなさい。",
+        answerEn: "• Formula: F = Bqv\n• Substitution:\n  F = 0.60 T × (1.6 × 10⁻¹⁹ C) × 250 m s⁻¹\n  F = 2.4 × 10⁻¹⁷ N\n• Final Answer: 2.4 × 10⁻¹⁷ N (Newtons)",
+        answerJa: "• 公式: F = Bqv\n• 数値の代入:\n  F = 0.60 T × (1.6 × 10⁻¹⁹ C) × 250 m s⁻¹\n  F = 2.4 × 10⁻¹⁷ N\n• 答え: 2.4 × 10⁻¹⁷ N（ニュートン）",
+        keyTermsEn: ["F = Bqv", "F = 0.60 × (1.6 × 10^-19) × 250", "F = 2.4 × 10^-17 N"],
+        excellenceTipJa: "指数表記（10⁻¹⁹ や 10⁻¹⁷）の計算ミスに注意しましょう。電卓で `1.6 EXP -19` を正しく入力します。"
+      },
+      {
+        id: "p318_q1b",
+        number: "1. (b)",
+        titleEn: "Direction of Force on an Electron (Right-Hand Rule)",
+        titleJa: "電子に働く力の向き（右手の法則と負電荷の注意点）",
+        questionEn: "The magnetic field was acting out of the page (⊙) and the electron entered the field from the left travelling to the right (→). Sketch this situation and draw and label a force vector showing the direction of the force on the particle as it enters the magnetic field.",
+        questionJa: "磁場は画面手前向き（Out of the page, ⊙）であり、電子は左から右（→）へ進入した。この状況を図示し、磁場に入った瞬間に粒子に働く力のベクトルを図中に描いてラベルを付けなさい。",
+        answerEn: "• Direction: UPWARDS (Towards the top of the page / ↑)\n• Explanation:\n  Using the Right-Hand Rule:\n  - Thumb points in direction of velocity (Right →)\n  - Fingers point in direction of magnetic field (Out of page ⊙, towards you)\n  - For a positive charge, the palm pushes DOWNWARDS (↓).\n  - However, an ELECTRON has a NEGATIVE charge (-e), so the force acts in the OPPOSITE direction (out the back of the hand), which is UPWARDS (↑).",
+        answerJa: "• 力の向き: 上向き（画面の上方向 / ↑）\n• 詳しい解説:\n  右手の法則（Right-Hand Rule）を使います：\n  1. 親指を速度の向き（右 →）に向ける\n  2. 4本指を磁場の向き（画面手前 ⊙、自分の方）に向ける\n  3. 正電荷なら手のひらの向き（下向き ↓）に力が働く\n  4. しかし【電子は負電荷（マイナス）】なので、手のひらと真逆の向き（手の甲側）＝【上向き ↑】に力が働きます！\n  ※その結果、電子は上に向かって円弧（カーブ）を描きます。",
+        keyTermsEn: ["Force vector points UPWARDS", "Right-Hand Rule applied with negative charge reversal", "Curving upwards in circular path"],
+        excellenceTipJa: "「電子（Electron）＝ 向きが逆！」はNCEAの超頻出引っ掛けポイントです。必ず手のひらと逆向きにすることを明記しましょう。"
+      },
+      {
+        id: "p318_q2",
+        number: "2",
+        titleEn: "2-Step Calculation: Lorentz Force & Acceleration (F = Bqv → F = ma)",
+        titleJa: "2段階計算：ローレンツ力と加速度（質量の単位変換に注意！）",
+        questionEn: "A charged particle enters a 0.75 T magnetic field (into the page ⊗), travelling at 800 m s⁻¹ (left to right →). The particle has a charge of +2.5 × 10⁻⁸ C and a mass of 2.0 g. Sketch the situation and calculate the acceleration that the particle experiences.",
+        questionJa: "荷電粒子が 0.75 T の磁場（画面奥向き ⊗）に 800 m s⁻¹ の速度で左から右（→）へ進入した。粒子の電荷は +2.5 × 10⁻⁸ C、質量は 2.0 g である。この状況を図示し、粒子が受ける加速度（a）を計算しなさい。",
+        answerEn: "• Step 1: Calculate Lorentz Force (F = Bqv)\n  F = 0.75 T × (2.5 × 10⁻⁸ C) × 800 m s⁻¹\n  F = 1.5 × 10⁻⁵ N (Upwards ↑)\n\n• Step 2: Convert Mass to SI Units (g → kg)\n  m = 2.0 g = 2.0 × 10⁻³ kg = 0.0020 kg\n\n• Step 3: Calculate Acceleration (Newton's 2nd Law: a = F / m)\n  a = (1.5 × 10⁻⁵ N) / (2.0 × 10⁻³ kg)\n  a = 7.5 × 10⁻³ m s⁻² (or 0.0075 m s⁻²)\n\n• Direction: UPWARDS (acts as centripetal acceleration towards center of circle).",
+        answerJa: "• ステップ1: ローレンツ力 F を計算\n  F = Bqv = 0.75 T × (2.5 × 10⁻⁸ C) × 800 m s⁻¹ = 1.5 × 10⁻⁵ N\n\n• ステップ2: 質量の単位変換（g → kg ⚠️超重要）\n  m = 2.0 g = 2.0 × 10⁻³ kg = 0.0020 kg\n\n• ステップ3: ニュートンの第2法則（F = ma ⟹ a = F / m）で加速度を計算\n  a = (1.5 × 10⁻⁵ N) ÷ (2.0 × 10⁻³ kg) = 7.5 × 10⁻³ m s⁻²（または 0.0075 m s⁻²）\n\n• 向き: 正電荷（+）で磁場奥（⊗）、速度右（→）なので、右手のひらが上を向き【上向き（Upwards ↑）】。",
+        keyTermsEn: ["F = Bqv = 1.5 × 10^-5 N", "m = 2.0 × 10^-3 kg", "a = F / m = 7.5 × 10^-3 m s^-2", "Direction: UPWARDS"],
+        excellenceTipJa: "質量 2.0 g を 0.0020 kg に直さずに計算すると 1000倍ズレて減点されます。SI基本単位（kg）への変換を常に確認しましょう。"
+      },
+      {
+        id: "p318_q3",
+        number: "3",
+        titleEn: "Reverse Determination: Charge Size and Polarity (+ve or -ve)",
+        titleJa: "逆算問題：軌道から電荷の符号（+/-）と大きさを決定する",
+        questionEn: "A charged particle enters a magnetic field and follows the path shown in the diagram (moving upwards ↑ into an out-of-page ⊙ field and curving to the right →). Using the values listed below, find the size and type of the charge (+ve or -ve):\n• B = 8 T\n• F = 3.2 N\n• v = 200 m s⁻¹",
+        questionJa: "荷電粒子が磁場に入り、図のような軌道（画面手前 ⊙ の磁場中を上向き ↑ に進み、右側 → へカーブ）を描いた。以下の値を用いて、電荷の符号（正 +ve か 負 -ve か）と大きさを求めなさい：\n• B = 8 T\n• F = 3.2 N\n• v = 200 m s⁻¹",
+        answerEn: "• Type of Charge: POSITIVE (+ve)\n  Reason: The particle enters moving upwards (v ↑) in a magnetic field pointing out of the page (B ⊙). It deflects to the right (F →). Applying the Right-Hand Rule (Thumb = Up ↑, Fingers = Towards viewer ⊙), the palm naturally faces RIGHT (→). Because the actual deflection matches the palm direction, the charge is POSITIVE (+ve).\n\n• Size of Charge:\n  Formula: F = Bqv ⟹ q = F / (B × v)\n  q = 3.2 N / (8 T × 200 m s⁻¹)\n  q = 3.2 / 1600 = 2.0 × 10⁻³ C (or 0.0020 C / 2.0 mC)",
+        answerJa: "• 電荷の符号: 正電荷（Positive / +ve）\n  理由: 速度が上向き（↑）、磁場が手前（⊙）で、粒子は右側（→）に曲がっています（向心力＝右向き）。右手の親指を上、4本指を手前に向けると、手のひらは【右（→）】を向きます。実際の力の向きと手のひらの向きが一致しているため、この粒子は【正電荷（+ve）】です。\n\n• 電荷の大きさの計算:\n  公式: F = Bqv ⟹ q = F ÷ (B × v)\n  q = 3.2 N ÷ (8 T × 200 m s⁻¹)\n  q = 3.2 ÷ 1600 = 2.0 × 10⁻³ C（または 0.0020 C / 2.0 mC）",
+        keyTermsEn: ["Charge type: POSITIVE (+ve)", "Right-hand rule matches deflection to the right", "q = F / (Bv) = 2.0 × 10^-3 C"],
+        excellenceTipJa: "「符号の判定（+ve）」と「大きさの計算（2.0 × 10⁻³ C）」の2つを漏れなく解答することが満点（Excellence）の条件です。"
+      }
+    ]
   }
 ];
+

@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // 1. Initialize Engines
   const circuitEngine = new CircuitEngine('circuitCanvas');
   const formulaEngine = new FormulaEngine();
+  const lorentzEngine = new LorentzEngine('lorentzCanvas');
+  const lorentzQuiz = new LorentzQuizManager();
 
   // 2. Navigation Tab Control
   const tabBtns = document.querySelectorAll('.nav-tab-btn');
@@ -27,13 +29,205 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (targetTab === 'tab-simulator') {
         circuitEngine.resizeCanvas();
+      } else if (targetTab === 'tab-lorentz') {
+        lorentzEngine.resizeCanvas();
       }
     });
   });
 
   // ----------------------------------------------------
-  // SIMULATOR CONTROLS & BINDING
+  // LORENTZ FORCE LAB CONTROLS & BINDINGS
   // ----------------------------------------------------
+  const btnParticleElectron = document.getElementById('btnParticleElectron');
+  const btnParticleProton = document.getElementById('btnParticleProton');
+  const btnPresetQ2 = document.getElementById('btnPresetQ2');
+  const btnBDirToggle = document.getElementById('btnBDirToggle');
+  const lblBDir = document.getElementById('lblBDir');
+  const btnFireParticle = document.getElementById('btnFireParticle');
+  const sliderLorentzB = document.getElementById('sliderLorentzB');
+  const lblLorentzB = document.getElementById('lblLorentzB');
+  const sliderLorentzV = document.getElementById('sliderLorentzV');
+  const lblLorentzV = document.getElementById('lblLorentzV');
+  const btnToggleGame = document.getElementById('btnToggleGame');
+
+  if (btnParticleElectron) {
+    btnParticleElectron.onclick = () => {
+      btnParticleElectron.classList.add('active');
+      btnParticleProton.classList.remove('active');
+      btnPresetQ2.classList.remove('active');
+      lorentzEngine.setParticleType('electron');
+      sliderLorentzB.value = 0.60;
+      sliderLorentzV.value = 250;
+      lblLorentzB.textContent = '0.60 T';
+      lblLorentzV.textContent = '250 m/s';
+    };
+  }
+
+  if (btnParticleProton) {
+    btnParticleProton.onclick = () => {
+      btnParticleProton.classList.add('active');
+      btnParticleElectron.classList.remove('active');
+      btnPresetQ2.classList.remove('active');
+      lorentzEngine.setParticleType('proton');
+    };
+  }
+
+  if (btnPresetQ2) {
+    btnPresetQ2.onclick = () => {
+      btnPresetQ2.classList.add('active');
+      btnParticleElectron.classList.remove('active');
+      btnParticleProton.classList.remove('active');
+      lorentzEngine.setParticleType('q2_custom');
+      sliderLorentzB.value = 0.75;
+      sliderLorentzV.value = 800;
+      lblLorentzB.textContent = '0.75 T';
+      lblLorentzV.textContent = '800 m/s';
+      lblBDir.textContent = 'Into Page ⊗';
+    };
+  }
+
+  if (btnBDirToggle) {
+    btnBDirToggle.onclick = () => {
+      const nextDir = lorentzEngine.params.bDirection === 'out' ? 'into' : 'out';
+      lorentzEngine.setBFieldDirection(nextDir);
+      lblBDir.textContent = nextDir === 'out' ? 'Out of Page ⊙' : 'Into Page ⊗';
+    };
+  }
+
+  if (btnFireParticle) {
+    btnFireParticle.onclick = () => {
+      lorentzEngine.fireSingleParticle();
+    };
+  }
+
+  if (sliderLorentzB) {
+    sliderLorentzB.oninput = (e) => {
+      const val = parseFloat(e.target.value);
+      lblLorentzB.textContent = `${val.toFixed(2)} T`;
+      lorentzEngine.setBField(val);
+    };
+  }
+
+  if (sliderLorentzV) {
+    sliderLorentzV.oninput = (e) => {
+      const val = parseFloat(e.target.value);
+      lblLorentzV.textContent = `${val} m/s`;
+      lorentzEngine.setVelocity(val);
+    };
+  }
+
+  if (btnToggleGame) {
+    let isGameOn = false;
+    btnToggleGame.onclick = () => {
+      isGameOn = !isGameOn;
+      lorentzEngine.setTargetGame(isGameOn);
+      if (isGameOn) {
+        btnToggleGame.classList.remove('secondary');
+        btnToggleGame.innerHTML = '🛑 ゲーム終了 (End Target Game)';
+      } else {
+        btnToggleGame.classList.add('secondary');
+        btnToggleGame.innerHTML = '🎯 ターゲットシューティング開始 (Start Game)';
+      }
+    };
+  }
+
+  // Lorentz State Update Callback
+  lorentzEngine.onUpdate((state, params) => {
+    const statsContainer = document.getElementById('lorentzStatsBox');
+    const workingGrid = document.getElementById('lorentzLiveWorkingGrid');
+
+    if (statsContainer) {
+      statsContainer.innerHTML = `
+        <div class="stat-item">
+          <span class="stat-label">Lorentz Force (F = Bqv):</span>
+          <span class="stat-value" style="color: #fbbf24;">${state.force.toExponential(3)} N</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Force Direction:</span>
+          <span class="stat-value" style="color: ${state.isUpward ? 'var(--accent-sky)' : '#f43f5e'};">${state.forceDirection}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Right-Hand Palm Direction:</span>
+          <span class="stat-value">${state.palmDirection}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Acceleration (a = F/m):</span>
+          <span class="stat-value">${state.acceleration.toExponential(3)} m s⁻²</span>
+        </div>
+        <div class="energy-principle-callout">
+          <strong>⚡ Work Done by Magnetic Field:</strong><br>
+          力 F は常に速度 v と直角（90°）に働くため、<strong>仕事 W = 0 J</strong> です。粒子の速さは変わらず、進行方向のみが曲げられて「等速円運動」になります。
+        </div>
+      `;
+    }
+
+    if (workingGrid) {
+      const qValStr = state.charge.toExponential(2);
+      const mValStr = state.mass.toExponential(2);
+      const isNeg = state.isNegative;
+
+      workingGrid.innerHTML = `
+        <!-- Step 1: Lorentz Force -->
+        <div class="calc-step-card">
+          <div class="step-card-header">
+            <span class="step-number">STEP 1</span>
+            <span class="step-concept">Lorentz Force: F = Bqv (磁場から受ける力)</span>
+          </div>
+          <div class="step-formula-name">公式 F = Bqv に数値を代入して計算</div>
+          <div class="step-formula-box">
+            <div class="formula-raw">F = B × q × v</div>
+            <div class="formula-substituted">
+              F = <span class="highlight-val">${state.bField.toFixed(2)} T</span> × <span class="highlight-val">${qValStr} C</span> × <span class="highlight-val">${state.velocity} m/s</span> = <span class="highlight-res">${state.force.toExponential(3)} N</span>
+            </div>
+          </div>
+          <div class="step-explanation-ja">
+            【SciPad p.318 Q1(a)】磁場の強さ B、電荷 q、速度 v を掛け合わせることで、荷電粒子が受けるローレンツ力の大きさが求まります。
+          </div>
+        </div>
+
+        <!-- Step 2: Newton's 2nd Law Acceleration -->
+        <div class="calc-step-card">
+          <div class="step-card-header">
+            <span class="step-number">STEP 2</span>
+            <span class="step-concept">Acceleration: a = F / m (ニュートンの運動方程式)</span>
+          </div>
+          <div class="step-formula-name">生じる向心加速度を計算 (質量のkg変換に注意)</div>
+          <div class="step-formula-box">
+            <div class="formula-raw">a = F / m  [where m = ${mValStr} kg]</div>
+            <div class="formula-substituted">
+              a = <span class="highlight-val">${state.force.toExponential(3)} N</span> ÷ <span class="highlight-val">${mValStr} kg</span> = <span class="highlight-res">${state.acceleration.toExponential(3)} m s⁻²</span>
+            </div>
+          </div>
+          <div class="step-explanation-ja">
+            【SciPad p.318 Q2】質量 m は必ず kg 単位で代入します（2.0 g ➔ 0.0020 kg）。この加速度が円運動の「向心加速度」となります。
+          </div>
+        </div>
+
+        <!-- Step 3: Direction Analysis -->
+        <div class="calc-step-card">
+          <div class="step-card-header">
+            <span class="step-number">STEP 3</span>
+            <span class="step-concept">Right-Hand Slap Rule (力の向きの判定)</span>
+          </div>
+          <div class="step-formula-name">親指＝速度、4本指＝磁場、手のひら vs 手の甲</div>
+          <div class="step-formula-box">
+            <div class="formula-raw">Direction = ${state.forceDirection}</div>
+            <div class="formula-substituted" style="font-size:0.92rem; line-height:1.6;">
+              • 親指 (Thumb): 進行方向 (右向き →)<br>
+              • 4本指 (Fingers): 磁場 (${state.bDirection === 'out' ? '手前 ⊙' : '奥 ⊗'})<br>
+              • ${isNeg ? '<span style="color:#ef4444; font-weight:bold;">電子(負電荷): 手の甲側 ➔ 上向き ↑ にカーブ！</span>' : '<span style="color:#10b981; font-weight:bold;">正電荷: 手のひら側 ➔ 向きと一致！</span>'}
+            </div>
+          </div>
+          <div class="step-explanation-ja">
+            【SciPad p.318 Q1(b)】電子（Electron）は負電荷なので、右手のひらの向きと真逆（手の甲側）に力が働くのが最重要ポイントです。
+          </div>
+        </div>
+      `;
+    }
+  });
+
+  // Initial trigger for Lorentz
+  lorentzEngine.notifyStateChange();
   const seriesBtn = document.getElementById('modeSeriesBtn');
   const parallelBtn = document.getElementById('modeParallelBtn');
   const blowLampBtn = document.getElementById('blowLampBtn');

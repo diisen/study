@@ -117,6 +117,42 @@ class FormulaEngine {
             stepsEn: (vals, res) => `Resistance \\(R\\) = Voltage \\(V\\) ÷ Current \\(I\\)\n= ${vals.v} V ÷ ${vals.i} A = **${res.toFixed(2)} Ω**`
           }
         }
+      },
+      'f_eq_bqv': {
+        id: 'f_eq_bqv',
+        name: 'Lorentz Force on Charged Particles',
+        nameJa: '荷電粒子に働くローレンツ力',
+        triangle: {
+          top: { key: 'f_lor', label: 'F', fullLabel: 'Force (F)', unit: 'N', min: 0.1, max: 20, default: 3.2, step: 0.1 },
+          bottomLeft: { key: 'b_mag', label: 'B', fullLabel: 'Magnetic Field (B)', unit: 'T', min: 0.1, max: 10, default: 0.60, step: 0.05 },
+          bottomRight: { key: 'qv_prod', label: 'q × v', fullLabel: 'q × v Product', unit: 'C·m/s', min: 1, max: 2000, default: 250, step: 10 }
+        },
+        solve: {
+          f_lor: {
+            eqLatex: 'F = B \\times q \\times v',
+            eqText: 'F = B × q × v',
+            calc: (vals) => vals.b_mag * (vals.q_lor || 1.6e-19) * (vals.v_vel || 250),
+            unit: 'N (Newtons)',
+            stepsJa: (vals, res) => `ローレンツ力 \\(F\\) = 磁場 \\(B\\) × 電荷 \\(q\\) × 速度 \\(v\\)\n= ${vals.b_mag} T × (${(vals.q_lor || 1.6e-19).toExponential(2)} C) × ${vals.v_vel || 250} m/s\n= **${res.toExponential(3)} N**`,
+            stepsEn: (vals, res) => `Lorentz Force \\(F\\) = Magnetic Field \\(B\\) × Charge \\(q\\) × Velocity \\(v\\)\n= ${vals.b_mag} T × (${(vals.q_lor || 1.6e-19).toExponential(2)} C) × ${vals.v_vel || 250} m/s\n= **${res.toExponential(3)} N**`
+          },
+          b_mag: {
+            eqLatex: 'B = \\frac{F}{q \\times v}',
+            eqText: 'B = F / (q × v)',
+            calc: (vals) => ((vals.q_lor || 1.6e-19) * (vals.v_vel || 250)) > 0 ? (vals.f_lor || 3.2) / ((vals.q_lor || 1.6e-19) * (vals.v_vel || 250)) : 0,
+            unit: 'T (Tesla)',
+            stepsJa: (vals, res) => `磁場 \\(B\\) = 力 \\(F\\) ÷ (電荷 \\(q\\) × 速度 \\(v\\))\n= **${res.toFixed(2)} T**`,
+            stepsEn: (vals, res) => `Magnetic Field \\(B\\) = Force \\(F\\) ÷ (Charge \\(q\\) × Velocity \\(v\\))\n= **${res.toFixed(2)} T**`
+          },
+          qv_prod: {
+            eqLatex: 'q = \\frac{F}{B \\times v}',
+            eqText: 'q = F / (B × v)',
+            calc: (vals) => (vals.b_mag * (vals.v_vel || 200)) > 0 ? (vals.f_lor || 3.2) / (vals.b_mag * (vals.v_vel || 200)) : 0,
+            unit: 'C (Coulombs)',
+            stepsJa: (vals, res) => `電荷 \\(q\\) = 力 \\(F\\) ÷ (磁場 \\(B\\) × 速度 \\(v\\)) [SciPad p.318 Q3]\n= ${vals.f_lor || 3.2} N ÷ (${vals.b_mag} T × ${vals.v_vel || 200} m/s)\n= **${res.toExponential(2)} C** (${(res * 1000).toFixed(1)} mC)`,
+            stepsEn: (vals, res) => `Charge \\(q\\) = Force \\(F\\) ÷ (B × v) [SciPad p.318 Q3]\n= ${vals.f_lor || 3.2} N ÷ (${vals.b_mag} T × ${vals.v_vel || 200} m/s)\n= **${res.toExponential(2)} C** (${(res * 1000).toFixed(1)} mC)`
+          }
+        }
       }
     };
 
@@ -127,7 +163,12 @@ class FormulaEngine {
       q: 2,
       i: 4,
       t: 60,
-      r: 8
+      r: 8,
+      f_lor: 3.2,
+      b_mag: 0.60,
+      qv_prod: 250,
+      q_lor: 1.6e-19,
+      v_vel: 250
     };
   }
 

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NCEA Level 2 Physics - DC Electricity Interactive Learning Lab</title>
-  <meta name="description" content="NCEA Level 2 Physics AS 91173 (DC Electricity) interactive learning platform with particle animations, live circuit simulation, and bilingual SciPad workbook solutions.">
+  <title>NCEA Level 2 Physics - Electricity & Magnetism Interactive Lab</title>
+  <meta name="description" content="NCEA Level 2 Physics AS 91173 (DC Electricity & Lorentz Force Electromagnetism) interactive learning platform with particle animations, live circuit simulation, and bilingual SciPad workbook solutions.">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,27 +22,33 @@
         <span>←</span> Hub
       </a>
       <span class="logo-badge">NCEA L2</span>
-      <h1 class="lab-title">Physics 2.6 <span>DC Electricity Lab</span></h1>
+      <h1 class="lab-title">Physics 2.6 <span>Electricity & Magnetism Lab</span></h1>
     </div>
     <div class="header-meta">
-      <span class="badge-tag">AS 91173 • SciPad p.266-269</span>
+      <span class="badge-tag">AS 91173 • SciPad p.266-269 & p.318</span>
       <span class="badge-tag" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); color: #34d399;">日英バイリンガル解説</span>
     </div>
   </header>
 
   <!-- Navigation Tabs -->
   <nav class="nav-tabs-wrapper">
-    <button class="nav-tab-btn active" data-tab="tab-simulator">
-      <span>⚡</span> Circuit Simulator (電子・エネルギー可視化実験室)
+    <button class="nav-tab-btn active" data-tab="tab-lorentz">
+      <span>🧲</span> Lorentz Force (ローレンツ力・荷電粒子)
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-simulator">
+      <span>⚡</span> DC Circuit (回路・電子エネルギー)
     </button>
     <button class="nav-tab-btn" data-tab="tab-scipad">
-      <span>📖</span> SciPad Workbook (教科書・問題演習)
+      <span>📖</span> SciPad Workbook (教科書演習 p.266-269 & p.318)
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-quiz">
+      <span>🎯</span> Training Quiz (右手の法則・電荷判定＆ゲーム)
     </button>
     <button class="nav-tab-btn" data-tab="tab-formulas">
       <span>📐</span> Magic Triangle (公式ピラミッド＆計算機)
     </button>
     <button class="nav-tab-btn" data-tab="tab-guide">
-      <span>🎯</span> Excellence Key Phrases (英語論述ガイド)
+      <span>🧩</span> Excellence Guide (論述パズル＆英語構文)
     </button>
   </nav>
 
@@ -50,9 +56,117 @@
   <main class="main-container">
 
     <!-- ============================================================
-         TAB 1: CIRCUIT SIMULATOR & PARTICLE ANIMATION
+         TAB 1: LORENTZ FORCE SIMULATOR & PARTICLE CHAMBER
     ============================================================ -->
-    <section id="tab-simulator" class="tab-panel active">
+    <section id="tab-lorentz" class="tab-panel active">
+      <div class="sim-layout">
+        
+        <!-- Left: Lorentz Interactive Canvas & Toolbar -->
+        <div class="sim-canvas-card">
+          <div class="sim-toolbar">
+            <div class="mode-selector">
+              <button class="mode-btn active" id="btnParticleElectron">Electron (電子 e⁻)</button>
+              <button class="mode-btn" id="btnParticleProton">Proton (陽子 p⁺)</button>
+              <button class="mode-btn" id="btnPresetQ2">SciPad Q2 (+2.5×10⁻⁸C)</button>
+            </div>
+            
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <button class="btn-action secondary" id="btnBDirToggle">
+                🔄 磁場の向き: <strong id="lblBDir">Out of Page ⊙</strong>
+              </button>
+              <button class="btn-action" id="btnFireParticle">
+                🚀 発射 (Fire)
+              </button>
+            </div>
+          </div>
+
+          <div class="canvas-wrapper">
+            <canvas id="lorentzCanvas"></canvas>
+          </div>
+
+          <div class="sim-legend">
+            <div class="legend-item">
+              <span class="legend-dot" style="background: #38bdf8;"></span>
+              <span><strong>Electron (e⁻ / -ve)</strong>: 負電荷 (手の甲側に力が働く)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot" style="background: #f43f5e;"></span>
+              <span><strong>Proton (p⁺ / +ve)</strong>: 正電荷 (手のひら側に力が働く)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot" style="background: #fbbf24;"></span>
+              <span><strong>Lorentz Vector F</strong>: 向心力 (速度と直角 90°)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Lorentz Controls & Stats -->
+        <div class="sim-controls-card">
+          <div class="card-title">
+            <span>⚙️ Lorentz Parameters</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div class="control-group">
+              <div class="control-label-row">
+                <span>Magnetic Field Strength (B):</span>
+                <span class="control-val" id="lblLorentzB">0.60 T</span>
+              </div>
+              <input type="range" class="slider-input" id="sliderLorentzB" min="0.10" max="3.00" step="0.05" value="0.60">
+            </div>
+
+            <div class="control-group">
+              <div class="control-label-row">
+                <span>Particle Velocity (v):</span>
+                <span class="control-val" id="lblLorentzV">250 m/s</span>
+              </div>
+              <input type="range" class="slider-input" id="sliderLorentzV" min="50" max="1500" step="25" value="250">
+            </div>
+
+            <div class="control-group">
+              <div class="control-label-row">
+                <span>Target Challenge Mode:</span>
+              </div>
+              <button class="btn-action secondary" id="btnToggleGame" style="width: 100%; text-align: center;">
+                🎯 ターゲットシューティング開始 (Start Game)
+              </button>
+            </div>
+          </div>
+
+          <!-- Live Lorentz Physics Stats -->
+          <div class="physics-stats-box" id="lorentzStatsBox" style="margin-top: 1.5rem;">
+            <!-- Dynamically populated -->
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Live Lorentz Mathematical Working Section -->
+      <div class="live-working-section">
+        <div class="live-working-card">
+          <div class="live-working-header">
+            <div class="header-left">
+              <span class="calc-icon">🧲</span>
+              <div>
+                <h3 class="live-working-title">ローレンツ力・加速度のリアルタイム導出 (Live Lorentz Working)</h3>
+                <p class="live-working-subtitle">スライダーの数値に応じて、F = Bqv や F = ma、円軌道半径 r の計算式がリアルタイムに展開されます。</p>
+              </div>
+            </div>
+            <span class="live-badge">F = Bqv LIVE</span>
+          </div>
+
+          <div class="working-grid" id="lorentzLiveWorkingGrid">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB 2: DC CIRCUIT SIMULATOR & PARTICLE ANIMATION
+    ============================================================ -->
+    <section id="tab-simulator" class="tab-panel">
       <div class="sim-layout">
         
         <!-- Left: Interactive Canvas & Toolbar -->
@@ -197,7 +311,7 @@
     </section>
 
     <!-- ============================================================
-         TAB 2: SCIPAD WORKBOOK PROBLEMS
+         TAB 3: SCIPAD WORKBOOK PROBLEMS
     ============================================================ -->
     <section id="tab-scipad" class="tab-panel">
       <!-- SciPad Page Selectors -->
@@ -212,11 +326,72 @@
     </section>
 
     <!-- ============================================================
-         TAB 3: FORMULA MAGIC TRIANGLE & CALCULATOR
+         TAB 4: RIGHT-HAND RULE & TRAINING QUIZ
+    ============================================================ -->
+    <section id="tab-quiz" class="tab-panel">
+      <div class="guide-grid" style="grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));">
+        
+        <!-- Left: Polarity Training Quiz -->
+        <div class="guide-card">
+          <div class="guide-card-header">
+            <span class="guide-icon">⚡</span>
+            <div>
+              <h3 style="font-size: 1.25rem; font-weight: 700;">電荷正負判定クイズ (Charge Polarity Quiz)</h3>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                SciPad p.318 Q3 形式！磁場と曲がり方を見て、正電荷か負電荷かを即座に見抜く瞬発力トレーニング。
+              </p>
+            </div>
+          </div>
+
+          <div id="lorentzQuizArea">
+            <!-- Rendered by lorentzQuiz.js -->
+          </div>
+        </div>
+
+        <!-- Right: Right-Hand Rule Visual Summary -->
+        <div class="guide-card">
+          <div class="guide-card-header">
+            <span class="guide-icon">🖐️</span>
+            <div>
+              <h3 style="font-size: 1.25rem; font-weight: 700;">右手の法則（Right-Hand Rule）完全攻略</h3>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                テスト本番で迷わないための3大チェックポイント
+              </p>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div class="guide-phrase-item">
+              <div class="phrase-en">1. Thumb (親指) = Velocity v (粒子の進行方向)</div>
+              <div class="phrase-ja">電荷が飛んでいく向きに親指をまっすぐ向けます。</div>
+            </div>
+            <div class="guide-phrase-item">
+              <div class="phrase-en">2. Fingers (4本指) = Magnetic Field B (磁場の向き)</div>
+              <div class="phrase-ja">
+                • 画面手前向き (⊙ Out of page) ➔ 自分の顔の方に向ける<br>
+                • 画面奥向き (⊗ Into page) ➔ 画面の奥側に向ける
+              </div>
+            </div>
+            <div class="guide-phrase-item" style="border-left: 3px solid #ef4444;">
+              <div class="phrase-en" style="color: #f43f5e;">3. Force F (力の向き) = 正電荷は手のひら / 電子は手の甲！</div>
+              <div class="phrase-ja">
+                • <strong>正電荷 (+ve / Proton)</strong>: 手のひらが押し出す方向 (Palm Push)<br>
+                • <strong>負電荷 (-ve / Electron)</strong>: 手のひらの<strong>【真逆（手の甲側）】</strong>！
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB 5: FORMULA MAGIC TRIANGLES & CALCULATOR
     ============================================================ -->
     <section id="tab-formulas" class="tab-panel">
       <div class="formula-selector-bar">
-        <button class="formula-choice-btn active" data-formula="v_eq_de_q">V = ΔE / q (Voltage & Energy)</button>
+        <button class="formula-choice-btn active" data-formula="f_eq_bqv">F = B × q × v (Lorentz Force)</button>
+        <button class="formula-choice-btn" data-formula="v_eq_de_q">V = ΔE / q (Voltage & Energy)</button>
         <button class="formula-choice-btn" data-formula="i_eq_q_t">I = q / t (Current & Charge)</button>
         <button class="formula-choice-btn" data-formula="v_eq_ir">V = I × R (Ohm's Law)</button>
       </div>
@@ -251,7 +426,7 @@
 
           <div class="calc-result-box">
             <div class="target-eq-display" id="targetEqDisplay">
-              ΔE = V × q
+              F = B × q × v
             </div>
 
             <div class="ans-block">
@@ -269,34 +444,46 @@
     </section>
 
     <!-- ============================================================
-         TAB 4: NCEA EXCELLENCE KEY PHRASES GUIDE
+         TAB 6: EXCELLENCE JUSTIFICATION GUIDE & PUZZLE
     ============================================================ -->
     <section id="tab-guide" class="tab-panel">
-      <div style="margin-bottom: 1.5rem;">
-        <h2 style="font-size: 1.5rem; font-weight: 700;">🎯 NCEA Level 2 Physics: Excellence 記述攻略ガイド</h2>
-        <p style="color: var(--text-secondary); font-size: 0.95rem;">
-          NCEAの物理では、単に数値を計算するだけでなく「理由・物理原理を用いた英語論述」が最重要です。高得点（Merit / Excellence）を取るための鉄板フレーズをマスターしましょう。
-        </p>
-      </div>
-
-      <div class="guide-grid">
-        <!-- Card 1 -->
-        <div class="guide-card">
-          <div class="guide-card-header">
-            <span class="guide-icon">⚡</span>
-            <h3 style="font-size: 1.15rem; font-weight: 700;">電圧の定義とエネルギー (V = ΔE/q)</h3>
-          </div>
-          <div class="guide-phrase-item">
-            <div class="phrase-en">"Voltage is the amount of electrical potential energy transformed per coulomb of charge (1 V = 1 J/C)."</div>
-            <div class="phrase-ja">電圧とは、電荷1クーロンあたりに変換される（または供給される）電気エネルギーの量である。</div>
-            <div class="phrase-why">💡 <strong>Excellence Tip:</strong> 「What does 20V mean?」と聞かれたら、「The power supply gives 20 Joules of energy to every 1 Coulomb of charge.」と答えると満点です。</div>
+      
+      <!-- Top: Interactive Justification Puzzle -->
+      <div class="guide-card" style="margin-bottom: 2rem;">
+        <div class="guide-card-header">
+          <span class="guide-icon">🧩</span>
+          <div>
+            <h3 style="font-size: 1.3rem; font-weight: 700;">Excellence 英文論述パズル (Justification Builder)</h3>
+            <p style="font-size: 0.88rem; color: var(--text-secondary);">
+              NCEAで最高評価（Excellence）を取るための必須論述構文を、フレーズを組み立ててマスターしましょう！
+            </p>
           </div>
         </div>
 
-        <!-- Card 2 -->
+        <div id="justificationPuzzleArea">
+          <!-- Rendered by lorentzQuiz.js -->
+        </div>
+      </div>
+
+      <!-- Bottom: Static Key Phrases Cards -->
+      <div class="guide-grid">
+        <!-- Card 1: Lorentz Circular Motion -->
         <div class="guide-card">
           <div class="guide-card-header">
-            <span class="guide-icon">🔄</span>
+            <span class="guide-icon">🧲</span>
+            <h3 style="font-size: 1.15rem; font-weight: 700;">ローレンツ力と等速円運動 (Lorentz Force)</h3>
+          </div>
+          <div class="guide-phrase-item">
+            <div class="phrase-en">"The magnetic force F = Bqv is constantly perpendicular to the velocity v, acting as a centripetal force. Therefore, it changes direction without doing work, resulting in uniform circular motion at constant speed."</div>
+            <div class="phrase-ja">ローレンツ力は常に速度と直角に働くため向心力として作用し、仕事をすることなく向きだけを変え、一定の速さの等速円運動を引き起こす。</div>
+            <div class="phrase-why">💡 <strong>Excellence Tip:</strong> 「Perpendicular（直角）」「Centripetal force（向心力）」「No work done（仕事はゼロ）」の3点セットは鉄板です。</div>
+          </div>
+        </div>
+
+        <!-- Card 2: Series Current -->
+        <div class="guide-card">
+          <div class="guide-card-header">
+            <span class="guide-icon">⚡</span>
             <h3 style="font-size: 1.15rem; font-weight: 700;">直列回路の電流と電荷保存 (Series Circuit)</h3>
           </div>
           <div class="guide-phrase-item">
@@ -306,7 +493,7 @@
           </div>
         </div>
 
-        <!-- Card 3 -->
+        <!-- Card 3: Parallel Voltage -->
         <div class="guide-card">
           <div class="guide-card-header">
             <span class="guide-icon">🌿</span>
@@ -318,31 +505,21 @@
             <div class="phrase-why">💡 <strong>Excellence Tip:</strong> 電球が切れた時の挙動（p.269 Q7(d)(g)）で最も頻出の論述です。</div>
           </div>
         </div>
-
-        <!-- Card 4 -->
-        <div class="guide-card">
-          <div class="guide-card-header">
-            <span class="guide-icon">🔌</span>
-            <h3 style="font-size: 1.15rem; font-weight: 700;">開回路と断線 (Broken / Open Circuit)</h3>
-          </div>
-          <div class="guide-phrase-item">
-            <div class="phrase-en">"If the filament blows, it breaks the circuit creating an open circuit. Without a complete conducting path, the current drops to zero (0 A)."</div>
-            <div class="phrase-ja">フィラメントが切れると回路が途切れて開回路となり、導電経路がなくなるため電流はゼロ（0 A）になる。</div>
-            <div class="phrase-why">💡 <strong>Excellence Tip:</strong> 「Open circuit」と「Complete conducting path」の2単語を必ずセットで使いましょう。</div>
-          </div>
-        </div>
       </div>
     </section>
 
   </main>
 
+  <!-- Footer -->
   <footer class="lab-footer">
-    NCEA Level 2 Physics (AS 91173 / 2.6) Interactive Learning Lab • DC Electricity
+    NCEA Level 2 Physics (AS 91173 / 2.6) Interactive Learning Lab • DC Electricity & Electromagnetism
   </footer>
 
   <!-- Scripts -->
   <script src="js/scipadData.js"></script>
   <script src="js/circuitEngine.js"></script>
+  <script src="js/lorentzEngine.js"></script>
+  <script src="js/lorentzQuiz.js"></script>
   <script src="js/formulaEngine.js"></script>
   <script src="js/app.js"></script>
 </body>
