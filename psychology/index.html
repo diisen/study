@@ -3,97 +3,393 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Psychology Hub - NCEA Level 2 Learning Lab</title>
+  <title>NCEA Level 2 Psychology - AS 91847 Helping Behaviours & Assessment Hub</title>
+  <meta name="description" content="NCEA Level 2 Psychology AS 91847 interactive learning platform, A3 Planning Sheet builder for Exam.net, Bystander Effect simulator, and bilingual research case studies.">
+
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Sans+JP:wght@400;600;700;900&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../physics/css/style.css">
-  <style>
-    .subject-hero {
-      background: linear-gradient(135deg, rgba(236, 72, 153, 0.15), rgba(168, 85, 247, 0.1));
-      border: 1px solid rgba(236, 72, 153, 0.3);
-      border-radius: var(--radius-lg);
-      padding: 2.5rem;
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-    .subject-icon-large {
-      font-size: 3.5rem;
-      margin-bottom: 1rem;
-      display: inline-block;
-    }
-    .coming-soon-badge {
-      background: rgba(236, 72, 153, 0.2);
-      border: 1px solid #ec4899;
-      color: #f472b6;
-      font-weight: 700;
-      font-size: 0.85rem;
-      padding: 0.35rem 0.85rem;
-      border-radius: var(--radius-full);
-      display: inline-block;
-      margin-bottom: 1rem;
-    }
-    .topic-card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
+  <!-- Top Navigation Header -->
   <header class="lab-header">
     <div class="logo-group">
       <a href="../index.html" class="back-hub-btn" title="Back to Learning Hub">
         <span>←</span> Hub
       </a>
-      <span class="logo-badge" style="background: linear-gradient(135deg, #ec4899, #a855f7);">NCEA L2</span>
-      <h1 class="lab-title">Psychology <span>Learning Lab</span></h1>
+      <span class="logo-badge">NCEA L2</span>
+      <h1 class="lab-title">Psychology 2.4 <span>Helping Behaviours Lab</span></h1>
     </div>
     <div class="header-meta">
-      <span class="badge-tag" style="background: rgba(236, 72, 153, 0.1); border-color: rgba(236, 72, 153, 0.3); color: #f472b6;">心理学ラボ</span>
+      <span class="badge-tag">AS 91847 • 5 Credits • Long Bay College</span>
+      <span class="badge-tag" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); color: #34d399;">Exam.net ＆ A3 Planner 完全対応</span>
     </div>
   </header>
 
-  <main class="main-container">
-    <div class="subject-hero">
-      <div class="subject-icon-large">🧠</div>
-      <span class="coming-soon-badge">READY FOR CONTENT</span>
-      <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Psychology (心理学) 学習アプリ</h2>
-      <p style="color: var(--text-secondary); max-width: 650px; margin: 0 auto 1.5rem; line-height: 1.7;">
-        人間の行動、認知プロセス、社会心理学、神経科学の基礎をインタラクティブに学ぶ専用モジュールを準備中です。教科書やワークブックの写真をアップロードいただければ、すぐに専用のシミュレータや日英解説アプリを構築します！
-      </p>
-      <a href="../index.html" class="reveal-btn" style="background: var(--accent-indigo); color: white; border: none; text-decoration: none; padding: 0.6rem 1.25rem;">
-        ← 総合学習ハブに戻る
-      </a>
-    </div>
+  <!-- Navigation Tabs -->
+  <nav class="nav-tabs-wrapper">
+    <button class="nav-tab-btn active" data-tab="tab-planner">
+      <span>🎯</span> A3 Planning Sheet Builder (課題・本番持込対策)
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-bystander">
+      <span>🎭</span> Bystander Effect Sim (傍観者効果・援助行動)
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-rubric">
+      <span>🌟</span> Excellence Guide (ルーブリック・模範解答比較)
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-studies">
+      <span>📖</span> Key Studies Library (Johansson 1978 & Darley 1968)
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-tapa-wha">
+      <span>🏛️</span> Te Whare Tapa Whā (マオリ健康観 & 臨床モデル)
+    </button>
+  </nav>
 
-    <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary);">📚 予定されている学習トピック</h3>
-    <div class="topic-card-grid">
-      <div class="question-card">
-        <h4 style="color: #f472b6; font-size: 1.1rem; margin-bottom: 0.5rem;">1. Cognitive Psychology (認知心理学)</h4>
-        <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;">
-          記憶モデル（ワーキングメモリ、短期・長期記憶）、注意のメカニズム、バイアスと意思決定プロセス。
-        </p>
+  <!-- Main Content Container -->
+  <main class="main-container">
+
+    <!-- ============================================================
+         TAB 1: A3 PLANNING SHEET BUILDER (FOR EXAM.NET)
+    ============================================================ -->
+    <section id="tab-planner" class="tab-panel active">
+      
+      <!-- Top Actions Bar -->
+      <div class="planner-top-bar">
+        <div>
+          <h2 style="font-size: 1.25rem; font-weight: 700; color: #f8fafc;">📋 A3 Digital Planning Sheet Builder</h2>
+          <p style="font-size: 0.85rem; color: var(--text-secondary);">
+            本番の Exam.net（4 periods）に持ち込める A3 Planning Sheet を作成します。※AI生成防止のため<strong>箇条書き（•）形式</strong>を厳守してください。
+          </p>
+        </div>
+
+        <div class="planner-actions-group">
+          <button class="btn-action secondary" id="btnResetPlanner">
+            🔄 テンプレート初期化
+          </button>
+          <button class="btn-action secondary" id="btnCopyPlanner">
+            📋 全文コピー (Word/Teams用)
+          </button>
+          <button class="btn-action" id="btnPrintPlanner">
+            🖨️ A3印刷プレビュー
+          </button>
+        </div>
       </div>
-      <div class="question-card">
-        <h4 style="color: #f472b6; font-size: 1.1rem; margin-bottom: 0.5rem;">2. Biological Psychology (生物心理学・脳科学)</h4>
-        <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;">
-          脳の構造と各部位の機能（前頭葉、海馬、扁桃体など）、神経伝達物質（ドーパミン、セロトニン）と行動。
-        </p>
+
+      <div class="planner-grid">
+        
+        <!-- Left: Input Sections Accordion -->
+        <div class="planner-inputs-card">
+          
+          <div class="student-meta-inputs">
+            <div class="input-group">
+              <label>Student Name (氏名):</label>
+              <input type="text" class="text-input" id="inpStudentName" placeholder="Your Name">
+            </div>
+            <div class="input-group">
+              <label>Disorder Choice (選んだ障害):</label>
+              <input type="text" class="text-input" id="inpDisorder" value="Stress / Occupational Burnout">
+            </div>
+          </div>
+
+          <!-- Section 1: Introduction -->
+          <div class="planner-section-box" data-sec="intro">
+            <div class="sec-header">
+              <span class="sec-badge">1. INTRO</span>
+              <h3 class="sec-title">Introduction (2分野と理論の導入)</h3>
+              <span class="bullet-status" id="status_intro">✅ OK</span>
+            </div>
+            <textarea class="planner-textarea" id="text_intro" rows="4"></textarea>
+          </div>
+
+          <!-- Section 2: Clinical Psychology -->
+          <div class="planner-section-box" data-sec="clinical">
+            <div class="sec-header">
+              <span class="sec-badge" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8;">2. CLINICAL</span>
+              <h3 class="sec-title">Field 1: Clinical Psychology (臨床心理学)</h3>
+            </div>
+            
+            <div class="sub-sec-group">
+              <label class="sub-label">Describe the Field (分野の定義と役割):</label>
+              <textarea class="planner-textarea" id="text_clinical_desc" rows="3"></textarea>
+              
+              <label class="sub-label">Explain Theory & Practice (理論と実践応用):</label>
+              <textarea class="planner-textarea" id="text_clinical_explain" rows="4"></textarea>
+
+              <label class="sub-label">Support with Evidence (Johansson et al. 1978 研究エビデンス):</label>
+              <textarea class="planner-textarea" id="text_clinical_evidence" rows="4"></textarea>
+
+              <label class="sub-label">Evaluate Theory (強み・弱み・Te Whare Tapa Whā との比較):</label>
+              <textarea class="planner-textarea" id="text_clinical_eval" rows="5"></textarea>
+
+              <label class="sub-label" style="color: #fbbf24;">Looking Ahead / Future Evolution (Excellence 🌟 将来予測):</label>
+              <textarea class="planner-textarea" id="text_clinical_future" rows="4"></textarea>
+            </div>
+          </div>
+
+          <!-- Section 3: Social Psychology -->
+          <div class="planner-section-box" data-sec="social">
+            <div class="sec-header">
+              <span class="sec-badge" style="background: rgba(244, 63, 94, 0.2); color: #f43f5e;">3. SOCIAL</span>
+              <h3 class="sec-title">Field 2: Social Psychology (社会心理学 & 傍観者効果)</h3>
+            </div>
+            
+            <div class="sub-sec-group">
+              <label class="sub-label">Describe the Field (分野の定義と役割):</label>
+              <textarea class="planner-textarea" id="text_social_desc" rows="3"></textarea>
+              
+              <label class="sub-label">Explain Theory & Practice (Bystander Effect・責任の分散・実践):</label>
+              <textarea class="planner-textarea" id="text_social_explain" rows="4"></textarea>
+
+              <label class="sub-label">Support with Evidence (Darley & Latané 1968 研究エビデンス):</label>
+              <textarea class="planner-textarea" id="text_social_evidence" rows="4"></textarea>
+
+              <label class="sub-label">Evaluate Theory (Piliavin 1969 地下鉄実験との比較・コスト報酬モデル):</label>
+              <textarea class="planner-textarea" id="text_social_eval" rows="5"></textarea>
+
+              <label class="sub-label" style="color: #fbbf24;">Looking Ahead / Future Evolution (Excellence 🌟 デジタル傍観者効果と将来):</label>
+              <textarea class="planner-textarea" id="text_social_future" rows="4"></textarea>
+            </div>
+          </div>
+
+          <!-- Section 4: Conclusion -->
+          <div class="planner-section-box" data-sec="conclusion">
+            <div class="sec-header">
+              <span class="sec-badge">4. CONCLUSION</span>
+              <h3 class="sec-title">Conclusion (結論・2分野の総合)</h3>
+            </div>
+            <textarea class="planner-textarea" id="text_conclusion" rows="3"></textarea>
+          </div>
+
+          <!-- Section 5: References -->
+          <div class="planner-section-box" data-sec="references">
+            <div class="sec-header">
+              <span class="sec-badge">5. REFERENCES</span>
+              <h3 class="sec-title">Reference List (APA 7th 参考文献リスト)</h3>
+            </div>
+            <textarea class="planner-textarea" id="text_references" rows="4"></textarea>
+          </div>
+
+        </div>
+
+        <!-- Right: Live Sentence Starters & Guidance Card -->
+        <div class="planner-guidance-card">
+          <div class="card-title">
+            <span>💡 NCEA Excellence Tips & Starters</span>
+          </div>
+
+          <div class="guidance-box">
+            <h4 class="guide-topic-title">🔑 持ち込み用 A3 シート作成ルール</h4>
+            <ul class="guide-bullets">
+              <li><strong>完全な文章は不可</strong>：AI生成文章の持ち込みと疑われないよう、必ず「•（箇条書き）」で記述してください。</li>
+              <li><strong>フォント指定</strong>：Arial 12pt、行間 1.0 (Single line spacing)。</li>
+              <li><strong>重要数値は暗記せずメモ</strong>：Johanssonの「14人 vs 10人」「アドレナリン2倍」、Darleyの「85% (52s) ➔ 31% (166s)」をメモしておきましょう。</li>
+            </ul>
+          </div>
+
+          <div class="guidance-box" style="margin-top: 1rem;">
+            <h4 class="guide-topic-title" style="color: #fbbf24;">🌟 Excellence を獲得するための2大必須項目</h4>
+            <div class="tip-card">
+              <strong style="color: var(--accent-sky);">1. Evaluate（包括評価）:</strong><br>
+              単一の理論（仕事のコントロール感）を、マオリの多面的健康観 <strong>Te Whare Tapa Whā</strong> や <strong>Bio-Psycho-Social モデル</strong> と対比させ、なぜ単一理論だけでは不十分で総合アプローチが必要かを論述する。
+            </div>
+            <div class="tip-card" style="margin-top: 0.5rem;">
+              <strong style="color: #f43f5e;">2. Looking Ahead / Future Evolution（将来予測）:</strong><br>
+              「将来、生体センサー（ウェアラブル心拍/コルチゾール測定）と文化統合ケアが融合する」「SNS上のデジタル傍観者効果（Cyberbullying）に対処するAI通報システムが進化する」など、実践分野の未来を論理的に予測する。
+            </div>
+          </div>
+
+          <!-- Quick Sentence Starters Copy Box -->
+          <div class="guidance-box" style="margin-top: 1rem;">
+            <h4 class="guide-topic-title">✍️ 高得点センテンス・スターター (Click to Copy)</h4>
+            <div class="phrase-snippets-list" id="phraseSnippetsList">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+        </div>
+
       </div>
-      <div class="question-card">
-        <h4 style="color: #f472b6; font-size: 1.1rem; margin-bottom: 0.5rem;">3. Social Psychology (社会心理学)</h4>
-        <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;">
-          同調（Conformity）、服従実験（Milgram）、集団心理、態度の形成と変容。
-        </p>
+
+    </section>
+
+    <!-- ============================================================
+         TAB 2: BYSTANDER EFFECT SIMULATOR
+    ============================================================ -->
+    <section id="tab-bystander" class="tab-panel">
+      <div class="sim-layout">
+        
+        <!-- Left: Interactive Bystander Canvas -->
+        <div class="sim-canvas-card">
+          <div class="sim-toolbar">
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <span style="font-weight: 700; font-size: 0.9rem; color: #f8fafc;">Bystander Count:</span>
+              <span class="control-val" id="lblBystanderCount" style="font-size: 1rem; color: #38bdf8;">6 人 (People)</span>
+            </div>
+            
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <button class="btn-action secondary" id="btnToggleDirect">
+                📣 指名効果 (Direct Call): <strong id="lblDirectStatus">OFF</strong>
+              </button>
+              <button class="btn-action" id="btnStartEmergency">
+                🚨 緊急事態発生 (Trigger Emergency)
+              </button>
+            </div>
+          </div>
+
+          <div class="canvas-wrapper">
+            <canvas id="bystanderCanvas"></canvas>
+          </div>
+
+          <div class="sim-legend">
+            <div class="legend-item">
+              <span class="legend-dot" style="background: #ef4444;"></span>
+              <span><strong>Victim (要救助者)</strong>: てんかん発作 / 卒倒</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot" style="background: #64748b;"></span>
+              <span><strong>Passive Bystander</strong>: 責任の分散により静観</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot" style="background: #38bdf8;"></span>
+              <span><strong>Active Helper</strong>: 救助・通報に動いた人</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot" style="background: #fbbf24;"></span>
+              <span><strong>Designated Person (指名された人)</strong>: 「あなた電話して！」で責任100%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Bystander Controls & Theory Connections -->
+        <div class="sim-controls-card">
+          <div class="card-title">
+            <span>⚙️ Simulation Parameters</span>
+          </div>
+
+          <div class="control-group">
+            <div class="control-label-row">
+              <span>周囲の傍観者数 (Bystanders):</span>
+              <span class="control-val" id="sliderBystanderVal">6</span>
+            </div>
+            <input type="range" class="slider-input" id="sliderBystanders" min="1" max="20" step="1" value="6">
+          </div>
+
+          <!-- Live Theory Connection Box -->
+          <div class="theory-connection-box" id="bystanderTheoryBox" style="margin-top: 1.5rem;">
+            <!-- Dynamically populated -->
+          </div>
+
+          <div class="guide-phrase-item" style="margin-top: 1rem; border-left: 3px solid #fbbf24;">
+            <div class="phrase-en">💡 Real-world Practice Application (実践への応用):</div>
+            <div class="phrase-ja">
+              救急救命（CPR）やファーストエイド講習では、この社会心理学理論に基づき、<strong>「誰か救急車を呼んで！」と叫ぶのではなく、「青いシャツのあなた、111に電話して！」と1人を特定して指名する</strong> 手法が世界中で指導されています。
+            </div>
+          </div>
+
+        </div>
+
       </div>
-    </div>
+    </section>
+
+    <!-- ============================================================
+         TAB 3: EXCELLENCE RUBRIC & ESSAY GUIDE
+    ============================================================ -->
+    <section id="tab-rubric" class="tab-panel">
+      <div class="rubric-wrapper">
+        <div class="card-title" style="margin-bottom: 1rem;">
+          <span>🏆 NCEA AS 91847 Rubric Comparison & Model Answers</span>
+        </div>
+
+        <div id="rubricComparisonArea">
+          <!-- Rendered by rubricNavigator.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB 4: KEY RESEARCH STUDIES LIBRARY
+    ============================================================ -->
+    <section id="tab-studies" class="tab-panel">
+      <div class="studies-grid" id="studiesContainer">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB 5: TE WHARE TAPA WHĀ & CLINICAL MODELS
+    ============================================================ -->
+    <section id="tab-tapa-wha" class="tab-panel">
+      <div class="tapa-wha-card">
+        <div class="tapa-header">
+          <span class="tapa-icon">🏛️</span>
+          <div>
+            <h2 style="font-size: 1.35rem; font-weight: 800; color: #f8fafc;">Te Whare Tapa Whā Model (Sir Mason Durie, 1994)</h2>
+            <p style="font-size: 0.9rem; color: var(--text-secondary);">
+              ニュージーランド保健医療・臨床心理学で中心となるマオリのホリスティック健康概念（Hauora）
+            </p>
+          </div>
+        </div>
+
+        <p style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 1.5rem;">
+          伝統的な建物の4本の柱・壁（Whare）に例えられ、4つの側面のいずれか1つでも崩れると健康全体が損なわれます。
+          西洋的な「仕事のコントロール感（Johansson 1978）」のような単一要因理論に対し、<strong>多面的・総合的（Holistic）な評価を行うための最重要モデル</strong> です。
+        </p>
+
+        <div class="walls-grid">
+          <div class="wall-card">
+            <div class="wall-badge" style="background: #38bdf8;">Wall 1</div>
+            <h3 class="wall-title">Taha Tinana</h3>
+            <div class="wall-ja">身体的健康 (Physical Well-being)</div>
+            <p class="wall-desc">身体の機能、睡眠、栄養、身体活動、生体リズム（コルチゾール・血圧など）。</p>
+          </div>
+
+          <div class="wall-card">
+            <div class="wall-badge" style="background: #a855f7;">Wall 2</div>
+            <h3 class="wall-title">Taha Hinengaro</h3>
+            <div class="wall-ja">精神・感情の健康 (Mental & Emotional)</div>
+            <p class="wall-desc">思考パターン、感情の表現と処理、認知のコントロール感、ストレスへの対処力。</p>
+          </div>
+
+          <div class="wall-card">
+            <div class="wall-badge" style="background: #f59e0b;">Wall 3</div>
+            <h3 class="wall-title">Taha Wairua</h3>
+            <div class="wall-ja">霊性・自己同一性 (Spiritual Well-being)</div>
+            <p class="wall-desc">生きる目的、価値観、アイデンティティ、文化的ルーツや自然環境との深いつながり。</p>
+          </div>
+
+          <div class="wall-card">
+            <div class="wall-badge" style="background: #10b981;">Wall 4</div>
+            <h3 class="wall-title">Taha Whānau</h3>
+            <div class="wall-ja">家族・社会的健康 (Family & Social)</div>
+            <p class="wall-desc">家族や仲間との所属感、社会的サポートネットワーク、人間関係の支え合い。</p>
+          </div>
+        </div>
+
+        <div class="eval-application-box" style="margin-top: 2rem;">
+          <h4 style="color: #fbbf24; font-size: 1rem; margin-bottom: 0.5rem;">💡 Excellence 論述での活用法（How to use in your report）:</h4>
+          <p style="font-size: 0.88rem; color: #cbd5e1; line-height: 1.6;">
+            「Johansson et al. (1978) のコントロール理論は職場環境の改善（Taha Hinengaro）に有効だが、ストレスを単一の環境要因に還元してしまう限界がある。臨床心理士がクライアントを包括的に支援するには、Te Whare Tapa Whā のように身体（Taha Tinana）、精神（Taha Hinengaro）、霊性（Taha Wairua）、家族（Taha Whānau）の4側面すべてを統合した Bio-Psycho-Social-Cultural アプローチが不可欠である」と論述することで、MeritからExcellenceへと引き上げることができます。
+          </p>
+        </div>
+      </div>
+    </section>
+
   </main>
 
+  <!-- Footer -->
   <footer class="lab-footer">
-    NCEA Level 2 Multi-Subject Learning Lab • Psychology
+    NCEA Level 2 Psychology (AS 91847) Interactive Learning & Assessment Platform • Long Bay College
   </footer>
 
+  <!-- Scripts -->
+  <script src="js/psychologyData.js"></script>
+  <script src="js/bystanderSim.js"></script>
+  <script src="js/plannerEngine.js"></script>
+  <script src="js/rubricNavigator.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
