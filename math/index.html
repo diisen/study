@@ -3,97 +3,333 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mathematics Hub - NCEA Level 2 Learning Lab</title>
+  <title>NCEA Level 2 Maths - AS 91267 Inverse Normal & Probability Methods Lab</title>
+  <meta name="description" content="NCEA Level 2 Mathematics AS 91267 interactive learning platform, Walker Maths Page 38-40 Inverse Normal simulator, Z-Table highlighter, and 5-step problem solver.">
+
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Sans+JP:wght@400;600;700;900&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../physics/css/style.css">
-  <style>
-    .subject-hero {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 182, 212, 0.1));
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      border-radius: var(--radius-lg);
-      padding: 2.5rem;
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-    .subject-icon-large {
-      font-size: 3.5rem;
-      margin-bottom: 1rem;
-      display: inline-block;
-    }
-    .coming-soon-badge {
-      background: rgba(16, 185, 129, 0.2);
-      border: 1px solid #10b981;
-      color: #34d399;
-      font-weight: 700;
-      font-size: 0.85rem;
-      padding: 0.35rem 0.85rem;
-      border-radius: var(--radius-full);
-      display: inline-block;
-      margin-bottom: 1rem;
-    }
-    .topic-card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
+  <!-- Top Navigation Header -->
   <header class="lab-header">
     <div class="logo-group">
       <a href="../index.html" class="back-hub-btn" title="Back to Learning Hub">
         <span>←</span> Hub
       </a>
-      <span class="logo-badge" style="background: linear-gradient(135deg, #10b981, #06b6d4);">NCEA L2</span>
-      <h1 class="lab-title">Mathematics <span>Learning Lab</span></h1>
+      <span class="logo-badge">NCEA L2</span>
+      <h1 class="lab-title">Mathematics <span>Probability Methods Lab</span></h1>
     </div>
     <div class="header-meta">
-      <span class="badge-tag" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); color: #34d399;">数学・微積分・統計ラボ</span>
+      <span class="badge-tag">AS 91267 (2.12) • Walker Maths p.38–40</span>
+      <span class="badge-tag" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); color: #34d399;">Inverse Normal & Z-Table 完全マスター</span>
     </div>
   </header>
 
-  <main class="main-container">
-    <div class="subject-hero">
-      <div class="subject-icon-large">📐</div>
-      <span class="coming-soon-badge">READY FOR CONTENT</span>
-      <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Mathematics & Calculus (数学) 学習アプリ</h2>
-      <p style="color: var(--text-secondary); max-width: 650px; margin: 0 auto 1.5rem; line-height: 1.7;">
-        微積分（Calculus: 2.6 Differentiation / 2.7 Integration）、代数（2.1 Algebra）、確率・統計（2.12 Probability）のインタラクティブグラフシミュレータ＆過去問解説モジュールを準備中です！
-      </p>
-      <a href="../index.html" class="reveal-btn" style="background: var(--accent-indigo); color: white; border: none; text-decoration: none; padding: 0.6rem 1.25rem;">
-        ← 総合学習ハブに戻る
-      </a>
-    </div>
+  <!-- Navigation Tabs -->
+  <nav class="nav-tabs-wrapper">
+    <button class="nav-tab-btn active" data-tab="tab-bellcurve">
+      <span>📈</span> Bell Curve Simulator (正規分布・逆引きシミュレータ)
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-ztable">
+      <span>🔍</span> Walker Maths Z-Table Lookup (正規分布表の逆引き検索)
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-problems">
+      <span>✍️</span> 5-Step Word Problems (Page 39–40 実践文章題)
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-drill">
+      <span>⚡</span> Page 38 Speed Drill (10問のZ値ドリル & 採点)
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-guide">
+      <span>📖</span> 5-Step Formula Guide (公式と文脈英文解答法)
+    </button>
+  </nav>
 
-    <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary);">📚 予定されている学習トピック</h3>
-    <div class="topic-card-grid">
-      <div class="question-card">
-        <h4 style="color: #34d399; font-size: 1.1rem; margin-bottom: 0.5rem;">1. Calculus: Differentiation (微分 AS 91262)</h4>
-        <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;">
-          導関数、接線の傾き、極大・極小値（Turning points）、最適化問題、運動方程式（変位・速度・加速度）のグラフ可視化。
-        </p>
+  <!-- Main Content Container -->
+  <main class="main-container">
+
+    <!-- ============================================================
+         TAB 1: INTERACTIVE BELL CURVE SIMULATOR
+    ============================================================ -->
+    <section id="tab-bellcurve" class="tab-panel active">
+      <div class="sim-layout">
+        
+        <!-- Left: Interactive Canvas -->
+        <div class="sim-canvas-card">
+          <div class="sim-toolbar">
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <span style="font-weight: 700; font-size: 0.95rem; color: #f8fafc;">Upper Tail Area (上位確率):</span>
+              <span class="control-val" id="lblTailPercent" style="font-size: 1.1rem; color: #f43f5e;">20% (P = 0.20)</span>
+            </div>
+            
+            <div class="preset-btn-group">
+              <button class="btn-preset" data-mean="170" data-sd="15" data-prob="0.20" data-unit="cm">
+                🏃 Problem 1 (幅跳び Top 20%)
+              </button>
+              <button class="btn-preset" data-mean="120" data-sd="23" data-prob="0.25" data-unit="kg">
+                🍎 Problem 2 (リンゴ Q3 Top 25%)
+              </button>
+              <button class="btn-preset" data-mean="95" data-sd="15" data-prob="0.05" data-unit="marks">
+                🎵 Problem 3 (音楽 Distinction Top 5%)
+              </button>
+              <button class="btn-preset" data-mean="150" data-sd="55" data-prob="0.05" data-unit="g">
+                🥒 Problem 4 (マロウ Top 5%)
+              </button>
+            </div>
+          </div>
+
+          <div class="canvas-wrapper">
+            <canvas id="bellCurveCanvas"></canvas>
+          </div>
+
+          <div class="sim-legend">
+            <div class="legend-item">
+              <span class="legend-dot" style="background: #38bdf8;"></span>
+              <span><strong>Table Area P(0 < Z < z)</strong>: 正規分布表で引く中心からの確率 (0.5 − Tail)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot" style="background: #f43f5e;"></span>
+              <span><strong>Tail Probability P(x > w)</strong>: 問題文で与えられた上位パーセント</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot" style="background: #fbbf24;"></span>
+              <span><strong>Cutoff x & Z</strong>: 求める境界値 (x = μ + Z·σ)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Parameters & Realtime Step Calculation -->
+        <div class="sim-controls-card">
+          <div class="card-title">
+            <span>⚙️ Distribution Parameters</span>
+          </div>
+
+          <div class="control-group">
+            <div class="control-label-row">
+              <span>Mean (平均 μ):</span>
+              <span class="control-val" id="valMean">170</span>
+            </div>
+            <input type="range" class="slider-input" id="sliderMean" min="50" max="300" step="1" value="170">
+          </div>
+
+          <div class="control-group">
+            <div class="control-label-row">
+              <span>Standard Deviation (標準偏差 σ):</span>
+              <span class="control-val" id="valSd">15</span>
+            </div>
+            <input type="range" class="slider-input" id="sliderSd" min="1" max="100" step="1" value="15">
+          </div>
+
+          <div class="control-group">
+            <div class="control-label-row">
+              <span>Upper Tail Probability P(x > w):</span>
+              <span class="control-val" id="valTailProb">0.20 (20%)</span>
+            </div>
+            <input type="range" class="slider-input" id="sliderTailProb" min="0.01" max="0.49" step="0.01" value="0.20">
+          </div>
+
+          <!-- Realtime 5-Step Breakdown Box -->
+          <div class="step-breakdown-card" id="realtimeStepCard">
+            <!-- Dynamically populated by bellCurveSim callback -->
+          </div>
+
+        </div>
+
       </div>
-      <div class="question-card">
-        <h4 style="color: #34d399; font-size: 1.1rem; margin-bottom: 0.5rem;">2. Algebra (代数 AS 91261)</h4>
-        <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;">
-          二次方程式、判別式（Discriminant）、対数・指数法則（Logs & Exponents）、連立方程式。
-        </p>
+    </section>
+
+    <!-- ============================================================
+         TAB 2: WALKER MATHS Z-TABLE LOOKUP
+    ============================================================ -->
+    <section id="tab-ztable" class="tab-panel">
+      <div class="ztable-layout">
+        
+        <!-- Top: Interactive Search & Explanation Bar -->
+        <div class="ztable-search-bar">
+          <div class="search-input-group">
+            <label>🔍 調べたい確率 P(0 < Z < z) を入力:</label>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <input type="number" step="0.0001" min="0.0001" max="0.4999" class="text-input" id="inpLookupP" value="0.3991" style="max-width: 140px; font-family: var(--font-mono); font-size: 1.1rem; font-weight: bold;">
+              <button class="btn-action" id="btnRunLookup">
+                ⚡ Z値を逆引き (Lookup)
+              </button>
+            </div>
+          </div>
+
+          <div class="quick-examples-group">
+            <span style="font-size: 0.8rem; color: var(--text-secondary); font-weight: bold;">教科書例題:</span>
+            <button class="btn-preset-mini" data-p="0.2764">p.38 例1: P=0.2764 (Z=0.76)</button>
+            <button class="btn-preset-mini" data-p="0.3991">p.38 例2: P=0.3991 (Z=1.276)</button>
+            <button class="btn-preset-mini" data-p="0.3000">p.39 幅跳び: P=0.3000 (Z=0.841)</button>
+            <button class="btn-preset-mini" data-p="0.2500">p.40 リンゴ: P=0.2500 (Z=0.674)</button>
+            <button class="btn-preset-mini" data-p="0.4500">p.40 Distinction: P=0.4500 (Z=1.645)</button>
+          </div>
+        </div>
+
+        <!-- Step-by-step breakdown card -->
+        <div id="zTableExplanationArea" style="margin-bottom: 1.5rem;"></div>
+
+        <!-- Scrollable Table Card -->
+        <div class="ztable-card">
+          <div class="ztable-card-header">
+            <h3 style="font-size: 1.1rem; font-weight: 700; color: #f8fafc;">
+              📊 Walker Maths Official Normal Distribution Table
+            </h3>
+            <span style="font-size: 0.82rem; color: var(--text-secondary);">
+              P(0 < Z < z) represents probability between the mean (0) and z.
+            </span>
+          </div>
+          
+          <div class="table-scroll-wrapper" id="zTableContainer">
+            <!-- Rendered by zLookupEngine.js -->
+          </div>
+        </div>
+
       </div>
-      <div class="question-card">
-        <h4 style="color: #34d399; font-size: 1.1rem; margin-bottom: 0.5rem;">3. Probability & Statistics (確率・統計 AS 91267)</h4>
-        <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;">
-          正規分布（Normal distribution）、リスク・相対リスク計算、樹形図（Tree diagrams）、二項確率。
-        </p>
+    </section>
+
+    <!-- ============================================================
+         TAB 3: 5-STEP WORD PROBLEMS (PAGE 39-40)
+    ============================================================ -->
+    <section id="tab-problems" class="tab-panel">
+      
+      <div class="problems-top-selector" id="problemTabsSelector">
+        <!-- Dynamically rendered problem buttons -->
       </div>
-    </div>
+
+      <div class="problem-solve-card" id="problemActiveCard">
+        <!-- Rendered by app.js -->
+      </div>
+
+    </section>
+
+    <!-- ============================================================
+         TAB 4: PAGE 38 SPEED DRILL
+    ============================================================ -->
+    <section id="tab-drill" class="tab-panel">
+      <div class="drill-card">
+        <div class="drill-header">
+          <div>
+            <h2 style="font-size: 1.3rem; font-weight: 800; color: #f8fafc;">⚡ Page 38: Inverse Z-Value Speed Drill</h2>
+            <p style="font-size: 0.88rem; color: var(--text-secondary);">
+              確率 P(x) から Z 値を素早く正確に引く 10問ドリルです。すべての答えを入力して採点してみましょう！
+            </p>
+          </div>
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn-action secondary" id="btnFillDrillAnswers">
+              💡 模範解答を表示
+            </button>
+            <button class="btn-action" id="btnCheckDrill">
+              ✅ 採点する (Check All)
+            </button>
+          </div>
+        </div>
+
+        <div class="drill-grid" id="drillItemsContainer">
+          <!-- 10 drill items rendered dynamically -->
+        </div>
+
+        <div class="drill-score-banner" id="drillScoreBanner" style="display: none;">
+          <!-- Score result -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB 5: 5-STEP FORMULA & CONTEXT GUIDE
+    ============================================================ -->
+    <section id="tab-guide" class="tab-panel">
+      <div class="guide-card">
+        <div class="guide-header">
+          <span style="font-size: 2.5rem;">📐</span>
+          <div>
+            <h2 style="font-size: 1.35rem; font-weight: 800; color: #f8fafc;">
+              The 5-Step Method for Inverse Normal Calculations
+            </h2>
+            <p style="font-size: 0.9rem; color: var(--text-secondary);">
+              NCEA Level 2 Mathematics (AS 91267) で減点されないための完全解答手順
+            </p>
+          </div>
+        </div>
+
+        <div class="guide-steps-list">
+          
+          <div class="guide-step-item">
+            <div class="step-badge">Step 1</div>
+            <div class="step-content">
+              <h3 class="step-heading">Draw the picture (正規分布曲線を描く)</h3>
+              <p class="step-text">
+                正規分布曲線（ベルカーブ）を描き、中央に平均 $\mu$、求めたい境界値 $x$（または $w$）をマークします。
+                問題文で与えられた確率（例: Top 20% = 0.2）を塗り、表で引くための<strong>「平均から境界値までの面積」</strong>（$0.5 - 0.2 = 0.3000$）を求めます。
+              </p>
+            </div>
+          </div>
+
+          <div class="guide-step-item">
+            <div class="step-badge">Step 2</div>
+            <div class="step-content">
+              <h3 class="step-heading">Use the probability to look up the Z value (Z値を表から逆引きする)</h3>
+              <p class="step-text">
+                Step 1 で求めた面積（例: 0.3000）を Walker Maths の正規分布表で探します。
+                ベース列で一番近い値（0.2996 ➔ $Z=0.84$）を見つけ、残りの差分（$+4$）を Differences 列で探して 3桁目を決定します（列 1 ➔ $Z = 0.841$）。
+              </p>
+            </div>
+          </div>
+
+          <div class="guide-step-item">
+            <div class="step-badge">Step 3</div>
+            <div class="step-content">
+              <h3 class="step-heading">Use the Z value to calculate the value of x (公式で実測値を計算)</h3>
+              <p class="step-text">
+                標準化公式 $Z = \frac{x - \mu}{\sigma}$ を変形した <strong>$x = \mu + Z\sigma$</strong> に代入して計算します。<br>
+                例: $w = 3.3 + (0.841 \times 0.4) = 3.3 + 0.3364 = 3.6364\text{ kg}$
+              </p>
+            </div>
+          </div>
+
+          <div class="guide-step-item">
+            <div class="step-badge">Step 4</div>
+            <div class="step-content">
+              <h3 class="step-heading">Write your answer as a sentence and in context (文脈に沿った英語の完全な文章で回答)</h3>
+              <p class="step-text">
+                単に数値だけを書くのではなく、<strong>単位（kg, cm, marks）</strong> と <strong>問題文の主語</strong> を含めた英語の完全な文を書きます。<br>
+                例: <em>"Twenty per cent of backpacks weigh more than 3.6364 kg."</em> または <em>"The minimum distance jumped to earn a bonus point is 182.6 cm."</em>
+              </p>
+            </div>
+          </div>
+
+          <div class="guide-step-item">
+            <div class="step-badge">Step 5</div>
+            <div class="step-content">
+              <h3 class="step-heading">Does my answer make sense? (答えの妥当性を確認する)</h3>
+              <p class="step-text">
+                計算結果が平均 $\mu$ より大きいか（$Z > 0$ の場合）、極端におかしな値になっていないかをチェックします。<br>
+                例: <em>"Yes, because 3.6364 is above the mean of 3.3 kg."</em>
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
   </main>
 
+  <!-- Footer -->
   <footer class="lab-footer">
-    NCEA Level 2 Multi-Subject Learning Lab • Mathematics
+    NCEA Level 2 Mathematics (AS 91267) • Walker Maths Page 38–40 Probability Methods Interactive Lab
   </footer>
 
+  <!-- Scripts -->
+  <script src="js/zTableData.js"></script>
+  <script src="js/problemsData.js"></script>
+  <script src="js/bellCurveSim.js"></script>
+  <script src="js/zLookupEngine.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
