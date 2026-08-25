@@ -9,12 +9,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const formulaEngine = new FormulaEngine();
   const lorentzEngine = new LorentzEngine('lorentzCanvas');
   const lorentzQuiz = new LorentzQuizManager();
+  const arcadeEngine = new PhysicsArcadeEngine('physicsArcadeContainer');
 
   // Expose to window for inline onclick handlers & debugging
   window.circuitEngine = circuitEngine;
   window.formulaEngine = formulaEngine;
   window.lorentzEngine = lorentzEngine;
   window.lorentzQuiz = lorentzQuiz;
+  window.arcadeEngine = arcadeEngine;
 
   // 2. Navigation Tab Control
   const tabBtns = document.querySelectorAll('.nav-tab-btn');
@@ -1064,4 +1066,115 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initial render
   renderFormulaUI();
+
+  // ----------------------------------------------------
+  // 2022 FORMATIVE EXAM (AS 91173) RENDERER & CONTROLLER
+  // ----------------------------------------------------
+  let activeExamQuestionIdx = 0;
+  const examData = window.EXAM_2022_DATA;
+  const examTabsContainer = document.getElementById('examQuestionTabs');
+  const examActiveCard = document.getElementById('examActiveQuestionCard');
+
+  function renderExamTabs() {
+    if (!examTabsContainer || !examData) return;
+    examTabsContainer.innerHTML = examData.questions.map((q, idx) => `
+      <button class="exam-tab-btn ${idx === activeExamQuestionIdx ? 'active' : ''}" data-idx="${idx}">
+        ${q.number}: ${q.title.split(' ')[0]}
+      </button>
+    `).join('');
+
+    examTabsContainer.querySelectorAll('.exam-tab-btn').forEach(btn => {
+      btn.onclick = () => {
+        activeExamQuestionIdx = parseInt(btn.getAttribute('data-idx'));
+        renderExamTabs();
+        renderActiveExamQuestion();
+      };
+    });
+  }
+
+  function renderActiveExamQuestion() {
+    if (!examActiveCard || !examData) return;
+    const q = examData.questions[activeExamQuestionIdx];
+
+    examActiveCard.innerHTML = `
+      <div style="margin-bottom: 1.5rem;">
+        <h3 style="font-size: 1.25rem; font-weight: 800; color: #f8fafc;">
+          ${q.number} – ${q.title}
+        </h3>
+      </div>
+
+      <div class="exam-parts-list">
+        ${q.parts.map(p => `
+          <div class="exam-part-card" id="partCard_${p.id}">
+            <div class="exam-part-header">
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <span class="q-num-badge">${p.part}</span>
+                <span style="font-weight: 800; font-size: 1rem; color: #f8fafc;">Part (${p.part})</span>
+              </div>
+              <span class="badge-tag" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border-color: rgba(56, 189, 248, 0.3);">
+                Target: ${p.level}
+              </span>
+            </div>
+
+            <!-- Question Text -->
+            <div class="q-text-en" style="margin-bottom: 0.5rem;">${p.questionEn}</div>
+            <div class="q-text-ja" style="margin-bottom: 1rem;"><strong>日本語訳:</strong> ${p.questionJa}</div>
+
+            <!-- Diagram if present -->
+            ${p.diagram ? `
+              <div class="exam-diagram-box">
+                <img src="../${p.diagram}" alt="Exam Diagram Part ${p.part}" class="exam-diagram-img" onerror="this.src='${p.diagram}'">
+              </div>
+            ` : ''}
+
+            <!-- Action Buttons (Toggle Hint & Solution) -->
+            <div style="display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap;">
+              <button class="btn-action secondary" onclick="toggleExamElement('hint_${p.id}')">
+                💡 ヒントを表示
+              </button>
+              <button class="btn-action" onclick="toggleExamElement('sol_${p.id}')">
+                📖 模範解答＆解説を表示
+              </button>
+            </div>
+
+            <!-- Hint Box -->
+            <div id="hint_${p.id}" style="display: none; background: #0c1524; border-left: 3px solid #fbbf24; padding: 0.75rem 1rem; border-radius: 4px; margin-top: 0.75rem; font-size: 0.88rem; color: #cbd5e1;">
+              💡 <strong>Hint:</strong> ${p.hintJa}
+            </div>
+
+            <!-- Solution Box -->
+            <div id="sol_${p.id}" class="exam-solution-box" style="display: none;">
+              <div style="font-size: 0.82rem; font-weight: 800; color: #38bdf8; text-transform: uppercase; margin-bottom: 0.35rem;">
+                📐 Formula & Working (計算過程)
+              </div>
+              <div class="formula-display">$$\\text{Formula: } ${p.formula}$$</div>
+              <div class="working-display">${p.working}</div>
+
+              <div style="border-top: 1px solid rgba(255, 255, 255, 0.08); margin-top: 1rem; padding-top: 0.75rem;">
+                <div style="font-weight: 700; color: #34d399; font-size: 0.92rem; margin-bottom: 0.25rem;">
+                  English Model Answer (NCEA Excellence):
+                </div>
+                <div style="font-size: 0.9rem; color: #f8fafc; line-height: 1.5; white-space: pre-line;">${p.answerEn}</div>
+
+                <div style="font-weight: 700; color: var(--accent-gold); font-size: 0.92rem; margin-top: 0.75rem; margin-bottom: 0.25rem;">
+                  日本語解説:
+                </div>
+                <div style="font-size: 0.88rem; color: #cbd5e1; line-height: 1.5; white-space: pre-line;">${p.answerJa}</div>
+              </div>
+            </div>
+
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  window.toggleExamElement = function(elemId) {
+    const el = document.getElementById(elemId);
+    if (!el) return;
+    el.style.display = el.style.display === 'none' ? 'block' : 'none';
+  };
+
+  renderExamTabs();
+  renderActiveExamQuestion();
 });

@@ -32,7 +32,13 @@
 
   <!-- Navigation Tabs -->
   <nav class="nav-tabs-wrapper">
-    <button class="nav-tab-btn active" data-tab="tab-lorentz">
+    <button class="nav-tab-btn active" data-tab="tab-arcade">
+      <span>🎮</span> Physics Arcade (ランダム出題＆サバイバルゲーム)
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-exam">
+      <span>🎯</span> 2022 Formative Exam (実戦模試・完全解説)
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-lorentz">
       <span>🧲</span> Lorentz Force (ローレンツ力・荷電粒子)
     </button>
     <button class="nav-tab-btn" data-tab="tab-simulator">
@@ -40,9 +46,6 @@
     </button>
     <button class="nav-tab-btn" data-tab="tab-scipad">
       <span>📖</span> SciPad Workbook (教科書演習 p.266-269 & p.318)
-    </button>
-    <button class="nav-tab-btn" data-tab="tab-quiz">
-      <span>🎯</span> Training Quiz (右手の法則・電荷判定＆ゲーム)
     </button>
     <button class="nav-tab-btn" data-tab="tab-formulas">
       <span>📐</span> Magic Triangle (公式ピラミッド＆計算機)
@@ -56,9 +59,44 @@
   <main class="main-container">
 
     <!-- ============================================================
+         TAB: PHYSICS ARCADE (RANDOM SURVIVAL & BLITZ QUIZ ARENA)
+    ============================================================ -->
+    <section id="tab-arcade" class="tab-panel active">
+      <div id="physicsArcadeContainer">
+        <!-- Rendered by arcadeGameEngine.js -->
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB: 2022 FORMATIVE EXAM (AS 91173 FULL INTERACTIVE SOLUTIONS)
+    ============================================================ -->
+    <section id="tab-exam" class="tab-panel">
+      <div class="exam-header-banner">
+        <div>
+          <span class="badge-tag" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border-color: rgba(245, 158, 11, 0.3);">
+            NCEA Level 2 Physics • AS 91173 (2.6) Formative Exam
+          </span>
+          <h2 style="font-size: 1.4rem; font-weight: 800; color: #f8fafc; margin-top: 0.35rem;">
+            2022 Formative Exam 完全攻略 ＆ ステップ解説
+          </h2>
+          <p style="font-size: 0.88rem; color: var(--text-secondary);">
+            実際の校内模試（60分・6 Credits）の全問を完全収録！回路、ミリカンの油滴実験、A380・ローレンツ力を日英バイリンガルで学習できます。
+          </p>
+        </div>
+        <div class="exam-selector-tabs" id="examQuestionTabs">
+          <!-- Question tabs Q1, Q2, Q3 rendered by app.js -->
+        </div>
+      </div>
+
+      <div class="exam-content-card" id="examActiveQuestionCard">
+        <!-- Rendered by app.js -->
+      </div>
+    </section>
+
+    <!-- ============================================================
          TAB 1: LORENTZ FORCE SIMULATOR & PARTICLE CHAMBER
     ============================================================ -->
-    <section id="tab-lorentz" class="tab-panel active">
+    <section id="tab-lorentz" class="tab-panel">
       <div class="sim-layout">
         
         <!-- Left: Lorentz Interactive Canvas & Toolbar -->
@@ -517,9 +555,11 @@
 
   <!-- Scripts -->
   <script src="js/scipadData.js"></script>
+  <script src="js/exam2022Data.js"></script>
   <script src="js/circuitEngine.js"></script>
   <script src="js/lorentzEngine.js"></script>
   <script src="js/lorentzQuiz.js"></script>
+  <script src="js/arcadeGameEngine.js"></script>
   <script src="js/formulaEngine.js"></script>
   <script src="js/app.js"></script>
 </body>
