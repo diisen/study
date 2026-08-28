@@ -1123,7 +1123,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <!-- Diagram if present -->
             ${p.diagram ? `
               <div class="exam-diagram-box">
-                <img src="../${p.diagram}" alt="Exam Diagram Part ${p.part}" class="exam-diagram-img" onerror="this.src='${p.diagram}'">
+                <img src="../${p.diagram}" alt="Exam Diagram Part ${p.part}" class="exam-diagram-img" onerror="handleExamDiagramError(this)">
               </div>
             ` : ''}
 
@@ -1173,6 +1173,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const el = document.getElementById(elemId);
     if (!el) return;
     el.style.display = el.style.display === 'none' ? 'block' : 'none';
+  };
+
+  // assets/ is gitignored (textbook scans, local-only), so on the public site these
+  // diagrams always 404. Never reassign img.src on failure — the old inline fallback
+  // retried forever and tripped GitHub Pages' per-IP rate limit.
+  window.handleExamDiagramError = function(img) {
+    img.onerror = null;
+    const box = img.closest('.exam-diagram-box');
+    if (!box) { img.remove(); return; }
+    box.innerHTML = `
+      <div class="exam-diagram-missing">
+        📷 この図は教科書画像のため、公開サイトには含まれていません（ローカルの assets/ フォルダのみ）<br>
+        <span>Diagram is available in the local materials folder only.</span>
+      </div>
+    `;
   };
 
   renderExamTabs();
