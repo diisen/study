@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NCEA L2 Maths - Distribution Dojo 分布道場 | 正規分布・平均・中央値を体で覚える</title>
+  <meta name="description" content="NCEA Level 2 Mathematics AS 91267 - Feel the normal distribution: drag sandbox for mean vs median, reaction-time distribution builder, Galton board, and Z-area arcade.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/feel-lab.css">
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="lab-header">
+    <div class="logo-group">
+      <a href="../index.html" class="back-hub-btn" title="Back to Learning Hub">
+        <span>←</span> Hub
+      </a>
+      <a href="index.html" class="back-hub-btn" title="Back to Probability Methods Lab">
+        <span>📐</span> Z-Table Lab
+      </a>
+      <span class="logo-badge">NCEA L2</span>
+      <h1 class="lab-title">Distribution Dojo <span>分布道場 — 体で覚える統計</span></h1>
+    </div>
+    <div class="header-meta">
+      <span class="badge-tag">AS 91267 (2.12) • Statistics Intuition Trainer</span>
+      <span class="badge-tag" style="background: rgba(168, 85, 247, 0.1); border-color: rgba(168, 85, 247, 0.3); color: #c084fc;">正規分布・平均・中央値の直感マスター</span>
+    </div>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <nav class="nav-tabs-wrapper">
+    <button class="nav-tab-btn active" data-tab="tab-sandbox">
+      <span>🖐</span> Drag Sandbox (平均・中央値ドラッグ砂場)
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-quiz">
+      <span>🎯</span> Where's the Mean? (平均はどこ？クイズ)
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-reaction">
+      <span>⚡</span> My Normal Distribution (反応時間で作るMY正規分布)
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-galton">
+      <span>🎰</span> Galton Board (ガルトンボード)
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-zgame">
+      <span>🕹</span> Z-Area Arcade (Zエリア早押し)
+    </button>
+  </nav>
+
+  <!-- Main Content Container -->
+  <main class="main-container">
+
+    <!-- ============================================================
+         TAB 1: MEAN & MEDIAN DRAG SANDBOX
+    ============================================================ -->
+    <section id="tab-sandbox" class="tab-panel active">
+      <div class="sim-layout">
+
+        <!-- Left: Draggable Dot Plot Canvas -->
+        <div class="sim-canvas-card">
+          <div class="sim-toolbar">
+            <div class="feel-toolbar-title">
+              <span style="font-weight: 700; font-size: 0.95rem; color: #f8fafc;">🖐 点をつかんで左右にドラッグ！</span>
+              <span style="font-size: 0.8rem; color: var(--text-secondary);">平均(青)は指を追いかけ、中央値(金)は動じない</span>
+            </div>
+            <div class="preset-btn-group">
+              <button class="btn-preset sb-preset" data-preset="normal">🔔 正規っぽい山</button>
+              <button class="btn-preset sb-preset" data-preset="uniform">▬ ほぼ一様</button>
+              <button class="btn-preset sb-preset" data-preset="outliers">☄️ 外れ値あり</button>
+              <button class="btn-preset sb-preset" data-preset="skewR">🦎 右に歪み</button>
+              <button class="btn-preset sb-preset" data-preset="bimodal">🐫 ふた山</button>
+            </div>
+          </div>
+
+          <div class="canvas-wrapper">
+            <canvas id="sbCanvas"></canvas>
+          </div>
+
+          <div class="feel-canvas-footer">
+            <div class="sim-legend" style="margin-top: 0.75rem; border-top: none; padding-top: 0;">
+              <div class="legend-item"><span class="legend-dot" style="background: #38bdf8;"></span><span><strong>平均 μ</strong> (実線): 全データの合計 ÷ 個数。天秤の支点</span></div>
+              <div class="legend-item"><span class="legend-dot" style="background: #fbbf24;"></span><span><strong>中央値 Median</strong> (破線): 枚数でちょうど真ん中の点</span></div>
+              <div class="legend-item"><span class="legend-dot" style="background: rgba(56,189,248,0.4);"></span><span><strong>±1σ / ±2σ 帯</strong>: 68% / 95% ルールの領域</span></div>
+            </div>
+            <div class="feel-footer-btns">
+              <button class="btn-action secondary" id="sbAddBtn">＋ 点を追加</button>
+              <button class="btn-action secondary" id="sbRemoveBtn">− 点を削除</button>
+              <button class="btn-action" id="sbSeesawBtn">⚖️ 天秤ビューに切替</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Live Stats & Challenges -->
+        <div class="sim-controls-card">
+          <div class="card-title"><span>📊 Live Statistics (リアルタイム統計量)</span></div>
+
+          <div class="feel-metric-grid">
+            <div class="feel-metric" style="--metric-accent: #38bdf8;">
+              <span class="feel-metric-label">平均 μ</span>
+              <span class="feel-metric-val" id="sbStatMean">–</span>
+            </div>
+            <div class="feel-metric" style="--metric-accent: #fbbf24;">
+              <span class="feel-metric-label">中央値 Med</span>
+              <span class="feel-metric-val" id="sbStatMedian">–</span>
+            </div>
+            <div class="feel-metric" style="--metric-accent: #a855f7;">
+              <span class="feel-metric-label">標準偏差 σ</span>
+              <span class="feel-metric-val" id="sbStatSd">–</span>
+            </div>
+            <div class="feel-metric" style="--metric-accent: #f43f5e;">
+              <span class="feel-metric-label">|μ − Med| 差</span>
+              <span class="feel-metric-val" id="sbStatGap">–</span>
+            </div>
+          </div>
+
+          <div class="band-check-box">
+            <div class="band-bar-row">
+              <span class="band-bar-name">±1σ 内の点</span>
+              <div class="band-bar"><div class="band-bar-fill" id="sbBar1"></div><div class="band-bar-theory" style="left: 68%;" title="理論値 68%"></div></div>
+              <span class="band-bar-label" id="sbBar1Label">–</span>
+            </div>
+            <div class="band-bar-row">
+              <span class="band-bar-name">±2σ 内の点</span>
+              <div class="band-bar"><div class="band-bar-fill" id="sbBar2"></div><div class="band-bar-theory" style="left: 95%;" title="理論値 95%"></div></div>
+              <span class="band-bar-label" id="sbBar2Label">–</span>
+            </div>
+            <p class="band-check-note">▍縦線 = 正規分布の理論値 (68% / 95%)。データが正規分布に近いほどバーが縦線に揃う！</p>
+          </div>
+
+          <div class="feel-z-readout" id="sbZReadout">
+            👆 点をつかむと、その点の <strong>z 値</strong> がここに表示されます
+          </div>
+
+          <div class="card-title" style="margin-top: 1.25rem;"><span>🏆 Challenges (チャレンジ課題)</span></div>
+          <div id="sbChallenges"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB 2: WHERE'S THE MEAN? QUIZ
+    ============================================================ -->
+    <section id="tab-quiz" class="tab-panel">
+      <div class="sim-layout">
+
+        <!-- Left: Histogram Quiz Canvas -->
+        <div class="sim-canvas-card">
+          <div class="qz-prompt-banner" id="qzPrompt">
+            🎯 ヒストグラムを見て、<strong style="color:#38bdf8;">平均 μ</strong> があると思う場所をタップ！
+          </div>
+          <div class="canvas-wrapper">
+            <canvas id="qzCanvas"></canvas>
+          </div>
+          <div class="feel-canvas-footer">
+            <div class="sim-legend" style="margin-top: 0.75rem; border-top: none; padding-top: 0;">
+              <div class="legend-item"><span class="legend-dot" style="background: #38bdf8;"></span><span>あなたの<strong>平均</strong>予想 → 正解の μ</span></div>
+              <div class="legend-item"><span class="legend-dot" style="background: #fbbf24;"></span><span>あなたの<strong>中央値</strong>予想 → 正解の Median</span></div>
+            </div>
+            <div class="feel-footer-btns">
+              <button class="btn-action" id="qzNextBtn" style="display: none;">▶ 次の問題へ</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Score & Round Log -->
+        <div class="sim-controls-card">
+          <div class="card-title"><span>🎯 Round Progress (スコア)</span></div>
+
+          <div class="feel-metric-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="feel-metric" style="--metric-accent: #38bdf8;">
+              <span class="feel-metric-label">Round</span>
+              <span class="feel-metric-val" id="qzRound">1 / 8</span>
+            </div>
+            <div class="feel-metric" style="--metric-accent: #34d399;">
+              <span class="feel-metric-label">Total Score</span>
+              <span class="feel-metric-val" id="qzScore">0</span>
+            </div>
+          </div>
+
+          <div id="qzResultCard"></div>
+
+          <div class="card-title" style="margin-top: 1rem;"><span>📜 Round Log (履歴)</span></div>
+          <div class="qz-log" id="qzLog">
+            <p class="qz-log-empty">まだ回答がありません。左のヒストグラムをタップして予想しよう！</p>
+          </div>
+
+          <div class="feel-note-card" style="margin-top: 1.25rem;">
+            💡 <strong>コツ:</strong> 中央値は「面積（枚数）を左右半分に割る線」。平均は「尻尾（歪み・外れ値）の方向に引っ張られる」。歪んだ分布ほど2つはズレる！
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB 3: REACTION TIME - MY NORMAL DISTRIBUTION
+    ============================================================ -->
+    <section id="tab-reaction" class="tab-panel">
+      <div class="sim-layout">
+
+        <!-- Left: Reaction Stage -->
+        <div class="sim-canvas-card">
+          <div class="rt-stage idle" id="rtStage">
+            <div class="rt-stage-text" id="rtStageText">⚡ タップしてスタート</div>
+            <div class="rt-stage-sub" id="rtStageSub">緑に変わった瞬間タップ！ あなたの反応時間が正規分布を作る (目標20回)</div>
+          </div>
+          <div class="feel-footer-btns" style="margin-top: 0.75rem; justify-content: space-between;">
+            <span style="font-size: 0.82rem; color: var(--text-secondary);">⌨️ スペースキーでもOK / フライングは無効</span>
+            <button class="btn-action secondary" id="rtResetBtn">🔄 データをリセット</button>
+          </div>
+        </div>
+
+        <!-- Right: Your Distribution -->
+        <div class="sim-controls-card">
+          <div class="card-title"><span>📈 Your Distribution (あなたの分布)</span></div>
+          <div class="canvas-wrapper" style="margin-bottom: 1rem;">
+            <canvas id="rtCanvas"></canvas>
+          </div>
+
+          <div class="feel-metric-grid" style="grid-template-columns: repeat(4, 1fr);">
+            <div class="feel-metric"><span class="feel-metric-label">回数 n</span><span class="feel-metric-val" id="rtN">0</span></div>
+            <div class="feel-metric" style="--metric-accent: #38bdf8;"><span class="feel-metric-label">平均 μ</span><span class="feel-metric-val" id="rtMean">–</span></div>
+            <div class="feel-metric" style="--metric-accent: #fbbf24;"><span class="feel-metric-label">中央値</span><span class="feel-metric-val" id="rtMed">–</span></div>
+            <div class="feel-metric" style="--metric-accent: #a855f7;"><span class="feel-metric-label">σ</span><span class="feel-metric-val" id="rtSd">–</span></div>
+          </div>
+
+          <div class="feel-metric-grid" style="grid-template-columns: repeat(3, 1fr); margin-top: 0.5rem;">
+            <div class="feel-metric"><span class="feel-metric-label">±1σ内 (理論68%)</span><span class="feel-metric-val" id="rtW1">–</span></div>
+            <div class="feel-metric" style="--metric-accent: #34d399;"><span class="feel-metric-label">最速タップ z</span><span class="feel-metric-val" id="rtFast">–</span></div>
+            <div class="feel-metric" style="--metric-accent: #f43f5e;"><span class="feel-metric-label">最遅タップ z</span><span class="feel-metric-val" id="rtSlow">–</span></div>
+          </div>
+
+          <div class="feel-note-card" id="rtInsight" style="margin-top: 1rem;">
+            🧬 まずは10回。あなたの筋肉と神経の「ゆらぎ」が、ちゃんとベルカーブを描き始めます…
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB 4: GALTON BOARD
+    ============================================================ -->
+    <section id="tab-galton" class="tab-panel">
+      <div class="sim-layout">
+
+        <!-- Left: Board Canvas -->
+        <div class="sim-canvas-card">
+          <div class="sim-toolbar">
+            <div class="feel-toolbar-title">
+              <span style="font-weight: 700; font-size: 0.95rem; color: #f8fafc;">🎰 玉を落とすと…なぜかベルカーブが現れる</span>
+              <span style="font-size: 0.8rem; color: var(--text-secondary);">12段の釘で左右にランダムに弾かれた「小さな偶然の合計」= 正規分布の正体</span>
+            </div>
+            <div class="preset-btn-group">
+              <button class="btn-preset" id="glDrop1">⚪ ×1</button>
+              <button class="btn-preset" id="glDrop50">🌧 ×50</button>
+              <button class="btn-preset" id="glAuto">▶ 自動 ON</button>
+              <button class="btn-preset" id="glReset">🗑 リセット</button>
+              <button class="btn-preset" id="glCurve">📈 理論カーブ ON/OFF</button>
+            </div>
+          </div>
+          <div class="canvas-wrapper">
+            <canvas id="glCanvas"></canvas>
+          </div>
+        </div>
+
+        <!-- Right: Controls & Stats -->
+        <div class="sim-controls-card">
+          <div class="card-title"><span>⚙️ Board Controls (盤面コントロール)</span></div>
+
+          <div class="control-group">
+            <div class="control-label-row">
+              <span>板の傾き (右へ弾かれる確率 p):</span>
+              <span class="control-val" id="glBiasVal">0.50 (まっすぐ)</span>
+            </div>
+            <input type="range" class="slider-input" id="glBias" min="0.2" max="0.8" step="0.01" value="0.5">
+          </div>
+
+          <div class="control-group">
+            <div class="control-label-row">
+              <span>落下スピード:</span>
+              <span class="control-val" id="glSpeedVal">×1.0</span>
+            </div>
+            <input type="range" class="slider-input" id="glSpeed" min="0.5" max="3" step="0.1" value="1">
+          </div>
+
+          <div class="feel-metric-grid" style="grid-template-columns: repeat(4, 1fr);">
+            <div class="feel-metric"><span class="feel-metric-label">落ちた玉 n</span><span class="feel-metric-val" id="glN">0</span></div>
+            <div class="feel-metric" style="--metric-accent: #38bdf8;"><span class="feel-metric-label">平均 μ</span><span class="feel-metric-val" id="glMean">–</span></div>
+            <div class="feel-metric" style="--metric-accent: #fbbf24;"><span class="feel-metric-label">中央値</span><span class="feel-metric-val" id="glMed">–</span></div>
+            <div class="feel-metric" style="--metric-accent: #a855f7;"><span class="feel-metric-label">σ (列)</span><span class="feel-metric-val" id="glSd">–</span></div>
+          </div>
+
+          <div class="feel-note-card" id="glNote" style="margin-top: 1rem;">
+            ⚖️ p = 0.50: 左右均等。玉が増えるほど、左右対称の美しいベルカーブに近づきます（中心極限定理の入口）。
+          </div>
+
+          <div class="feel-note-card" style="margin-top: 0.75rem;">
+            🧪 <strong>実験:</strong> ①まず p=0.5 で500個 → 対称な山。②次に p=0.65 に傾けてリセット＆500個 → 山が歪み、<span style="color:#38bdf8;">平均(青)</span>と<span style="color:#fbbf24;">中央値(金)</span>がズレるのを目撃せよ！
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB 5: Z-AREA ARCADE
+    ============================================================ -->
+    <section id="tab-zgame" class="tab-panel">
+      <div class="sim-layout">
+
+        <!-- Left: Game Canvas -->
+        <div class="sim-canvas-card">
+          <div class="zg-hud">
+            <div class="zg-hud-item">Round <span id="zgRound">–</span></div>
+            <div class="zg-hud-item" style="color: #34d399;">Score <span id="zgScore">0</span></div>
+            <div class="zg-hud-item" style="color: #fbbf24;">🔥 Streak <span id="zgStreak">0</span></div>
+            <div class="zg-hud-item" style="color: #a855f7;">👑 Best <span id="zgBest">0</span></div>
+          </div>
+          <div class="zg-timer"><div class="zg-timer-fill" id="zgTimerFill"></div></div>
+          <div class="canvas-wrapper" style="margin-top: 0.6rem;">
+            <canvas id="zgCanvas"></canvas>
+          </div>
+          <div class="zg-prompt" id="zgPrompt">🕹 スタートを押して開始！ 標準正規分布の「面積の感覚」を反射神経に刻め</div>
+        </div>
+
+        <!-- Right: Answer Controls -->
+        <div class="sim-controls-card">
+          <div class="card-title"><span>🎮 Answer Zone (回答ゾーン)</span></div>
+          <div id="zgChoices" class="zg-choices"></div>
+          <div class="zg-feedback" id="zgFeedback" style="display: none;"></div>
+          <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button class="btn-action" id="zgStartBtn">🚀 ゲームスタート (10 Rounds)</button>
+          </div>
+
+          <div class="feel-note-card" style="margin-top: 1.25rem;">
+            📚 <strong>2つの出題モード:</strong><br>
+            👁 <strong>READ</strong> — 塗られた面積は何%？ 4択で即答！<br>
+            🖐 <strong>PLACE</strong> — 「上位10%の境界」に z カーソルをドラッグで置け！ 動かすと面積%がリアルタイムに変わるのを感じて。
+          </div>
+          <div class="feel-note-card" style="margin-top: 0.75rem;">
+            ⭐ <strong>頻出 z 値:</strong> Top 10% → 1.282 / Top 5% → 1.645 / Top 2.5% → 1.960 / 中央68% → ±1 / 中央95% → ±1.96
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="lab-footer">
+    NCEA Level 2 Mathematics (AS 91267) • Distribution Dojo 分布道場 — Feel the Normal Distribution, Mean & Median
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/feelCore.js"></script>
+  <script src="js/feelSandbox.js"></script>
+  <script src="js/feelQuiz.js"></script>
+  <script src="js/feelReaction.js"></script>
+  <script src="js/feelGalton.js"></script>
+  <script src="js/feelZArcade.js"></script>
+  <script src="js/feelApp.js"></script>
+</body>
+</html>
