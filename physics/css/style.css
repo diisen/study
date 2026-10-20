@@ -58,7 +58,7 @@ body {
   background: rgba(15, 23, 42, 0.85);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border-color);
-  padding: 1rem 2rem;
+  padding: 1rem var(--pad-lg);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -141,7 +141,7 @@ body {
 .nav-tabs-wrapper {
   background: #090e17;
   border-bottom: 1px solid var(--border-color);
-  padding: 0.5rem 2rem;
+  padding: 0.5rem var(--pad-lg);
   display: flex;
   gap: 0.5rem;
   overflow-x: auto;
@@ -217,7 +217,7 @@ body {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 1.25rem;
+  padding: var(--pad-sm);
   box-shadow: var(--shadow-md);
   display: flex;
   flex-direction: column;
@@ -339,7 +339,7 @@ body {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 1.5rem;
+  padding: var(--pad-md);
   box-shadow: var(--shadow-md);
   display: flex;
   flex-direction: column;
@@ -481,7 +481,7 @@ body {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 2rem;
+  padding: var(--pad-lg);
   margin-bottom: 2rem;
   box-shadow: var(--shadow-md);
 }
@@ -524,7 +524,7 @@ body {
   background: var(--bg-surface);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: var(--radius-md);
-  padding: 1.25rem;
+  padding: var(--pad-sm);
   margin-bottom: 1.75rem;
 }
 
@@ -563,7 +563,7 @@ body {
   background: #090e17;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 1.5rem;
+  padding: var(--pad-md);
   transition: border-color 0.2s;
 }
 
@@ -643,7 +643,7 @@ body {
   animation: fadeIn 0.25s ease;
   background: var(--bg-surface);
   border-radius: var(--radius-md);
-  padding: 1.25rem;
+  padding: var(--pad-sm);
   border-left: 4px solid var(--accent-emerald);
 }
 
@@ -745,7 +745,7 @@ body {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 2rem;
+  padding: var(--pad-lg);
   box-shadow: var(--shadow-md);
 }
 
@@ -818,7 +818,7 @@ body {
   background: var(--bg-surface);
   border: 1px solid rgba(56, 189, 248, 0.25);
   border-radius: var(--radius-md);
-  padding: 1.5rem;
+  padding: var(--pad-md);
   margin-top: 1.5rem;
 }
 
@@ -850,7 +850,7 @@ body {
 ============================================================ */
 .guide-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
   gap: 1.5rem;
 }
 
@@ -858,7 +858,7 @@ body {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 1.75rem;
+  padding: var(--pad-lg);
   box-shadow: var(--shadow-md);
 }
 
@@ -913,7 +913,7 @@ body {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 1.75rem;
+  padding: var(--pad-lg);
   box-shadow: var(--shadow-md);
 }
 
@@ -976,7 +976,7 @@ body {
 
 .working-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
   gap: 1.25rem;
 }
 
@@ -984,7 +984,7 @@ body {
   background: #090e17;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 1.25rem;
+  padding: var(--pad-sm);
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -1064,7 +1064,7 @@ body {
   background: #090e17;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 1.5rem;
+  padding: var(--pad-md);
 }
 
 .quiz-status-row {
@@ -1097,7 +1097,7 @@ body {
   background: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 1.25rem;
+  padding: var(--pad-sm);
   margin-bottom: 1.5rem;
 }
 
@@ -1175,7 +1175,7 @@ body {
 }
 
 .quiz-feedback-box {
-  padding: 1.25rem;
+  padding: var(--pad-sm);
   border-radius: var(--radius-md);
   margin-top: 1.25rem;
   animation: fadeIn 0.3s ease;
@@ -1230,7 +1230,7 @@ body {
   background: #090e17;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 1.5rem;
+  padding: var(--pad-md);
 }
 
 .puzzle-nav-row {
@@ -1373,7 +1373,7 @@ body {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 2rem;
+  padding: var(--pad-lg);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
@@ -1402,7 +1402,7 @@ body {
 
 .game-modes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
   gap: 1.25rem;
 }
 
@@ -1410,7 +1410,7 @@ body {
   background: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 1.5rem;
+  padding: var(--pad-md);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1508,7 +1508,7 @@ body {
   background: #080d16;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 1.75rem;
+  padding: var(--pad-lg);
   margin-bottom: 1.25rem;
 }
 
@@ -1540,7 +1540,7 @@ body {
 
 .q-options-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
   gap: 0.85rem;
 }
 
@@ -1606,7 +1606,7 @@ body {
 /* Feedback Bar */
 .arcade-feedback-bar {
   border-radius: var(--radius-md);
-  padding: 1.25rem;
+  padding: var(--pad-sm);
   animation: fadeIn 0.2s ease forwards;
 }
 
@@ -1685,7 +1685,7 @@ body {
   background: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 1.25rem;
+  padding: var(--pad-sm);
 }
 
 /* ============================================================
@@ -1695,7 +1695,7 @@ body {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 1.5rem 2rem;
+  padding: var(--pad-md) var(--pad-lg);
   margin-bottom: 1.5rem;
   display: flex;
   justify-content: space-between;
@@ -1737,7 +1737,7 @@ body {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 1.75rem;
+  padding: var(--pad-lg);
   margin-bottom: 1.5rem;
 }
 
@@ -1781,7 +1781,7 @@ body {
   background: #080d16;
   border: 1px solid rgba(56, 189, 248, 0.2);
   border-radius: var(--radius-md);
-  padding: 1.25rem;
+  padding: var(--pad-sm);
   margin-top: 1rem;
 }
 
@@ -1802,3 +1802,50 @@ body {
 
 
 
+
+/* ============================================================
+   PHONE (≤640px) — page-specific tweaks
+   Shared header/tabs/spacing rules live in ../css/shared.css
+============================================================ */
+@media (max-width: 640px) {
+  /* Comparison table → each row becomes a 2-column card */
+  .scipad-table,
+  .scipad-table thead,
+  .scipad-table tbody {
+    display: block;
+  }
+
+  .scipad-table tr {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .scipad-table th:first-child {
+    display: none;
+  }
+
+  .scipad-table td:first-child {
+    grid-column: 1 / -1;
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .scipad-table th,
+  .scipad-table td {
+    padding: 0.5rem 0.6rem;
+    font-size: 0.82rem;
+  }
+
+  .puzzle-actions-row {
+    flex-wrap: wrap;
+  }
+
+  .puzzle-actions-row > * {
+    flex: 1 1 140px;
+    justify-content: center;
+  }
+
+  .exam-header-banner .badge-tag {
+    white-space: normal;
+    border-radius: var(--radius-sm);
+  }
+}

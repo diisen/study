@@ -90,8 +90,8 @@ class CircuitEngine {
   handleMouseMove(e) {
     const rect = this.canvas.getBoundingClientRect();
     this.mousePos = {
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
+      x: (e.clientX - rect.left) / (this.canvas._studyScale || 1),
+      y: (e.clientY - rect.top) / (this.canvas._studyScale || 1)
     };
   }
 
@@ -102,20 +102,10 @@ class CircuitEngine {
 
   resizeCanvas() {
     if (!this.canvas) return;
-    const parent = this.canvas.parentElement;
-    const rect = parent ? parent.getBoundingClientRect() : null;
-    const dpr = window.devicePixelRatio || 1;
-
-    const computedW = (rect && rect.width > 50) ? rect.width : (parent ? parent.clientWidth : 700);
-    this.width = computedW > 50 ? computedW : 700;
-    this.height = (rect && rect.height > 100) ? rect.height : 480;
-
-    this.canvas.width = this.width * dpr;
-    this.canvas.height = this.height * dpr;
-    this.canvas.style.width = `${this.width}px`;
-    this.canvas.style.height = `${this.height}px`;
-    this.ctx.resetTransform ? this.ctx.resetTransform() : this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-    this.ctx.scale(dpr, dpr);
+    // Shared sizing (js/study-canvas.js): shrinks the drawing on narrow phones instead of squashing it
+    const { width, height } = StudyCanvas.fit(this.canvas, { minWidth: 600, height: 480 });
+    this.width = width;
+    this.height = height;
     this.initParticles();
   }
 

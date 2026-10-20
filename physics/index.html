@@ -12,6 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="../css/shared.css">
 </head>
 <body>
 
@@ -367,7 +368,7 @@
          TAB 4: RIGHT-HAND RULE & TRAINING QUIZ
     ============================================================ -->
     <section id="tab-quiz" class="tab-panel">
-      <div class="guide-grid" style="grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));">
+      <div class="guide-grid" style="grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));">
         
         <!-- Left: Polarity Training Quiz -->
         <div class="guide-card">
@@ -554,6 +555,7 @@
   </footer>
 
   <!-- Scripts -->
+  <script src="../js/study-canvas.js"></script>
   <script src="js/scipadData.js"></script>
   <script src="js/exam2022Data.js"></script>
   <script src="js/circuitEngine.js"></script>
@@ -562,5 +564,7 @@
   <script src="js/arcadeGameEngine.js"></script>
   <script src="js/formulaEngine.js"></script>
   <script src="js/app.js"></script>
+  <!-- Layout audit: open this page with ?audit to check mobile layout -->
+  <script src="../tools/layout-audit.js" defer></script>
 </body>
 </html>

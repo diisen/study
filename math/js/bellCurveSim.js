@@ -52,20 +52,10 @@ class BellCurveSimulator {
 
   resizeCanvas() {
     if (!this.canvas) return;
-    const parent = this.canvas.parentElement;
-    const rect = parent ? parent.getBoundingClientRect() : null;
-    const dpr = window.devicePixelRatio || 1;
-
-    const computedW = (rect && rect.width > 50) ? rect.width : 720;
-    this.width = computedW;
-    this.height = (rect && rect.height > 100) ? rect.height : 420;
-
-    this.canvas.width = this.width * dpr;
-    this.canvas.height = this.height * dpr;
-    this.canvas.style.width = `${this.width}px`;
-    this.canvas.style.height = `${this.height}px`;
-    this.ctx.resetTransform ? this.ctx.resetTransform() : this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-    this.ctx.scale(dpr, dpr);
+    // Shared sizing (js/study-canvas.js): shrinks the drawing on narrow phones instead of squashing it
+    const { width, height } = StudyCanvas.fit(this.canvas, { minWidth: 520, height: 340 });
+    this.width = width;
+    this.height = height;
 
     this.render();
   }
@@ -133,7 +123,7 @@ class BellCurveSimulator {
       ctx.stroke();
     }
 
-    const marginX = 60;
+    const marginX = this.width < 640 ? 36 : 60;
     const marginY = 60;
     const plotW = this.width - marginX * 2;
     const plotH = this.height - marginY * 2 - 30;
@@ -215,20 +205,29 @@ class BellCurveSimulator {
     ctx.font = 'bold 13px "Outfit", sans-serif';
     ctx.textAlign = 'center';
 
+    // When the cutoff sits close to the mean, push the two labels apart
+    // (mean label to the left of its line, cutoff label to the right).
+    const labelsClose = Math.abs(cutoffPixelX - meanPixelX) < 150;
+    const meanLabelX = labelsClose ? meanPixelX - 6 : meanPixelX;
+    const cutLabelX = labelsClose ? cutoffPixelX + 6 : cutoffPixelX;
+
     // Mean label
+    ctx.textAlign = labelsClose ? 'right' : 'center';
     ctx.fillStyle = '#f8fafc';
-    ctx.fillText(`μ = ${state.mean} ${state.unit}`, meanPixelX, baselineY + 22);
+    ctx.fillText(`μ = ${state.mean} ${state.unit}`, meanLabelX, baselineY + 22);
     ctx.font = '11px "JetBrains Mono", monospace';
     ctx.fillStyle = '#94a3b8';
-    ctx.fillText('(Z = 0)', meanPixelX, baselineY + 38);
+    ctx.fillText('(Z = 0)', meanLabelX, baselineY + 38);
 
     // Cutoff x label
+    ctx.textAlign = labelsClose ? 'left' : 'center';
     ctx.font = 'bold 13px "Outfit", sans-serif';
     ctx.fillStyle = '#f43f5e';
-    ctx.fillText(`x = ${state.calculatedX} ${state.unit}`, cutoffPixelX, baselineY + 22);
+    ctx.fillText(`x = ${state.calculatedX} ${state.unit}`, cutLabelX, baselineY + 22);
     ctx.font = '11px "JetBrains Mono", monospace';
     ctx.fillStyle = '#fbbf24';
-    ctx.fillText(`(Z = +${state.zValue})`, cutoffPixelX, baselineY + 38);
+    ctx.fillText(`(Z = +${state.zValue})`, cutLabelX, baselineY + 38);
+    ctx.textAlign = 'center';
 
     // Area Callout Badges inside the curve
     // Table Area Label
@@ -255,14 +254,29 @@ class BellCurveSimulator {
     ctx.fill();
     ctx.stroke();
 
-    ctx.font = 'bold 12px "Outfit", sans-serif';
-    ctx.fillStyle = '#94a3b8';
+    // Fit the formula inside the HUD bar: drop the caption, then shrink the font if needed
+    const formula = `x = μ + Z·σ = ${state.mean} + (${state.zValue} × ${state.sd}) = ${state.calculatedX} ${state.unit}`;
+    const hudInner = this.width - marginX * 2 - 32;
     ctx.textAlign = 'left';
-    ctx.fillText('📐 INVERSE FORMULA:', marginX + 16, 42);
+    let fontPx = 14;
+    ctx.font = `bold ${fontPx}px "JetBrains Mono", monospace`;
+    const showCaption = ctx.measureText(formula).width + 144 <= hudInner;
+    const formulaX = showCaption ? marginX + 160 : marginX + 16;
+    const formulaMax = showCaption ? hudInner - 144 : hudInner;
+    while (fontPx > 10 && ctx.measureText(formula).width > formulaMax) {
+      fontPx -= 1;
+      ctx.font = `bold ${fontPx}px "JetBrains Mono", monospace`;
+    }
 
-    ctx.font = 'bold 14px "JetBrains Mono", monospace';
+    if (showCaption) {
+      ctx.font = 'bold 12px "Outfit", sans-serif';
+      ctx.fillStyle = '#94a3b8';
+      ctx.fillText('📐 INVERSE FORMULA:', marginX + 16, 42);
+    }
+
+    ctx.font = `bold ${fontPx}px "JetBrains Mono", monospace`;
     ctx.fillStyle = '#38bdf8';
-    ctx.fillText(`x = μ + Z·σ = ${state.mean} + (${state.zValue} × ${state.sd}) = ${state.calculatedX} ${state.unit}`, marginX + 160, 42);
+    ctx.fillText(formula, formulaX, 42);
   }
 }
 

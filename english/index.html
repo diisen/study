@@ -35,10 +35,11 @@
     }
     .topic-card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
       gap: 1.5rem;
     }
   </style>
+  <link rel="stylesheet" href="../css/shared.css">
 </head>
 <body>
 
@@ -95,5 +96,7 @@
     NCEA Level 2 Multi-Subject Learning Lab • English
   </footer>
 
+  <!-- Layout audit: open this page with ?audit to check mobile layout -->
+  <script src="../tools/layout-audit.js" defer></script>
 </body>
 </html>

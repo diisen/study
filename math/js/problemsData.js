@@ -43,8 +43,8 @@ window.MATH_PROBLEMS_DATA = {
         },
         step3: {
           titleJa: "Step 3: 公式を使って実測値 x を計算する (Calculate x)",
-          formula: "x = \\mu + Z \\times \\sigma",
-          calculation: "x = 170 + (0.841 \\times 15) = 170 + 12.615 = 182.615\\text{ cm}",
+          formula: "x = μ + Z × σ",
+          calculation: "x = 170 + (0.841 × 15) = 170 + 12.615 = 182.615 cm",
           ansValue: 182.615,
           ansRounded: "182.6 cm"
         },
@@ -83,8 +83,8 @@ window.MATH_PROBLEMS_DATA = {
         },
         step3: {
           titleJa: "Step 3: 公式を使って実測値 x を計算する (Calculate x)",
-          formula: "Q_3 = \\mu + Z \\times \\sigma",
-          calculation: "Q_3 = 120 + (0.674 \\times 23) = 120 + 15.502 = 135.502\\text{ kg}",
+          formula: "Q_3 = μ + Z × σ",
+          calculation: "Q_3 = 120 + (0.674 × 23) = 120 + 15.502 = 135.502 kg",
           ansValue: 135.502,
           ansRounded: "135.5 kg"
         },
@@ -123,8 +123,8 @@ window.MATH_PROBLEMS_DATA = {
         },
         step3: {
           titleJa: "Step 3: 公式を使って実測値 x を計算する (Calculate x)",
-          formula: "x = \\mu + Z \\times \\sigma",
-          calculation: "x = 95 + (1.645 \\times 15) = 95 + 24.675 = 119.675\\text{ marks}",
+          formula: "x = μ + Z × σ",
+          calculation: "x = 95 + (1.645 × 15) = 95 + 24.675 = 119.675 marks",
           ansValue: 119.675,
           ansRounded: "119.7 marks (or 120 marks)"
         },
@@ -163,8 +163,8 @@ window.MATH_PROBLEMS_DATA = {
         },
         step3: {
           titleJa: "Step 3: 公式を使って実測値 x を計算する (Calculate x)",
-          formula: "x = \\mu + Z \\times \\sigma",
-          calculation: "x = 150 + (1.645 \\times 55) = 150 + 90.475 = 240.475\\text{ g}",
+          formula: "x = μ + Z × σ",
+          calculation: "x = 150 + (1.645 × 55) = 150 + 90.475 = 240.475 g",
           ansValue: 240.475,
           ansRounded: "240.5 g"
         },

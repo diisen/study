@@ -217,9 +217,10 @@
   color: #f8fafc;
   margin-bottom: 1rem;
   min-height: 52px;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  /* block, not flex: the prompt mixes text with <strong>, and flex would
+     turn each text run into its own squeezed column on phones */
+  display: block;
+  align-content: center;
   line-height: 1.5;
 }
 
