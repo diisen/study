@@ -1,11 +1,11 @@
 /* ============================================================
-   Shared responsive layer — loaded LAST on every page
+   Shared responsive & Argon design system layer — loaded LAST
    ------------------------------------------------------------
    Every page links this after its own stylesheet:
      <link rel="stylesheet" href="../css/shared.css">
    It owns:
-     1. Breakpoints & spacing tokens (--pad-*, --gutter)
-     2. Header / tab navigation behaviour on tablet & phone
+     1. Breakpoints, spacing tokens (--pad-*, --gutter), & typography rhythm
+     2. Connected Folder-Tab navigation (Pattern B) across all subject labs
      3. Safety nets (min-width: 0, media max-width, tables)
      4. Touch ergonomics (tap targets, 16px inputs, no sticky hover)
    Rules for new features: see docs/UI-GUIDELINES.md
@@ -18,40 +18,65 @@
      desktop: 1025px+
 */
 :root {
-  --pad-lg: 1.75rem;   /* outer cards */
-  --pad-md: 1.5rem;    /* standard cards */
+  --pad-lg: 1.9rem;    /* outer cards */
+  --pad-md: 1.55rem;   /* standard cards */
   --pad-sm: 1.25rem;   /* boxes nested inside cards */
-  --gutter: 2rem;      /* page side padding */
+  --gutter: 2.15rem;   /* page side padding */
   --tap-min: 44px;     /* minimum touch target */
+
+  /* Default folder-tab theme tokens (overridden per subject) */
+  --tab-accent: #38bdf8;
+  --tab-accent-text: #7dd3fc;
+  --tab-border: rgba(56, 189, 248, 0.42);
+  --tab-glow: rgba(56, 189, 248, 0.14);
+  --sheet-bg: #0f172a;
 }
 
 @media (max-width: 1024px) {
   :root {
-    --pad-lg: 1.35rem;
-    --pad-md: 1.2rem;
-    --pad-sm: 1rem;
-    --gutter: 1.25rem;
+    --pad-lg: 1.45rem;
+    --pad-md: 1.25rem;
+    --pad-sm: 1.05rem;
+    --gutter: 1.3rem;
   }
 }
 
 @media (max-width: 640px) {
   :root {
-    --pad-lg: 1rem;
-    --pad-md: 0.9rem;
-    --pad-sm: 0.8rem;
-    --gutter: 0.75rem;
+    --pad-lg: 1.1rem;
+    --pad-md: 0.98rem;
+    --pad-sm: 0.85rem;
+    --gutter: 0.8rem;
   }
 }
 
-/* ---------- 2. Global safety nets ---------- */
+/* ---------- 2. Global typography & safety nets ---------- */
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
 
 body {
+  line-height: 1.78;
+  letter-spacing: 0.022em;
   overflow-wrap: break-word;
   overflow-x: clip;
+}
+
+h1, h2, h3, h4, h5 {
+  letter-spacing: 0.015em;
+  line-height: 1.42;
+}
+
+p, li {
+  line-height: 1.8;
+  letter-spacing: 0.022em;
+}
+
+code {
+  padding: 0.14rem 0.42rem;
+  margin: 0 0.12rem;
+  border-radius: 5px;
 }
 
 img, video, svg:not([width]) {
@@ -94,7 +119,7 @@ pre {
   overflow-wrap: anywhere;
 }
 
-/* ---------- 3. Page frame ---------- */
+/* ---------- 3. Page frame & Unified Folder-Tab Bar (Pattern B) ---------- */
 .main-container {
   padding: var(--gutter);
 }
@@ -103,6 +128,12 @@ pre {
 .portal-header {
   padding-left: var(--gutter);
   padding-right: var(--gutter);
+  gap: 1.25rem;
+}
+
+.header-meta .badge-tag {
+  cursor: default;
+  user-select: none;
 }
 
 .nav-tabs-wrapper {
@@ -110,19 +141,278 @@ pre {
   padding-right: var(--gutter);
 }
 
+/* Sub-Lab Switcher (e.g. Math Z-Table Lab <-> Distribution Dojo) */
+.sub-lab-switcher {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.sub-lab-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+  padding: 0.85rem 1.15rem;
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary, #cbd5e1);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.sub-lab-link:hover {
+  border-color: rgba(168, 85, 247, 0.5);
+  background: rgba(30, 41, 59, 0.85);
+  color: #f8fafc;
+  transform: translateY(-1px);
+}
+
+.sub-lab-link.current {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.14), rgba(168, 85, 247, 0.12));
+  border: 1px solid var(--tab-border, rgba(56, 189, 248, 0.45));
+  color: #f8fafc;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+.sub-lab-link-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.sub-lab-link-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #f8fafc;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.sub-lab-link-desc {
+  font-size: 0.78rem;
+  color: var(--text-secondary, #94a3b8);
+}
+
+.sub-lab-pill {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.3rem 0.7rem;
+  border-radius: 9999px;
+  background: rgba(168, 85, 247, 0.2);
+  border: 1px solid rgba(168, 85, 247, 0.45);
+  color: #e9d5ff;
+  white-space: nowrap;
+}
+
+.sub-lab-link.current .sub-lab-pill {
+  background: rgba(16, 185, 129, 0.18);
+  border-color: rgba(16, 185, 129, 0.45);
+  color: #6ee7b7;
+}
+
+@media (max-width: 640px) {
+  .sub-lab-switcher {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Connected Folder-Tab Bar inside .main-container */
+.main-container > .nav-tabs-wrapper {
+  background: transparent;
+  border-bottom: none;
+  padding: 0 0.45rem;
+  margin-bottom: -1px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.45rem;
+  position: relative;
+  z-index: 2;
+  overflow: visible;
+}
+
+.main-container > .nav-tabs-wrapper.tabs-7 {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.main-container > .nav-tabs-wrapper .nav-tab-btn {
+  background: #070b13;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-bottom-color: transparent;
+  border-radius: 14px 14px 0 0;
+  color: var(--text-muted, #94a3b8);
+  font-family: var(--font-sans);
+  padding: 0.82rem 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.26rem;
+  text-align: left;
+  white-space: normal;
+  min-width: 0;
+  opacity: 0.76;
+  box-shadow: none;
+}
+
+.main-container > .nav-tabs-wrapper.tabs-7 .nav-tab-btn {
+  padding: 0.72rem 0.65rem;
+}
+
+.main-container > .nav-tabs-wrapper .nav-tab-btn:hover:not(.active) {
+  color: var(--text-primary, #f8fafc);
+  background: #0d1526;
+  border-color: rgba(255, 255, 255, 0.16);
+  border-bottom-color: transparent;
+  opacity: 0.96;
+}
+
+.main-container > .nav-tabs-wrapper .nav-tab-btn .tab-top-line {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.92rem;
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: 0.015em;
+  color: inherit;
+  min-width: 0;
+}
+
+.main-container > .nav-tabs-wrapper.tabs-7 .nav-tab-btn .tab-top-line {
+  font-size: 0.84rem;
+  gap: 0.32rem;
+}
+
+.main-container > .nav-tabs-wrapper .nav-tab-btn .tab-sub-line {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+  color: var(--text-muted, #94a3b8);
+}
+
+.main-container > .nav-tabs-wrapper.tabs-7 .nav-tab-btn .tab-sub-line {
+  font-size: 0.72rem;
+}
+
+.main-container > .nav-tabs-wrapper .nav-tab-btn.active {
+  position: relative;
+  z-index: 3;
+  color: #f8fafc;
+  background: var(--sheet-bg);
+  opacity: 1;
+  border: 1px solid var(--tab-border);
+  border-top: 4px solid var(--tab-accent);
+  border-bottom: 2px solid var(--sheet-bg);
+  padding-top: 0.68rem;
+  box-shadow: 0 -6px 20px var(--tab-glow);
+}
+
+.main-container > .nav-tabs-wrapper .nav-tab-btn.active .tab-top-line {
+  color: var(--tab-accent-text);
+}
+
+.main-container > .nav-tabs-wrapper .nav-tab-btn.active .tab-sub-line {
+  color: var(--text-secondary, #cbd5e1);
+}
+
+/* Connected Folder Sheet Frame for multi-card / simulator tabs */
+.main-container.folder-sheet-deck > .tab-panel.active {
+  background: var(--sheet-bg);
+  border: 1px solid var(--tab-border);
+  border-radius: 10px 10px 20px 20px;
+  padding: var(--pad-lg);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+}
+
+/* Flatten redundant outer card border when inside the connected folder sheet */
+.main-container.folder-sheet-deck .arcade-lobby-card,
+.main-container.folder-sheet-deck .arcade-arena-card,
+.main-container.folder-sheet-deck > .tab-panel > .guide-card,
+.main-container.folder-sheet-deck > .tab-panel > .drill-card {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+/* 3-Tier Surface Elevation: Inner cards inside the connected folder sheet */
+.main-container.folder-sheet-deck .sim-canvas-card,
+.main-container.folder-sheet-deck .sim-controls-card,
+.main-container.folder-sheet-deck .exam-header-banner,
+.main-container.folder-sheet-deck .exam-part-card,
+.main-container.folder-sheet-deck .planner-top-bar,
+.main-container.folder-sheet-deck .planner-inputs-card,
+.main-container.folder-sheet-deck .planner-guidance-card,
+.main-container.folder-sheet-deck .study-card,
+.main-container.folder-sheet-deck .rubric-card,
+.main-container.folder-sheet-deck .question-card,
+.main-container.folder-sheet-deck .ztable-search-bar,
+.main-container.folder-sheet-deck .ztable-card,
+.main-container.folder-sheet-deck .problem-solve-card,
+.main-container.folder-sheet-deck .formula-select-card,
+.main-container.folder-sheet-deck .formula-interactive-card {
+  background: linear-gradient(180deg, rgba(21, 33, 58, 0.92), rgba(15, 24, 44, 0.95));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 8px 22px rgba(0, 0, 0, 0.28);
+}
+
+/* Segmented Pill Sub-Navigation inside sheets (distinct from main folder tabs) */
+.exam-selector-tabs,
+.problems-top-selector,
+.mode-selector {
+  background: rgba(6, 10, 18, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 12px;
+  padding: 0.32rem;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+/* Generous vertical rhythm inside cards across all subject labs */
+.arcade-lobby-card,
+.exam-part-card,
+.question-card,
+.study-card,
+.rubric-card,
+.guide-card {
+  line-height: 1.8;
+  letter-spacing: 0.022em;
+}
+
+.mode-desc,
+.fb-exp,
+.step-text,
+.wall-desc,
+.study-summary {
+  line-height: 1.8 !important;
+  letter-spacing: 0.022em;
+}
+
 /* ---------- 4. Tablet (≤1024px) ---------- */
 @media (max-width: 1024px) {
   .lab-header,
   .portal-header {
     flex-wrap: wrap;
-    row-gap: 0.6rem;
+    row-gap: 0.65rem;
   }
 
   .header-meta {
     flex-wrap: wrap;
   }
 
-  /* Tabs wrap onto several rows instead of hiding off-screen */
   .nav-tabs-wrapper {
     flex-wrap: wrap;
     overflow-x: visible;
@@ -132,6 +422,42 @@ pre {
     white-space: normal;
     text-align: left;
   }
+
+  .main-container > .nav-tabs-wrapper {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .main-container > .nav-tabs-wrapper.tabs-7 {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    padding: 0 0.25rem;
+    margin-bottom: -1px;
+    gap: 0.25rem;
+  }
+
+  .main-container > .nav-tabs-wrapper .nav-tab-btn {
+    padding: 0.7rem 0.65rem;
+  }
+
+  .main-container > .nav-tabs-wrapper.tabs-7 .nav-tab-btn {
+    padding: 0.6rem 0.45rem;
+  }
+
+  .main-container > .nav-tabs-wrapper .nav-tab-btn .tab-top-line {
+    font-size: 0.84rem;
+  }
+
+  .main-container > .nav-tabs-wrapper.tabs-7 .nav-tab-btn .tab-top-line {
+    font-size: 0.78rem;
+    gap: 0.25rem;
+  }
+
+  .main-container > .nav-tabs-wrapper .nav-tab-btn .tab-sub-line {
+    font-size: 0.73rem;
+  }
+
+  .main-container > .nav-tabs-wrapper.tabs-7 .nav-tab-btn .tab-sub-line {
+    font-size: 0.68rem;
+  }
 }
 
 /* ---------- 5. Phone (≤640px) ---------- */
@@ -140,15 +466,15 @@ pre {
   .lab-header,
   .portal-header {
     position: static;
-    padding-top: 0.6rem;
-    padding-bottom: 0.6rem;
-    gap: 0.5rem;
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+    gap: 0.55rem;
   }
 
   .logo-group {
     flex: 1 1 100%;
     min-width: 0;
-    gap: 0.5rem;
+    gap: 0.55rem;
     flex-wrap: wrap;
   }
 
@@ -159,29 +485,29 @@ pre {
   .back-hub-btn {
     flex: 0 0 auto;
     min-height: 36px;
-    font-size: 0.8rem;
-    padding: 0.35rem 0.7rem;
+    font-size: 0.82rem;
+    padding: 0.38rem 0.75rem;
   }
 
   .lab-title,
   .portal-title {
     flex: 1 1 12rem;
     min-width: 0;
-    font-size: 1.1rem;
-    line-height: 1.25;
+    font-size: 1.12rem;
+    line-height: 1.3;
   }
 
   .lab-title span,
   .portal-title span {
     display: block;
-    font-size: 0.85rem;
+    font-size: 0.86rem;
   }
 
   .header-meta {
     flex: 1 1 100%;
     flex-wrap: nowrap;
     overflow-x: auto;
-    gap: 0.4rem;
+    gap: 0.45rem;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
   }
@@ -193,43 +519,49 @@ pre {
   .header-meta .badge-tag {
     flex: 0 0 auto;
     white-space: nowrap;
-    font-size: 0.72rem;
+    font-size: 0.74rem;
   }
 
-  /* Tabs: 2-column grid so every section is visible at once */
-  .nav-tabs-wrapper {
+  /* Folder Tabs on Phone: 2-column grid */
+  .nav-tabs-wrapper,
+  .main-container > .nav-tabs-wrapper,
+  .main-container > .nav-tabs-wrapper.tabs-7 {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.4rem;
-    padding-top: 0.6rem;
-    padding-bottom: 0.6rem;
+    gap: 0.45rem;
+    padding: 0;
+    margin-bottom: 0.75rem;
   }
 
-  .nav-tab-btn {
+  .main-container > .nav-tabs-wrapper .nav-tab-btn,
+  .main-container > .nav-tabs-wrapper.tabs-7 .nav-tab-btn {
     min-height: var(--tap-min);
-    padding: 0.5rem 0.6rem;
-    font-size: 0.76rem;
-    line-height: 1.3;
-    gap: 0.35rem;
-    align-items: center;
-    border-color: var(--border-color);
-    background: rgba(255, 255, 255, 0.025);
+    border-radius: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+    padding: 0.65rem 0.75rem;
   }
 
-  .nav-tab-btn > span:first-child {
-    flex: 0 0 auto;
-    font-size: 1rem;
+  .main-container > .nav-tabs-wrapper .nav-tab-btn.active,
+  .main-container > .nav-tabs-wrapper.tabs-7 .nav-tab-btn.active {
+    border: 1px solid var(--tab-border);
+    border-top: 4px solid var(--tab-accent);
+    box-shadow: 0 4px 16px var(--tab-glow);
+  }
+
+  .main-container.folder-sheet-deck > .tab-panel.active {
+    border-radius: 16px;
+    padding: var(--pad-md);
   }
 
   /* Type scale */
   main h2:not(.hero-title) {
-    font-size: clamp(1.1rem, 5vw, 1.4rem) !important;
-    line-height: 1.35;
+    font-size: clamp(1.12rem, 5vw, 1.42rem) !important;
+    line-height: 1.4;
   }
 
   main h3 {
-    font-size: clamp(1rem, 4.4vw, 1.2rem);
-    line-height: 1.4;
+    font-size: clamp(1.02rem, 4.4vw, 1.22rem);
+    line-height: 1.42;
   }
 
   /* Multi-column layouts collapse to a single column */
@@ -269,12 +601,12 @@ pre {
 
   /* Portal */
   .portal-main {
-    padding: 1rem var(--gutter) 2rem;
+    padding: 1.15rem var(--gutter) 2.25rem;
   }
 
   .hero-banner {
-    padding: 1.5rem 1.1rem;
-    margin-bottom: 1.75rem;
+    padding: 1.65rem 1.2rem;
+    margin-bottom: 1.85rem;
   }
 
   .hero-title {
@@ -282,21 +614,34 @@ pre {
   }
 
   .hero-desc {
-    font-size: 0.92rem;
+    font-size: 0.94rem;
   }
 
   .section-title {
-    font-size: 1.1rem;
+    font-size: 1.12rem;
     align-items: flex-start;
   }
 
   .lab-footer,
   .portal-footer {
-    padding: 1.25rem var(--gutter);
+    padding: 1.5rem var(--gutter);
   }
 }
 
-/* ---------- 6. Touch devices (any size) ---------- */
+/* ---------- 6. Print safety (Psychology A3 Planner etc.) ---------- */
+@media print {
+  .main-container > .nav-tabs-wrapper {
+    display: none !important;
+  }
+  .main-container.folder-sheet-deck > .tab-panel.active {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+  }
+}
+
+/* ---------- 7. Touch devices (any size) ---------- */
 @media (pointer: coarse) {
   /* iOS zooms the page when focusing an input whose text is < 16px */
   input,

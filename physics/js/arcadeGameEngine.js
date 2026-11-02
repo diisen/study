@@ -141,7 +141,7 @@ class PhysicsArcadeEngine {
           category: "Circuits & Ohm's Law",
           titleEn: `A circuit has a voltage supply of ${v}V and a resistor of ${r}Ω. What is the circuit current?`,
           titleJa: `電圧 ${v}V の電源に ${r}Ω の抵抗が接続されています。流れる電流 I は何 A ですか？`,
-          formula: "I = \\frac{V}{R}",
+          formula: "I = V / R",
           options: this.shuffleOptions([
             { text: `${correctI} A`, correct: true },
             { text: `${wrong1} A`, correct: false },
@@ -163,7 +163,7 @@ class PhysicsArcadeEngine {
           category: "Power & Energy",
           titleEn: `A lamp has a resistance of ${r}Ω and a current of ${i}A flowing through it. What is its power output?`,
           titleJa: `抵抗 ${r}Ω の電球に ${i}A の電流が流れています。消費電力 P は何 W ですか？`,
-          formula: "P = I^2 R",
+          formula: "P = I²R",
           options: this.shuffleOptions([
             { text: `${correctP} W`, correct: true },
             { text: `${wrong1} W`, correct: false },
@@ -225,7 +225,7 @@ class PhysicsArcadeEngine {
           category: "Millikan's Oil Drop Experiment",
           titleEn: "In a Millikan oil drop experiment, the top plate is +V and the bottom plate is 0V. To keep the oil drop stationary (suspended), what charge must the oil drop have?",
           titleJa: "ミリカンの油滴実験で、上極板が +V、下極板が 0V です。油滴が空中で静止（浮遊）するためには、油滴は正負どちらの電荷を持つ必要がありますか？",
-          formula: "F_e \\uparrow = F_g \\downarrow",
+          formula: "Fe ↑ = Fg ↓",
           options: this.shuffleOptions([
             { text: "Negative charge (負電荷: マイナス)", correct: true },
             { text: "Positive charge (正電荷: プラス)", correct: false },
@@ -241,7 +241,7 @@ class PhysicsArcadeEngine {
           category: "Right-Hand Rule & Particle Path",
           titleEn: "A particle travels to the RIGHT into a magnetic field pointing INTO THE PAGE (X) and curves UPWARDS. Is the particle positively or negatively charged?",
           titleJa: "粒子が右向きに進み、紙面奥向き（X）の磁場に入って【上向き】に曲がりました。この粒子の電荷はプラス・マイナスのどちらですか？",
-          formula: "\\vec{F} = q(\\vec{v} \\times \\vec{B})",
+          formula: "F = Bqv (Right-Hand Rule)",
           options: this.shuffleOptions([
             { text: "Positive charge (正電荷 +)", correct: true },
             { text: "Negative charge (負電荷 -)", correct: false },
@@ -257,7 +257,7 @@ class PhysicsArcadeEngine {
           category: "2022 Formative Exam Q1(d)",
           titleEn: "In a circuit with two lamps in series, a third lamp is added in PARALLEL with Lamp 1. What happens to the total circuit resistance and total current?",
           titleJa: "直列に並んだ2つの電球の回路において、電球1と【並列】に3つ目の電球を追加しました。回路全体の合成抵抗と電流はどう変化しますか？",
-          formula: "R_T \\downarrow \\implies I_{total} \\uparrow",
+          formula: "R_T ↓ ⇒ I_total ↑",
           options: this.shuffleOptions([
             { text: "Resistance decreases, Current increases (抵抗減少・電流増加)", correct: true },
             { text: "Resistance increases, Current decreases (抵抗増加・電流減少)", correct: false },
@@ -273,7 +273,7 @@ class PhysicsArcadeEngine {
           category: "Physics Units & Quantities",
           titleEn: "What is the standard SI unit for Magnetic Field Strength (B)?",
           titleJa: "磁場の強さ（磁束密度 B）を表す国際単位（SI単位）は何ですか？",
-          formula: "B \\text{ in Tesla (T)}",
+          formula: "B in Tesla (T)",
           options: this.shuffleOptions([
             { text: "Tesla (T)", correct: true },
             { text: "Volt (V)", correct: false },
@@ -663,7 +663,7 @@ class PhysicsArcadeEngine {
             </div>
 
             <div class="millikan-hint-box" style="margin-top: 1rem; font-size: 0.82rem; color: #94a3b8; background: #080d16; padding: 0.75rem; border-radius: 6px; border: 1px solid var(--border-color);">
-              💡 <strong>ヒント:</strong> つり合い公式 $V = \\frac{mgd}{q}$ で必要な電圧を計算してスライダーを合わせよう！
+              💡 <strong>ヒント:</strong> つり合い公式 <strong>V = (m × g × d) ÷ q</strong> で必要な電圧を計算してスライダーを合わせよう！
             </div>
           </div>
 

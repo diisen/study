@@ -11,8 +11,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="../css/shared.css">
+  <link rel="stylesheet" href="css/style.css?v=20261102f">
+  <link rel="stylesheet" href="../css/shared.css?v=20261102f">
 </head>
 <body>
 
@@ -31,33 +31,40 @@
     </div>
   </header>
 
-  <!-- Navigation Tabs -->
-  <nav class="nav-tabs-wrapper">
-    <button class="nav-tab-btn active" data-tab="tab-arcade">
-      <span>🎮</span> Physics Arcade (ランダム出題＆サバイバルゲーム)
-    </button>
-    <button class="nav-tab-btn" data-tab="tab-exam">
-      <span>🎯</span> 2022 Formative Exam (実戦模試・完全解説)
-    </button>
-    <button class="nav-tab-btn" data-tab="tab-lorentz">
-      <span>🧲</span> Lorentz Force (ローレンツ力・荷電粒子)
-    </button>
-    <button class="nav-tab-btn" data-tab="tab-simulator">
-      <span>⚡</span> DC Circuit (回路・電子エネルギー)
-    </button>
-    <button class="nav-tab-btn" data-tab="tab-scipad">
-      <span>📖</span> SciPad Workbook (教科書演習 p.266-269 & p.318)
-    </button>
-    <button class="nav-tab-btn" data-tab="tab-formulas">
-      <span>📐</span> Magic Triangle (公式ピラミッド＆計算機)
-    </button>
-    <button class="nav-tab-btn" data-tab="tab-guide">
-      <span>🧩</span> Excellence Guide (論述パズル＆英語構文)
-    </button>
-  </nav>
-
   <!-- Main Container -->
-  <main class="main-container">
+  <main class="main-container folder-sheet-deck" style="--tab-accent: #38bdf8; --tab-accent-text: #7dd3fc; --tab-border: rgba(56, 189, 248, 0.42); --tab-glow: rgba(56, 189, 248, 0.14); --sheet-bg: #0c1322;">
+
+    <!-- Folder-Style Navigation Tabs (Pattern B) -->
+    <nav class="nav-tabs-wrapper tabs-7">
+      <button class="nav-tab-btn active" data-tab="tab-arcade">
+        <span class="tab-top-line"><span>🎮</span><span>Physics Arcade</span></span>
+        <span class="tab-sub-line">サバイバル＆60秒ゲーム</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-exam">
+        <span class="tab-top-line"><span>🎯</span><span>2022 Exam</span></span>
+        <span class="tab-sub-line">実戦模試・完全解説</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-lorentz">
+        <span class="tab-top-line"><span>🧲</span><span>Lorentz Force</span></span>
+        <span class="tab-sub-line">ローレンツ力・荷電粒子</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-simulator">
+        <span class="tab-top-line"><span>⚡</span><span>DC Circuit</span></span>
+        <span class="tab-sub-line">回路・電子エネルギー</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-scipad">
+        <span class="tab-top-line"><span>📖</span><span>SciPad Work</span></span>
+        <span class="tab-sub-line">教科書演習 p.266–318</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-formulas">
+        <span class="tab-top-line"><span>📐</span><span>Magic Triangle</span></span>
+        <span class="tab-sub-line">公式ピラミッド＆計算機</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-guide">
+        <span class="tab-top-line"><span>🧩</span><span>Excellence</span></span>
+        <span class="tab-sub-line">論述パズル＆英語構文</span>
+      </button>
+    </nav>
 
     <!-- ============================================================
          TAB: PHYSICS ARCADE (RANDOM SURVIVAL & BLITZ QUIZ ARENA)

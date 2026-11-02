@@ -685,7 +685,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
           </div>
           <div class="step-explanation-ja">
-            【SciPad p.269 Qh】ランプが切れた状態（I = 3 A）では、$3\\text{ A} \\times 3600\\text{ s} = 10,800\\text{ C}$ となります。
+            【SciPad p.269 Qh】ランプが切れた状態（I = 3 A）では、<strong>3 A × 3600 s = 10,800 C</strong> となります。
           </div>
         </div>
 
@@ -1147,7 +1147,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <div style="font-size: 0.82rem; font-weight: 800; color: #38bdf8; text-transform: uppercase; margin-bottom: 0.35rem;">
                 📐 Formula & Working (計算過程)
               </div>
-              <div class="formula-display">$$\\text{Formula: } ${p.formula}$$</div>
+              <div class="formula-display">Formula: ${p.formula}</div>
               <div class="working-display">${p.working}</div>
 
               <div style="border-top: 1px solid rgba(255, 255, 255, 0.08); margin-top: 1rem; padding-top: 0.75rem;">

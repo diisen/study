@@ -11,8 +11,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="../css/shared.css">
+  <link rel="stylesheet" href="css/style.css?v=20261102f">
+  <link rel="stylesheet" href="../css/shared.css?v=20261102f">
 </head>
 <body>
 
@@ -28,33 +28,53 @@
     <div class="header-meta">
       <span class="badge-tag">AS 91267 (2.12) • Walker Maths p.38–40</span>
       <span class="badge-tag" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); color: #34d399;">Inverse Normal & Z-Table 完全マスター</span>
-      <a href="feel-lab.html" class="badge-tag" style="background: rgba(168, 85, 247, 0.12); border-color: rgba(168, 85, 247, 0.45); color: #c084fc; text-decoration: none; font-weight: 700;">
-        🥋 Distribution Dojo (分布道場) <span style="background: #a855f7; color: #fff; font-size: 0.62rem; padding: 0.1rem 0.4rem; border-radius: 9999px; font-weight: 800; letter-spacing: 0.05em;">NEW</span>
-      </a>
     </div>
   </header>
 
-  <!-- Navigation Tabs -->
-  <nav class="nav-tabs-wrapper">
-    <button class="nav-tab-btn active" data-tab="tab-bellcurve">
-      <span>📈</span> Bell Curve Simulator (正規分布・逆引きシミュレータ)
-    </button>
-    <button class="nav-tab-btn" data-tab="tab-ztable">
-      <span>🔍</span> Walker Maths Z-Table Lookup (正規分布表の逆引き検索)
-    </button>
-    <button class="nav-tab-btn" data-tab="tab-problems">
-      <span>✍️</span> 5-Step Word Problems (Page 39–40 実践文章題)
-    </button>
-    <button class="nav-tab-btn" data-tab="tab-drill">
-      <span>⚡</span> Page 38 Speed Drill (10問のZ値ドリル & 採点)
-    </button>
-    <button class="nav-tab-btn" data-tab="tab-guide">
-      <span>📖</span> 5-Step Formula Guide (公式と文脈英文解答法)
-    </button>
-  </nav>
-
   <!-- Main Content Container -->
-  <main class="main-container">
+  <main class="main-container folder-sheet-deck" style="--tab-accent: #38bdf8; --tab-accent-text: #7dd3fc; --tab-border: rgba(56, 189, 248, 0.42); --tab-glow: rgba(56, 189, 248, 0.14); --sheet-bg: #0b1322;">
+
+    <!-- 2-Lab Switcher inside Mathematics -->
+    <div class="sub-lab-switcher">
+      <a href="index.html" class="sub-lab-link current">
+        <div class="sub-lab-link-main">
+          <div class="sub-lab-link-title"><span>📐</span><span>Part 1: Probability & Z-Table Lab（正規分布・逆引き・文章題）</span></div>
+          <div class="sub-lab-link-desc">Walker Maths p.38–40 逆引きシミュレータ、Z表検索、5ステップ文章題</div>
+        </div>
+        <span class="sub-lab-pill">● 表示中</span>
+      </a>
+      <a href="feel-lab.html" class="sub-lab-link">
+        <div class="sub-lab-link-main">
+          <div class="sub-lab-link-title"><span>🥋</span><span>Part 2: Distribution Dojo 分布道場（粒ドラッグで平均・中央値を体感）</span></div>
+          <div class="sub-lab-link-desc">粒を動かして平均と中央値の違いを体感・天秤ビュー・ガルトンボード・Z早押し</div>
+        </div>
+        <span class="sub-lab-pill">道場を開く →</span>
+      </a>
+    </div>
+
+    <!-- Folder-Style Navigation Tabs (Pattern B) -->
+    <nav class="nav-tabs-wrapper">
+      <button class="nav-tab-btn active" data-tab="tab-bellcurve">
+        <span class="tab-top-line"><span>📈</span><span>Bell Curve Sim</span></span>
+        <span class="tab-sub-line">正規分布・逆引き実験</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-ztable">
+        <span class="tab-top-line"><span>🔍</span><span>Z-Table Lookup</span></span>
+        <span class="tab-sub-line">正規分布表の逆引き検索</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-problems">
+        <span class="tab-top-line"><span>✍️</span><span>Word Problems</span></span>
+        <span class="tab-sub-line">p.39–40 実践5ステップ</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-drill">
+        <span class="tab-top-line"><span>⚡</span><span>Speed Drill</span></span>
+        <span class="tab-sub-line">p.38 10問Z値ドリル</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-guide">
+        <span class="tab-top-line"><span>📖</span><span>Formula Guide</span></span>
+        <span class="tab-sub-line">公式と文脈英文解答法</span>
+      </button>
+    </nav>
 
     <!-- ============================================================
          TAB 1: INTERACTIVE BELL CURVE SIMULATOR
@@ -267,8 +287,8 @@
             <div class="step-content">
               <h3 class="step-heading">Draw the picture (正規分布曲線を描く)</h3>
               <p class="step-text">
-                正規分布曲線（ベルカーブ）を描き、中央に平均 $\mu$、求めたい境界値 $x$（または $w$）をマークします。
-                問題文で与えられた確率（例: Top 20% = 0.2）を塗り、表で引くための<strong>「平均から境界値までの面積」</strong>（$0.5 - 0.2 = 0.3000$）を求めます。
+                正規分布曲線（ベルカーブ）を描き、中央に平均 <strong>μ</strong>、求めたい境界値 <strong>x</strong>（または <strong>w</strong>）をマークします。
+                問題文で与えられた確率（例: Top 20% = 0.2）を塗り、表で引くための<strong>「平均から境界値までの面積」</strong>（<strong>0.5 − 0.2 = 0.3000</strong>）を求めます。
               </p>
             </div>
           </div>
@@ -279,7 +299,7 @@
               <h3 class="step-heading">Use the probability to look up the Z value (Z値を表から逆引きする)</h3>
               <p class="step-text">
                 Step 1 で求めた面積（例: 0.3000）を Walker Maths の正規分布表で探します。
-                ベース列で一番近い値（0.2996 ➔ $Z=0.84$）を見つけ、残りの差分（$+4$）を Differences 列で探して 3桁目を決定します（列 1 ➔ $Z = 0.841$）。
+                ベース列で一番近い値（0.2996 ➔ <strong>Z = 0.84</strong>）を見つけ、残りの差分（<strong>+4</strong>）を Differences 列で探して 3桁目を決定します（列 1 ➔ <strong>Z = 0.841</strong>）。
               </p>
             </div>
           </div>
@@ -289,8 +309,8 @@
             <div class="step-content">
               <h3 class="step-heading">Use the Z value to calculate the value of x (公式で実測値を計算)</h3>
               <p class="step-text">
-                標準化公式 $Z = \frac{x - \mu}{\sigma}$ を変形した <strong>$x = \mu + Z\sigma$</strong> に代入して計算します。<br>
-                例: $w = 3.3 + (0.841 \times 0.4) = 3.3 + 0.3364 = 3.6364\text{ kg}$
+                標準化公式 <strong>Z = (x − μ) ÷ σ</strong> を変形した <strong>x = μ + Z × σ</strong> に代入して計算します。<br>
+                例: <strong>w = 3.3 + (0.841 × 0.4) = 3.3 + 0.3364 = 3.6364 kg</strong>
               </p>
             </div>
           </div>
@@ -311,7 +331,7 @@
             <div class="step-content">
               <h3 class="step-heading">Does my answer make sense? (答えの妥当性を確認する)</h3>
               <p class="step-text">
-                計算結果が平均 $\mu$ より大きいか（$Z > 0$ の場合）、極端におかしな値になっていないかをチェックします。<br>
+                計算結果が平均 <strong>μ</strong> より大きいか（<strong>Z &gt; 0</strong> の場合）、極端におかしな値になっていないかをチェックします。<br>
                 例: <em>"Yes, because 3.6364 is above the mean of 3.3 kg."</em>
               </p>
             </div>

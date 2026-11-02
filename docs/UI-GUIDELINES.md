@@ -43,8 +43,21 @@
 </body>
 ```
 
-ヘッダーとタブは既存ページと同じクラス名を使う（`lab-header` / `logo-group` / `back-hub-btn` / `lab-title` + `<span>` / `header-meta` / `badge-tag` / `nav-tabs-wrapper` / `nav-tab-btn`）。
-これだけでスマホ用の折り返し・2列タブが自動で効く。
+ヘッダーとタブは既存ページと同じクラス名を使う（`lab-header` / `logo-group` / `back-hub-btn` / `lab-title` + `<span>` / `header-meta` / `badge-tag`）。
+- **ヘッダー（`.lab-header`）の役割整理**: 左側の `.logo-group` に入れるリンクは `← Hub`（`.back-hub-btn`）のみとし、右側の `.header-meta` の `.badge-tag` はクリックできない情報ラベル専用にする（バッジにリンクを混ぜない）。同一科目内に複数ページがある場合は、`<main>` 内のタブ直上に `.sub-lab-switcher` を置いて切り替える。
+- タブ（`.nav-tabs-wrapper`）は `<main class="main-container folder-sheet-deck">` の直下に置き、各 `.nav-tab-btn` を2段構成（`.tab-top-line` + `.tab-sub-line`）にすることで、全科目共通の「フォルダタブ・シート直結デザイン」とスマホ用の2列グリッドが自動で効く。
+
+```html
+<main class="main-container folder-sheet-deck" style="--tab-accent: #38bdf8; --tab-accent-text: #7dd3fc; --tab-border: rgba(56, 189, 248, 0.42); --tab-glow: rgba(56, 189, 248, 0.14); --sheet-bg: #0b1322;">
+  <nav class="nav-tabs-wrapper">
+    <button class="nav-tab-btn active" data-tab="tab-1">
+      <span class="tab-top-line"><span>🎮</span><span>Tab Title</span></span>
+      <span class="tab-sub-line">日本語サブタイトル</span>
+    </button>
+  </nav>
+  <section id="tab-1" class="tab-panel active">...</section>
+</main>
+```
 
 ---
 

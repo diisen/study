@@ -291,9 +291,9 @@ code {
 }
 
 .main-container > .nav-tabs-wrapper .nav-tab-btn {
-  background: #080c14;
+  background: #070b13;
   border: 1px solid rgba(255, 255, 255, 0.09);
-  border-bottom: 1px solid rgba(16, 185, 129, 0.42);
+  border-bottom-color: transparent;
   border-radius: 14px 14px 0 0;
   color: var(--text-muted);
   font-family: var(--font-sans);
@@ -307,14 +307,16 @@ code {
   gap: 0.28rem;
   text-align: left;
   white-space: normal;
-  opacity: 0.72;
+  opacity: 0.76;
   box-shadow: none;
 }
 
 .main-container > .nav-tabs-wrapper .nav-tab-btn:hover:not(.active) {
   color: var(--text-primary);
-  background: #0c1322;
-  opacity: 0.95;
+  background: #0d1526;
+  border-color: rgba(255, 255, 255, 0.16);
+  border-bottom-color: transparent;
+  opacity: 0.96;
 }
 
 .main-container > .nav-tabs-wrapper .nav-tab-btn .tab-top-line {

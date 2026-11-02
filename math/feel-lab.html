@@ -11,9 +11,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/feel-lab.css">
-  <link rel="stylesheet" href="../css/shared.css">
+  <link rel="stylesheet" href="css/style.css?v=20261102f">
+  <link rel="stylesheet" href="css/feel-lab.css?v=20261102f">
+  <link rel="stylesheet" href="../css/shared.css?v=20261102f">
 </head>
 <body>
 
@@ -22,9 +22,6 @@
     <div class="logo-group">
       <a href="../index.html" class="back-hub-btn" title="Back to Learning Hub">
         <span>←</span> Hub
-      </a>
-      <a href="index.html" class="back-hub-btn" title="Back to Probability Methods Lab">
-        <span>📐</span> Z-Table Lab
       </a>
       <span class="logo-badge">NCEA L2</span>
       <h1 class="lab-title">Distribution Dojo <span>分布道場 — 体で覚える統計</span></h1>
@@ -35,27 +32,50 @@
     </div>
   </header>
 
-  <!-- Navigation Tabs -->
-  <nav class="nav-tabs-wrapper">
-    <button class="nav-tab-btn active" data-tab="tab-sandbox">
-      <span>🖐</span> Drag Sandbox (平均・中央値ドラッグ砂場)
-    </button>
-    <button class="nav-tab-btn" data-tab="tab-quiz">
-      <span>🎯</span> Where's the Mean? (平均はどこ？クイズ)
-    </button>
-    <button class="nav-tab-btn" data-tab="tab-reaction">
-      <span>⚡</span> My Normal Distribution (反応時間で作るMY正規分布)
-    </button>
-    <button class="nav-tab-btn" data-tab="tab-galton">
-      <span>🎰</span> Galton Board (ガルトンボード)
-    </button>
-    <button class="nav-tab-btn" data-tab="tab-zgame">
-      <span>🕹</span> Z-Area Arcade (Zエリア早押し)
-    </button>
-  </nav>
-
   <!-- Main Content Container -->
-  <main class="main-container">
+  <main class="main-container folder-sheet-deck" style="--tab-accent: #a855f7; --tab-accent-text: #d8b4fe; --tab-border: rgba(168, 85, 247, 0.45); --tab-glow: rgba(168, 85, 247, 0.16); --sheet-bg: #0b1322;">
+
+    <!-- 2-Lab Switcher inside Mathematics -->
+    <div class="sub-lab-switcher">
+      <a href="index.html" class="sub-lab-link">
+        <div class="sub-lab-link-main">
+          <div class="sub-lab-link-title"><span>📐</span><span>Part 1: Probability & Z-Table Lab（正規分布・逆引き・文章題）</span></div>
+          <div class="sub-lab-link-desc">Walker Maths p.38–40 逆引きシミュレータ、Z表検索、5ステップ文章題</div>
+        </div>
+        <span class="sub-lab-pill">← Z表ラボへ</span>
+      </a>
+      <a href="feel-lab.html" class="sub-lab-link current">
+        <div class="sub-lab-link-main">
+          <div class="sub-lab-link-title"><span>🥋</span><span>Part 2: Distribution Dojo 分布道場（粒ドラッグで平均・中央値を体感）</span></div>
+          <div class="sub-lab-link-desc">粒を動かして平均と中央値の違いを体感・天秤ビュー・ガルトンボード・Z早押し</div>
+        </div>
+        <span class="sub-lab-pill">● 表示中</span>
+      </a>
+    </div>
+
+    <!-- Folder-Style Navigation Tabs (Pattern B) -->
+    <nav class="nav-tabs-wrapper">
+      <button class="nav-tab-btn active" data-tab="tab-sandbox">
+        <span class="tab-top-line"><span>🖐</span><span>Drag Sandbox</span></span>
+        <span class="tab-sub-line">平均・中央値ドラッグ砂場</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-quiz">
+        <span class="tab-top-line"><span>🎯</span><span>Where's Mean?</span></span>
+        <span class="tab-sub-line">平均はどこ？クイズ</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-reaction">
+        <span class="tab-top-line"><span>⚡</span><span>Reaction Normal</span></span>
+        <span class="tab-sub-line">反応時間で作るMY正規分布</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-galton">
+        <span class="tab-top-line"><span>🎰</span><span>Galton Board</span></span>
+        <span class="tab-sub-line">ガルトンボード実験</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-zgame">
+        <span class="tab-top-line"><span>🕹</span><span>Z-Area Arcade</span></span>
+        <span class="tab-sub-line">Zエリア早押しゲーム</span>
+      </button>
+    </nav>
 
     <!-- ============================================================
          TAB 1: MEAN & MEDIAN DRAG SANDBOX
