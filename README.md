@@ -34,7 +34,14 @@
   - **🎰 ガルトンボード**: 12段の釘×玉落としで二項分布→正規分布が現れる瞬間を目撃。板の傾きスライダーで歪みと平均・中央値のズレを実験。
   - **🕹 Zエリア早押しアーケード**: 面積を読む「READ」＆ 逆引きで z カーソルを置く「PLACE」の2モード×10ラウンド。頻出 z 値 (1.282 / 1.645 / 1.96) を反射神経に刻む。
 
-### 4. 📖 [English (英語・文学)](english/index.html)
+### 4. 🎯 [NCEA Exam Vocab Quest (試験英単語＆論述クエスト)](vocab/index.html)
+- **Year 12 全科目横断・試験問題文デコーダー ＆ 論述ボキャブラリーラボ**
+- **🎯 Exam Prompt Decoder (問題文読解バトル)**: 実際のNCEA問題文の抜粋から指示語や条件ワード（`hence`, `justify`, `parallel`, `negligible`, `given that`, `ecological validity`, `juxtaposition` 等）の罠を見抜く実践クイズ。
+- **✍️ Excellence Answer Upgrader**: シンプルなAchieved英文に専門用語・接続詞を組み込んでExcellence回答に進化させるパズル。
+- **⚡ 60秒ブリッツ ＆ ❤️ 3ライフサバイバル**: コンボ倍率・XP・レベル昇格・12種の称号バッジ・連続学習ストリーク搭載。
+- **🃏 Smart Flashcards & 🔊 ネイティブ発音**: 3段階の習熟度仕分け（🔴未習得・🟡学習中・🟢マスター）と Web Speech API による単語・試験例文の音声読み上げ。
+
+### 5. 📖 [English (英語・文学)](english/index.html)
 - **Written / Visual Texts & Unfamiliar Texts (AS 91098, 91099, 91100)**
 - 文学・映像技法一覧、Excellence段落構成（PEEL/SEX法）ビルダー。
 

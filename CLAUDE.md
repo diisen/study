@@ -11,3 +11,7 @@ Read `docs/UI-GUIDELINES.md` before adding or changing any page, tab, or canvas.
 - Canvas engines size themselves with `StudyCanvas.fit()` from `js/study-canvas.js` (Distribution Dojo uses its own `feelFitCanvas` from `math/js/feelCore.js`).
 - Page-specific phone rules go in the `PHONE (≤640px)` block at the end of that page's CSS.
 - Done means: at 375px, 768px and 1280px, opening the page with `?audit` (or `await layoutAudit()`) reports no `overflow` or `squashed` items on every tab.
+
+## Account & Cloud Sync Plan
+
+See `docs/AUTH-SYNC-PLAN.md`. Currently all progress uses `localStorage` only while features/UI are being refined. When cloud sync is added later, use the hybrid `localStorage` + Cloudflare Workers & D1 (username + password, no email/Google OAuth) architecture documented there.
