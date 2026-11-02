@@ -348,12 +348,15 @@
       ctx.stroke();
       ctx.setLineDash([]);
 
-      // Anti-collision label placement: mean badge left-ish, median right-ish when close
-      const close = Math.abs(mx - dx) < 92;
-      const meanAlign = close ? (mx <= dx ? 'right' : 'left') : 'center';
-      const medAlign = close ? (mx <= dx ? 'left' : 'right') : 'center';
-      window.feelPaintBadge(ctx, mx + (meanAlign === 'right' ? -6 : meanAlign === 'left' ? 6 : 0), 32, `平均 μ = ${st.mean.toFixed(1)}`, C.sky, meanAlign);
-      window.feelPaintBadge(ctx, dx + (medAlign === 'right' ? -6 : medAlign === 'left' ? 6 : 0), 32, `中央値 = ${st.median.toFixed(1)}`, C.gold, medAlign);
+      // Anti-collision label placement: stack vertically when close or near canvas edges
+      const close = Math.abs(mx - dx) < 150 || mx < 110 || mx > this.w - 110 || dx < 110 || dx > this.w - 110;
+      if (close) {
+        window.feelPaintBadge(ctx, mx, 26, `平均 μ = ${st.mean.toFixed(1)}`, C.sky, 'center');
+        window.feelPaintBadge(ctx, dx, 50, `中央値 = ${st.median.toFixed(1)}`, C.gold, 'center');
+      } else {
+        window.feelPaintBadge(ctx, mx, 32, `平均 μ = ${st.mean.toFixed(1)}`, C.sky, 'center');
+        window.feelPaintBadge(ctx, dx, 32, `中央値 = ${st.median.toFixed(1)}`, C.gold, 'center');
+      }
     }
 
     drawDots(ctx, stacks, baseY) {
@@ -459,9 +462,8 @@
 
       const left = this.values.filter(v => v < st.median).length;
       const right = this.values.filter(v => v > st.median).length;
-      const close = Math.abs(px - mdx) < 120;
-      window.feelPaintBadge(ctx, px + (close ? -6 : 0), 36, `平均 μ = ${st.mean.toFixed(1)} (支点・重さで釣り合う)`, C.sky, close ? 'right' : 'center');
-      window.feelPaintBadge(ctx, mdx + (close ? 6 : 0), 60, `中央値 = ${st.median.toFixed(1)} (枚数: 左${left} | 右${right})`, C.gold, close ? 'left' : 'center');
+      window.feelPaintBadge(ctx, px, 34, `平均 μ = ${st.mean.toFixed(1)} (支点・重さで釣り合う)`, C.sky, 'center');
+      window.feelPaintBadge(ctx, mdx, 60, `中央値 = ${st.median.toFixed(1)} (枚数: 左${left} | 右${right})`, C.gold, 'center');
 
       this.drawDragTooltip(ctx, st);
     }

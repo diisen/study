@@ -165,30 +165,36 @@
     }
   }
 
-  /** Rounded translucent label pill drawn on canvas */
+  /** Rounded translucent label pill drawn on canvas (always clamped inside canvas bounds) */
   function paintBadge(ctx, x, y, text, color, align = 'center') {
+    const canvasW = parseFloat(ctx.canvas.style.width) || (ctx.canvas.width / (window.devicePixelRatio || 1)) || 720;
     ctx.font = 'bold 12px "JetBrains Mono", monospace';
-    const tw = ctx.measureText(text).width;
-    const padX = 7;
-    let bx = x - tw / 2 - padX;
+    let tw = ctx.measureText(text).width;
+    if (tw + 28 > canvasW) {
+      ctx.font = 'bold 10.5px "JetBrains Mono", monospace';
+      tw = ctx.measureText(text).width;
+    }
+    const padX = 8;
+    const badgeW = tw + padX * 2;
+    let bx = x - badgeW / 2;
     if (align === 'left') bx = x;
-    if (align === 'right') bx = x - tw - padX * 2;
-    ctx.fillStyle = 'rgba(9, 14, 23, 0.88)';
+    if (align === 'right') bx = x - badgeW;
+
+    // Clamp horizontally so the badge never overflows left or right canvas edges
+    const margin = 8;
+    bx = FeelStats.clamp(bx, margin, Math.max(margin, canvasW - badgeW - margin));
+
+    ctx.fillStyle = 'rgba(9, 14, 23, 0.92)';
     ctx.strokeStyle = color;
     ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.roundRect(bx, y - 11, tw + padX * 2, 20, 5);
+    ctx.roundRect(bx, y - 11, badgeW, 20, 5);
     ctx.fill();
     ctx.stroke();
     ctx.fillStyle = color;
     ctx.textBaseline = 'middle';
-    if (align === 'center') {
-      ctx.textAlign = 'center';
-      ctx.fillText(text, x, y - 1);
-    } else {
-      ctx.textAlign = 'left';
-      ctx.fillText(text, bx + padX, y - 1);
-    }
+    ctx.textAlign = 'left';
+    ctx.fillText(text, bx + padX, y - 1);
     ctx.textBaseline = 'alphabetic';
   }
 
